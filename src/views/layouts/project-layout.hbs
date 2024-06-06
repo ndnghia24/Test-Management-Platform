@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>{{title}}</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link href="/css/project.css" rel="stylesheet">
+    
+    {{#if cssFile}}
+    <link href="/css/{{cssFile}}" rel="stylesheet">
+    {{/if}}
+</head>
+
+<body>
+    <div class="container-fluid" style="height: 100vh; padding: 0;">
+        <div class="" style="height: 100%; display: flex; flex-direction: column; padding: 0; margin: 0;">
+            <div class="row header align-items-center justify-content-between flex-row"
+                style="min-height: 60px; padding: 0; width: 100%;">
+                <div class="col-auto">
+                    <a href="#home">
+                        <img class="logo" src="/img/app-icon.png" alt="logo" style="height: 40px; width: 40px; margin-left: 40px;" />
+                    </a>
+                </div>
+                <div class="col-auto search-bar">
+                    <div class="form">
+                        <input type="text" id="search-input" class="form-control" placeholder="Search anything ..." style="color: #23235F; font-weight: 300;" />
+                        <i class="bi bi-search" style="opacity: 50%;"></i>
+                    </div>
+                </div>
+                <div class="col-auto header-append">
+                    <i class="bi bi-bell fs-4 hover-icon"></i>
+                    <i class="bi bi-person-circle fs-4 hover-icon" style="margin-left: 20px;"></i>
+                    <div class="dropdown-button" style="display: inline;">
+                        <a class="" type="button" id="dropDownMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #000;">
+                            <i class="bi bi-chevron-down" style="color: #5051F9;"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropDownMenu">
+                            <a class="dropdown-item" href="#">Profile</a>
+                            <a class="dropdown-item" href="#">Settings</a>
+                            <a class="dropdown-item" href="#">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main flex-grow-1" style="display: flex; flex-direction: row; width: 100%;">
+                <div class="sidebar" style="width: 120px;">
+                    <a href="#home">
+                        <div class="sidebar-element">
+                            <div class="icon">
+                                <i class="bi bi-house-heart"></i>
+                            </div>
+                            <div class="text">
+                                <span>Home</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="active" href="#home">
+                        <div class="sidebar-element">
+                            <div class="icon">
+                                <i class="bi bi-kanban"></i>
+                            </div>
+                            <div class="text">
+                                <span>Projects</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#home">
+                        <div class="sidebar-element">
+                            <div class="icon">
+                                <i class="bi bi-person-bounding-box"></i>
+                            </div>
+                            <div class="text">
+                                <span>Administrator</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#home">
+                        <div class="sidebar-element">
+                            <div class="icon">
+                                <i class="bi bi-rocket-takeoff"></i>
+                            </div>
+                            <div class="text">
+                                <span>Performance</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#home">
+                        <div class="sidebar-element">
+                            <div class="icon">
+                                <i class="bi bi-clipboard2"></i>
+                            </div>
+                            <div class="text">
+                                <span>Task</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#home">
+                        <div class="sidebar-element">
+                            <div class="icon">
+                                <i class="bi bi-box-seam"></i>
+                            </div>
+                            <div class="text">
+                                <span>Productivity</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="main-content" style="background-color: #f3f4f8; display: flex; flex-direction: column; width: calc(100% - 120px);">
+                    <div class="d-flex align-items-center navigation-container" style="height:7vh; min-height: 50px;">
+                        <div id="slideLeft" class="scroll-button left-scroll">
+                            <div class="inner-icon">
+                                <i class="bi bi-chevron-left fs-5"></i>
+                            </div>
+                        </div>
+                        <nav id="nav-container" class="navigation-menu">
+                            <a href="/project/{{projectId}}/overview">Overview</a>
+                            <a href="/project/{{projectId}}/requirement">Requirements</a>
+                            <a href="/project/{{projectId}}/module">Modules</a>
+                            <a href="/project/{{projectId}}/release">Releases</a>
+                            <a href="/project/{{projectId}}/testcase">Testcases</a>
+                            <a href="/project/{{projectId}}/testplan">Test plan</a>
+                            <a href="/project/{{projectId}}/testrun">Test run & Result</a>
+                            <a href="/project/{{projectId}}/issue">Issues</a>
+                        </nav>
+                        <div id="slideRight" class="scroll-button right-scroll">
+                            <div class="inner-icon">
+                                <i class="bi bi-chevron-right fs-5"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info d-flex justify-content-between align-items-center" style="height: 8vh; text-align: center; margin: 0 80px; min-height: 70px;">
+                        <nav class="project-detail-nav" style="display: inline-block;">
+                            <a href="#">Project</a>
+                            <a href="#">Instagram App</a>
+                        </nav>
+                        {{{content "additional-button"}}}
+                    </div>
+                    <div class="main-area flex-grow-1" style="min-height: 600px;">
+                        {{{body}}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{{content "modal"}}}
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script src="/js/navBarResponsive.js"></script>
+
+    {{{content "script"}}}
+</body>
+
+</html>

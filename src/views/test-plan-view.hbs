@@ -1,0 +1,137 @@
+<div class="main-area">
+    <div class="container py-3 my-3"
+        style="background-color: white; border-radius: 5px; height: 70vh; min-height: 500px; margin-top: 1%;">
+        <div class="d-flex justify-content-between align-items-center" style="padding: 0 12px;">
+            <p class="" style="font-weight: 600; font-size: 1.2rem; color: #232360; margin-bottom: 0;">Test
+                plan</p>
+            <div class="dropdown-open" style="background-color: #F1F1F1; border-radius: 5px;">
+                <button class="btn" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false" style="background-color: #F1F1F1; border: none; color: #969696;">
+                    <span style="padding-right: 30px;">Search by release</span>
+                    <i class="bi bi-caret-down-fill" style="opacity: 100%;"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="triggerId">
+                    {{#each releases}}
+                    <button class="dropdown-item" href="#">{{name}}</button>
+                    {{/each}}
+                    {{!-- <button class="dropdown-item" href="#">Release 1</button>
+                    <button class="dropdown-item" href="#">Release 2</button>
+                    <button class="dropdown-item" href="#">Release 3</button> --}}
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive px-5 mt-4">
+            <table class="table">
+                <thead class="fs-6">
+                    <th class="plan-code" scope="col">Plan's Code</th>
+                    <th class="test-plan-name" scope="col">Plan's Name</th>
+                    <th class="test-description" scope="col">Description</th>
+                    <th class="release" scope="col">Release</th>
+                    <th scope="col">Action</th>
+                </thead>
+                <tbody class="fs-6">
+                    {{#each testPlans}}
+                    <tr>
+                        <td class="plan-code">{{this.code}}</td>
+                        <td class="test-plan-name">{{this.name}}</td>
+                        <td class="test-description">{{this.description}}</td>
+                        <td class="release">{{this.release}}</td>
+                        <td>
+                            <i class="bi bi-eye hover-icon" style="margin-right: 20px;"></i>
+                            <i class="bi bi-pencil hover-icon text-success" style="margin-right: 20px;"></i>
+                            <i class="bi bi-trash hover-icon text-danger"></i>
+                        </td>
+                    </tr>
+                    {{/each}}
+                    {{!-- <tr>
+                        <td class="plan-code">T001</td>
+                        <td class="test-plan-name">Test Plan 1</td>
+                        <td class="test-description">Test Plan 1 Description</td>
+                        <td class="release">Release 1</td>
+                    </tr>
+                    <tr>
+                        <td class="plan-code">T002</td>
+                        <td class="test-plan-name">Test Plan 2</td>
+                        <td class="test-description">Test Plan 2 Description</td>
+                        <td class="release">Release 2</td> --}}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{{!-- Create Testplan Modal --}}
+
+{{#block "modal"}}
+<div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content align-items-center"
+            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
+            <div class="modal-header" style="border-bottom: none;">
+                <p class="modal-title fs-3" id="modalTitleId">
+                    Add New Test Plan
+                </p>
+            </div>
+            <div class="modal-body" style="border-bottom: none; width: 100%;">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="test-plan-name">
+                            Plan's Name <span style="color: #F0270C;">*</span> :
+                        </label>
+                        <input id="test-plan-name" type="text" name="test-plan-name" class="form-control"
+                            placeholder="Test Plan's name">
+                    </div>
+                    <div class="col-4 offset-1">
+                        <label for="release">
+                            Release <span style="color: #F0270C;">*</span> :
+                        </label>
+                        <select id="release" name="release" class="form-select" aria-label="Default select example"
+                            required>
+                            {{#each releases}}
+                            <option value="{{release_id}}">{{name}}</option>
+                            {{/each}}
+                            {{!-- <option value="0">Select Release</option> --}}
+                            {{!-- <option value="1">Release 1</option>
+                            <option value="2">Release 2</option>
+                            <option value="3">Release 3</option> --}}
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div>
+                        <lable for="description">
+                            Description <span style="color: #F0270C;">*</span> :
+                        </lable>
+                        <textarea id="description" name="description" class="form-control" placeholder="Description"
+                            rows="4"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none;">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary" onclick="onSaveButtonClick()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{/block}}
+
+{{!-- Additional button in view --}}
+
+{{#block "additional-button"}}
+<button
+    style="background-color: #50DF89; padding: 10px; font-weight: 600; font-size: 1.2rem; border: none; border-radius: 10px;  color: #23235F;"
+    data-bs-toggle="modal" data-bs-target="#modalId">
+    <i class="bi bi-plus-circle"></i>
+    <span class="btn-text"> Add Plan </span>
+</button>
+{{/block}}
+
+{{!-- Additional Scripts --}}
+
+{{#block "script"}}
+<script src="/js/addTestplanModal.js"></script>
+{{/block}}

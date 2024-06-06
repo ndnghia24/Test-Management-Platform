@@ -1,0 +1,332 @@
+<link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+<div class="container-fluid mt-3" style="overflow-y: auto;">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="card custom-card">
+                <!-- Header của card -->
+                <div class="card-header bg-white border-0 align-items-center">
+                    <div class="row">
+                        <div class="col">
+                            <h3 class="card-title">Requirement Type</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="custom-divider"></div>
+                <!-- Nội dung (body) của card -->
+
+                <div class="card-body p-0">
+                    <div class="col">
+                        <div class="d-flex flex-column gap-3 requirements-list px-4 py-3"
+                            style="color: #232360; font-weight: 700; font-size: 1.1rem;">
+                            {{#each requirement_types}}
+                            <div class="requirement-item">
+                                <i class="fa fa-plus-square"></i>
+                                {{this.name}}
+                            </div>
+                            {{/each}}
+                            {{!-- <div class="requirement-item">
+                                <i class="fa fa-plus-square" style="color: green"></i>
+                                Functionality
+                            </div>
+                            <div class="requirement-item">
+                                <i class="fa fa-minus-square"></i>
+                                Validation
+                            </div> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="card custom-card">
+                <!-- Header của card -->
+                <div class="card-header bg-white border-0 align-items-center">
+                    <div class="row">
+                        <div class="col-4">
+                            <h3 class="card-title">Functionality</h3>
+                        </div>
+                        <div class="col d-flex justify-content-end">
+                            <ul class="list-unstyled d-flex flex-row">
+                                <li id="requirements-filter-box">
+                                    <div class="box">
+                                        <form name="search-requirement" role="search">
+                                            <input id="search" type="search" placeholder="Search..." autofocus
+                                                required />
+                                        </form>
+                                    </div>
+                                <li>
+                                    <button id="btn-bg-transparent" type="button" class="btn">
+                                        <i class="fas fa-download"></i>  
+                                        Import
+                                    </button>
+                                </li>
+                                <li>
+                                    <button id="btn-bg-transparent" type="button" class="btn">
+                                        <i class="fas fa-upload"></i>  
+                                        Export
+                                    </button>
+                                </li>
+                                <li>
+                                    <button id="btn btn btn-bg-transparent" type="button" class="btn"
+                                        data-bs-toggle="modal" data-bs-target="#modalAddRequirement">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button id="btn-bg-transparent" type="button" class="btn">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="custom-divider"></div>
+
+                <!-- Nội dung (body) của card -->
+                <div class="card-body" id="main-content">
+                    <div class="container-fluid" id="requirementsContainer" style="overflow-y: auto;">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="row-lg-8 col-6 d-flex align-items-center">
+                                    <div class="color-purpleblack normal-text" style="padding-right: 10px;">Show</div>
+                                    <select class="form-select form-select-sm ml-2"
+                                        aria-label=".dropdown-for-created-date">
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="10">25</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-8 d-flex justify-content-end">
+                                <div class="row-lg-8 col-5 d-flex align-items-center">
+                                    <div class="color-purpleblack normal-text" style="padding-right: 10px;">Created Date
+                                    </div>
+                                    <select class="form-select form-select-sm ml-2"
+                                        aria-label=".dropdown-for-created-date">
+                                        <option selected>--</option>
+                                        <option value="asc">Asc</option>
+                                        <option value="decs">Decs</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <thead class="fs-6">
+                                    <th scope="col"></th>
+                                    <th scope="col">Requirement's Code</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Action</th>
+                                </thead>
+                                <tbody class="fs-6">
+                                    {{#each requirements}}
+                                    <tr>
+                                        <td class="isSelected
+                                        "><input class="form-check-input" type="checkbox" value=""
+                                            id="flexCheckDefault"></td>
+                                        <td class="requirement-code">{{this.requirement_code}}</td>
+                                        <td class="requirement-title">{{this.requirement_name}}</td>
+                                        <td>
+                                            <i class="fa fa-eye clickable" style="margin-right: 20px;"></i>
+                                            <i class="fa fa-pencil clickable text-success" style="margin-right: 20px;"></i>
+                                            <i class="fa fa-trash clickable text-danger"></i>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                    {{!-- <tr>
+                                        <td class="isSelected"><input class="form-check-input" type="checkbox" value=""
+                                                id="flexCheckDefault"></td>
+                                        <td class="requirement-code">R001</td>
+                                        <td class="requirement-title">Banner should be clickable</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="isSelected"><input class="form-check-input" type="checkbox" value=""
+                                                id="flexCheckDefault"></td>
+                                        <td class="requirement-code">R002</td>
+                                        <td class="requirement-title">Banner should be clickable</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="isSelected"><input class="form-check-input" type="checkbox" value=""
+                                                id="flexCheckDefault"></td>
+                                        <td class="requirement-code">R002</td>
+                                        <td class="requirement-title">Banner should be clickable</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="isSelected"><input class="form-check-input" type="checkbox" value=""
+                                                id="flexCheckDefault"></td>
+                                        <td class="requirement-code">R002</td>
+                                        <td class="requirement-title">Banner should be clickable</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="isSelected"><input class="form-check-input" type="checkbox" value=""
+                                                id="flexCheckDefault"></td>
+                                        <td class="requirement-code">R002</td>
+                                        <td class="requirement-title">Banner should be clickable</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="isSelected"><input class="form-check-input" type="checkbox" value=""
+                                                id="flexCheckDefault"></td>
+                                        <td class="requirement-code">R002</td>
+                                        <td class="requirement-title">Banner should be clickable</td>
+                                    </tr> --}}
+                                </tbody>
+                            </table>
+                        </div>
+                        {{!-- <script>
+                            function addIcon() {
+                                var viewIcon = document.createElement("i");
+                                viewIcon.classList.add("fa", "fa-eye", "clickable");
+                                viewIcon.style.marginRight = "20px";
+
+                                var editIcon = document.createElement("i");
+                                editIcon.classList.add("fa", "fa-pencil", "clickable");
+                                editIcon.style.marginRight = "20px";
+
+                                var deleteIcon = document.createElement("i");
+                                deleteIcon.classList.add("fa", "fa-trash", "clickable");
+
+                                var row = document.querySelectorAll("table tbody tr");
+
+                                for (var i = 0; i < row.length; i++) {
+                                    var cell = row[i].insertCell(-1);
+                                    cell.appendChild(viewIcon.cloneNode(true));
+                                    cell.appendChild(editIcon.cloneNode(true));
+                                    cell.appendChild(deleteIcon.cloneNode(true));
+                                }
+                            }
+
+                            addIcon();
+                        </script> --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!-- Create Module Modal --}}
+
+{{#block "modal"}}
+<div class="modal fade" id="modalAddRequirementType" tabindex="1" role="dialog" aria-labelledby="modalTitleId"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content align-items-center"
+            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
+            <div class="modal-header" style="border-bottom: none;">
+                <p class="modal-title fs-3" id="modalTitleId">Add Requirement Type</p>
+            </div>
+            <div class="modal-body" style="border-bottom: none; width: 100%;">
+                <div class="row mb-3">
+                    <div>
+                        <lable for="description">Select Release:</lable>
+                        <select name="release-selection" class="form-select">
+                            <option value="release1">release1</option>
+                            <option value="release2">release2</option>
+                            <option value="release3">release3</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div>
+                        <lable for="description">Requirement Type <span style="color: red">*</span>:</lable>
+                        <input type="text" class="form-control" name="requirement-type" id="requirement-type"
+                            placeholder="Enter Requirement Type" required>
+                        <div id="alertMessageRequirementType" style="display: none; color: red"></div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div>
+                        <lable for="description">Description:</lable>
+                        <textarea name="description" id="description" class="form-control" rows="3"
+                            placeholder="Enter Description"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="border-top: none; align-items: center;">
+                <button type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalAddRequirement" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content align-items-center"
+            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
+            <div class="modal-header" style="border-bottom: none;">
+                <p class="modal-title fs-3" id="modalTitleId">Add Requirement</p>
+            </div>
+            <div class="modal-body" style="border-bottom: none; width: 100%;">
+                <div class="row mb-3">
+                    <div>
+                        <lable for="description">Requirement Title <span style="color: red">*</span>:</lable>
+                        <input type="text" class="form-control" name="requirement-title" id="requirement-title"
+                            placeholder="Enter Requirement Title" required>
+                        <div id="alertMessageRequirementTitle" style="display: none; color: red"></div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div>
+                        <lable for="description">Requirement Type:</lable>
+                        <select name="requirement-type-selection" class="form-select">
+                            <option value="functionality">Functionality</option>
+                            <option value="validation">Validation</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div>
+                        <lable for="description">Requirement Description:</lable>
+                        <textarea name="description" id="description" class="form-control" rows="3"
+                            placeholder="Enter Requirement Description"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div>
+                        <label for="description">Attachments:</label>
+                        <div id="myDropzone" class="dropzone dz-clickable">
+                            <div class="dz-message">
+                                Drop file here or click to upload...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none; align-items: center;">
+                <button type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{/block}}
+
+{{!-- Page's Functionality Button --}}
+
+{{#block "additional-button"}}
+<div class="text-right">
+    <button type="button" class="btn btn-light-green me-2" data-bs-toggle="modal"
+        data-bs-target="#modalAddRequirementType">
+        <i class="fas fa-plus-square"></i>  
+        Add Requirement Type
+    </button>
+</div>
+{{/block}}
+
+{{!-- Additional Scripts + CSS --}}
+
+{{#block "script"}}
+<!-- CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css" />
+<!-- JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
+
+<script src="/js/addModuleModal.js"></script>
+{{/block}}

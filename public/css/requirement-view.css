@@ -1,0 +1,55 @@
+.requirements-list i {
+    margin-right: 10px;
+}
+
+.requirements-list .fa-folder-open {
+    color: #3b7ddd;
+}
+
+.requirements-list div {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 10px;
+    background-color: #F3F4F8;
+}
+
+.requirement-item {
+    cursor: pointer;
+}
+
+.table th {
+    font-weight: 600;
+    color: #969696;
+}
+
+.table .plan-code {
+    color: #232360;
+    font-weight: 700;
+}
+
+.table .requirement-code, .requirement-title {
+    font-weight: 600;
+    color: #1EA7FF !important;
+}
+
+#myDropzone {
+    background: transparent;
+    border: 2px dashed #999999;
+    border-radius: 5px;
+    margin: 10px 10px 0px 10px;
+}
+
+input {
+    border: 1px solid #2f2f2f;
+    color: #2f2f2f;
+    font-size: 1rem;
+    height: 2.3rem;
+}
+
+input[type="search"] {
+    width: 100%;
+    background: #fff;
+    padding: 0 1rem;
+    border-radius: .3rem;
+    position: relative;
+}

@@ -1,0 +1,45 @@
+.table th,tr,td{
+    border: none;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: ellipsis;
+}
+
+.table th{
+    font-weight: 600;
+    color: #969696;
+}
+
+.table .plan-code {
+    color: #232360;
+    font-weight: 700;
+}
+
+.table .test-plan-name,.test-description,.release {
+    font-weight: 600;
+    color: #1EA7FF !important;
+}
+
+@media screen and (max-width: 994px) {
+    .table-responsive{
+        padding: 0 !important;
+    }
+}
+
+@media screen and (max-width: 880px) {
+    .menu-container {
+        margin-left: 0 !important;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .test-description {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 530px) {
+    .btn-text {
+        display: none !important;
+    }
+}

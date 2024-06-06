@@ -1,0 +1,230 @@
+<div class="main-area">
+    <div class="container py-3 my-3"
+        style="background-color: white; border-radius: 5px; height: 70vh; min-height: 500px; margin-top: 1%;">
+        <div class="d-flex justify-content-between align-items-center" style="padding: 0 12px;">
+            <p class="" style="font-weight: 600; font-size: 1.2rem; color: #232360; margin-bottom: 0;">Test
+                run</p>
+            <div class="dropdown-open" style="background-color: #F1F1F1; border-radius: 5px;">
+                <button class="btn" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false" style="background-color: #F1F1F1; border: none; color: #969696;">
+                    <span style="padding-right: 30px;">Search by release</span>
+                    <i class="bi bi-caret-down-fill" style="opacity: 100%;"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="triggerId">
+                    <button class="dropdown-item" href="#">Release 1</button>
+                    <button class="dropdown-item" href="#">Release 2</button>
+                    <button class="dropdown-item" href="#">Release 3</button>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive px-5 mt-4">
+            <table class="table">
+                <thead class="fs-6">
+                    <th class="created-by col-xl-1" scope="col">Created by</th>
+                    <th class="testrun-title col-xl-5" scope="col">Title</th>
+                    <th class="assigned-to col-xl-1" scope="col">Assigned to</th>
+                    <th class="testcase-quantity col-xl-1" scope="col">Testcase</th>
+                    <th class="status col-xl-1" scope="col">Status</th>
+                    <th class="action col-xl-3" scope="col">Action</th>
+                </thead>
+                <tbody class="fs-6">
+                    <tr>
+                        <td class="created-by">
+                            <div style="text-align: center;">
+                                <i class="bi bi-person-circle fs-4" style="display: block;"></i>
+                                <span>Bao Ninh</span>
+                            </div>
+                        </td>
+                        <td class="testrun-title">Sprint 1 - Release 1</td>
+                        <td class="assigned-to">
+                            <div style="text-align: center;">
+                                <i class="bi bi-person-circle fs-4" style="display: block;"></i>
+                                <span>Nghi Do</span>
+                            </div>
+                        </td>
+                        <td class="testcase-quantity"> 20 </td>
+                        <td class="status"> New </td>
+                    </tr>
+                    <tr>
+                        <td class="created-by">
+                            <div style="text-align: center;">
+                                <i class="bi bi-person-circle fs-4" style="display: block;"></i>
+                                <span>Nghia Ngo</span>
+                            </div>
+                        </td>
+                        <td class="testrun-title">Sprint 2 - Release 1</td>
+                        <td class="assigned-to">
+                            <div style="text-align: center;">
+                                <i class="bi bi-person-circle fs-4" style="display: block;"></i>
+                                <span>Bao Ninh</span>
+                            </div>
+                        </td>
+                        <td class="testcase-quantity"> 20 </td>
+                        <td class="status"> New </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{{!-- Create Test Run Modal --}}
+
+{{#block "modal"}}
+<div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content align-items-center"
+            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
+            <div class="modal-header" style="border-bottom: none;">
+                <p class="modal-title fs-3" id="modalTitleId">
+                    Add New TestRun
+                </p>
+            </div>
+            <div class="modal-body" style="border-bottom: none; width: 100%;">
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label for="test-run-name">
+                            Name <span style="color: #F0270C;">*</span> :
+                        </label>
+                        <input id="test-run-name" type="text" name="test-run-name" class="form-control"
+                            placeholder="Test Plan's Code">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="release">
+                            Release :
+                        </label>
+                        <select name="release" id="release" required>
+                            <option selected value="release1">Release 1</option>
+                            <option value="release2">Release 2</option>
+                            <option value="release3">Release 3</option>
+                        </select>
+                    </div>
+                    <div class="col-5 offset-1">
+                        <label for="assigned-to">
+                            Assigned to :
+                        </label>
+                        <select name="assigned-to" id="assigned-to" required>
+                            <option selected value="nghia">Nghia Ngo</option>
+                            <option value="bao">Bao Ninh</option>
+                            <option value="nghi">Nghi Do</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label for="description">
+                            Description :
+                        </label>
+                        <textarea id="description" name="description" class="form-control" placeholder="Description"
+                            rows="4"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none;">
+                <button type="button" class="btn btn-secondary next-button"
+                    style="background-color: #41D37E; color: #23235F; border: none; border-radius: 10px; padding: 10px 40px; font-weight: 600;"
+                    onclick="onNextStepClick()">
+                    Next Step
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content align-items-center"
+            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8; height: 60vh;">
+            <div class="modal-header" style="border-bottom: none; width: 100%;">
+                <p class="modal-title fs-3" id="modalTitleId" style="margin-left: auto; margin-right: auto;">
+                    Add New TestCase
+                </p>
+            </div>
+            <div class="modal-body d-flex flex-column" style="border-bottom: none; width: 100%; overflow-y: auto;">
+                <div class="row mb-3">
+                    <p style="color: #9C9C9C; font-weight: 600;">Linking to other testcases</p>
+                </div>
+                <div class="row mb-3 flex-grow-1">
+                    <div class="col-4" style="background-color: #FFFFFF; border-radius: 5%; overflow-y: auto;">
+                        <div class="d-flex justify-content-between align-items-center p-3"
+                            style="border-bottom: solid rgba(150,150,150,0.2) 1px; height: fit-content">
+                            <p style="color:#232360; font-size: 1.1rem; padding: 0; margin: 0; font-weight: bold;">
+                                Modules</p>
+                        </div>
+                        <div class="d-flex flex-column gap-1 modules-list px-3 py-1"
+                            style="color: #232360; font-weight: 700; font-size: 1rem;">
+                            <div>
+                                <i class="bi bi-folder"></i>
+                                Modules 1
+                            </div>
+                            <div>
+                                <i class="bi bi-folder"></i>
+                                Modules 2
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-7 offset-1"
+                        style="background-color: #FFFFFF; border-radius: 5%; position: relative;">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <th class="col-1" style="opacity: 0;"><input type="checkbox"></th>
+                                    <th class="col-4">Testcase Code</th>
+                                    <th class="col-7">Testcase Title</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="checkbox" class="testcase-checkbox"></td>
+                                        <td class="testcase-code">TC001</td>
+                                        <td class="testcase-name">Testcase 1</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="testcase-checkbox"></td>
+                                        <td class="testcase-code">TC002</td>
+                                        <td class="testcase-name">Testcase 2</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="all-testcase-choose"
+                            style="position: absolute; top: 0; right: 0; transform: translateY(-100%);">
+                            <input type="checkbox" class="all-testcase-checkbox">
+                            <label for="all-testcase">Select all testcase</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer gap-4" style="border-top: none;">
+                <button type="button" class="btn btn-secondary back-button"
+                    style="background-color: #D34164; color: #FBE416; border: none; border-radius: 10px; padding: 10px 40px; font-weight: 600;"
+                    data-back="#modal1">
+                    Go back
+                </button>
+                <button type="button" class="btn btn-secondary next-button"
+                    style="background-color: #41D37E; color: #23235F; border: none; border-radius: 10px; padding: 10px 40px; font-weight: 600;"
+                    onclick="onSaveButtonClick()">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{{/block}}
+
+{{!-- Page's Functionality Button --}}
+
+{{#block "additional-button"}}
+<button
+    style="background-color: #50DF89; padding: 10px; font-weight: 600; font-size: 1.2rem; border: none; border-radius: 10px;  color: #23235F;"
+    data-bs-toggle="modal" data-bs-target="#modal1">
+    <i class="bi bi-plus-circle"></i>
+    <span class="btn-text"> Add <span class="btn-text-secondary"> Test run </span> </span>
+</button>
+{{/block}}
+
+
+{{#block "script"}}
+<script src="/js/addTestrunModal.js"></script>
+{{/block}}

@@ -1,0 +1,30 @@
+/*module-list*/
+.modules-list i {
+    margin-right: 10px;
+}
+
+.modules-list .fa-folder-open {
+    color: #3b7ddd;
+}
+
+.modules-list div {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 10px;
+    background-color: #F3F4F8;
+}
+
+.module-item {
+    cursor: pointer;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+/* #myDropzone {
+    background: transparent;
+    border: 2px dashed #999999;
+    border-radius: 5px;
+    margin: 10px 10px 0px 10px;
+} */

@@ -1,0 +1,734 @@
+<!-- title - first line -->
+<div class="container-fluid row align-items-center mt-1">
+    <div class="col-lg-3 col-md-3 col-6">
+        <span class=" fw-bold fs-4 color-deep-violet">
+            Issues
+        </span>
+
+        <span class="number-button fw-bold fs-4 color-red" style="padding: 0px 15px; margin-left: 20px;">
+            5
+        </span>
+    </div>
+
+    <div class="col-lg-3 col-md-3 col-6">
+        <span class="fw-medium fs-6 color-gray">
+            Show
+        </span>
+
+        <span class="fw-medium fs-6 color-gray" style="margin-left: 10px;">
+            <select class="form-select-sm d-inline" aria-label=".dropdown-for-project-name">
+                <option selected>10</option>
+                <option value="1">20</option>
+                <option value="2">50</option>
+            </select>
+        </span>
+    </div>
+    <!-- import -->
+    <div class="col-lg-6 col-md-6 col-xs-12 align-end p-0 mt-2">
+        <span class="button-blue p-md-2 p-1 hover-to-bg-darken-blue clickable">
+            <i class="bi bi-file-earmark-arrow-up color-deep-violet fs-4"></i>
+            <span class="color-deep-violet fw-medium fs-5 ps-1 pe-1">Import</span>
+        </span>
+
+        <span class="button-green p-md-2 p--1 hover-to-bg-darken-green ms-3 clickable" data-bs-toggle="modal"
+            data-bs-target="#modal-add-issue">
+            <i class="bi bi-plus-lg color-deep-violet fs-4"></i>
+            <span class="color-deep-violet fw-medium fs-5 ps-1 pe-1">Add issues</span>
+        </span>
+    </div>
+</div>
+
+<!-- filter line-->
+<div class="container-fluid row align-items-end mt-2">
+    <div class="col-12 col-md-1" style="padding-top: 25px;">
+        <span class="color-deep-violet fw-medium fs-4">Filter</span>
+    </div>
+    <div class="col">
+        <div>
+            <div class="color-deep-violet fw-medium fs-6 mb-1">Status</div>
+            <select class="form-select form-select-sm" aria-label=".dropdown-for-project-name">
+                <option selected></option>
+                <option value="1">Asc</option>
+                <option value="2">Decs</option>
+            </select>
+        </div>
+    </div>
+    <div class="col">
+        <div>
+            <div class="color-deep-violet fw-medium fs-6 mb-1">Priority</div>
+            <select class="form-select form-select-sm" aria-label=".dropdown-for-created-date">
+                <option selected></option>
+                <option value="1">Asc</option>
+                <option value="2">Decs</option>
+            </select>
+        </div>
+    </div>
+    <div class="col d-none d-lg-block">
+        <div>
+            <div class="color-deep-violet fw-medium fs-6 mb-1">Created By</div>
+            <select class="form-select form-select-sm" aria-label=".dropdown-for-project-name">
+                <option selected></option>
+                <option value="1">Asc</option>
+                <option value="2">Decs</option>
+            </select>
+        </div>
+    </div>
+    <div class="col d-none d-lg-block">
+        <div>
+            <div class="color-deep-violet fw-medium fs-6 mb-1">Assignee</div>
+            <select class="form-select form-select-sm" aria-label=".dropdown-for-created-date">
+                <option selected></option>
+                <option value="1">Asc</option>
+                <option value="2">Decs</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-1 d-none d-lg-block">
+
+    </div>
+</div>
+
+<!--issues-->
+<div class="task mt-4 p-2 hover-shadow-box">
+    <div class="row align-items-center">
+        <div class="col-1 d-flex align-items-center d-none d-lg-block text-center"
+            style="height: 100%; margin-right: -25px;">
+            <i class="bi bi-bug color-red fs-1"></i>
+        </div>
+
+        <div class="col-md-9 col-9" style="flex-grow: 1;">
+
+            <div class="row align-items-center">
+                <div class="col col-sm-1 text-center">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        ID
+                    </div>
+                </div>
+
+                <div class="col col-sm-3 text-center">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Title
+                    </div>
+                </div>
+
+
+
+                <div class="col d-none d-lg-block text-center">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Created By
+                    </div>
+                </div>
+                <div class="col d-none d-lg-block text-center">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Assigned To
+                    </div>
+                </div>
+
+                <div class="col text-center d-none d-sm-block">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Status
+                    </div>
+                </div>
+
+                <div class="col text-center d-none d-sm-block">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Priority
+                    </div>
+                </div>
+
+                <div class="col d-none d-md-block text-center">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Created Date
+                    </div>
+                </div>
+            </div>
+
+            <div class="task-description row align-items-center">
+                <div class="col col-sm-1 text-center p-0">
+                    <div class="fw-medium fs-6 color-black border-right">
+                        BUG-001
+                    </div>
+                </div>
+
+
+                <div class="col col-sm-3 text-center border-right">
+                    <div class="fw-medium fs-6 color-black">
+                        Login with Google Failed
+                    </div>
+                </div>
+
+
+                <div class="col d-none d-lg-block text-center">
+                    <div class="col">
+                        <i class="bi bi-person-circle color-green" style="font-size: 16pt;"></i>
+                        <div class="fw-medium fs-6 color-black mt-0">
+                            BaoNinh
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col d-none d-lg-block text-center">
+                    <div class="col">
+                        <i class="bi bi-person-circle color-blue" style="font-size: 16pt;"></i>
+                        <div class="fw-medium fs-6 color-black mt-0">
+                            Nghia Nguyen
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col text-center border-left border-right d-none d-sm-block">
+                    <div class="fw-medium fs-6 color-black">
+                        Closed
+                    </div>
+                </div>
+
+                <div class="col text-center border-left border-right d-none d-sm-block">
+                    <div class="fw-medium fs-6 color-red">
+                        Very High
+                    </div>
+                </div>
+
+                <div class="col text-center d-none d-md-block">
+                    <div class="fw-medium fs-6 color-black">
+                        March, 25 2024
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- view-detail -->
+        <div class="col-3 col-sm-2 p-2 d-flex align-items-center" style="height: 100%;">
+            <div class="view-detail more-blue-hover clickable" onclick="location.href='#';">
+                <i class="bi bi-box-arrow-right color-blue d-none d-md-block" style="font-size: 18pt;"></i>
+                <span class="color-blue fw-medium fs-6" style="padding-left: 10px;">View Detail</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="task mt-4 p-2 hover-shadow-box">
+    <div class="row align-items-center">
+        <div class="col-1 d-flex align-items-center d-none d-lg-block text-center"
+            style="height: 100%; margin-right: -25px;">
+            <i class="bi bi-bug color-red fs-1"></i>
+        </div>
+
+        <div class="col-md-9 col-9" style="flex-grow: 1;">
+
+            <div class="row align-items-center">
+                <div class="col col-sm-1 text-center">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        ID
+                    </div>
+                </div>
+
+                <div class="col col-sm-3 text-center">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Title
+                    </div>
+                </div>
+
+
+
+                <div class="col d-none d-lg-block text-center">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Created By
+                    </div>
+                </div>
+
+                <div class="col d-none d-lg-block text-center">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Assigned To
+                    </div>
+                </div>
+
+                <div class="col text-center d-none d-sm-block">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Status
+                    </div>
+                </div>
+
+                <div class="col text-center d-none d-sm-block">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Priority
+                    </div>
+                </div>
+
+                <div class="col d-none d-md-block text-center">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Created Date
+                    </div>
+                </div>
+            </div>
+
+            <div class="task-description row align-items-center">
+                <div class="col col-sm-1 text-center p-0">
+                    <div class="fw-medium fs-6 color-black  border-right">
+                        BUG-003
+                    </div>
+                </div>
+
+                <div class="col col-sm-3 text-center border-right">
+                    <div class="fw-medium fs-6 color-black">
+                        Can not click into "Buy" button
+                    </div>
+                </div>
+
+
+                <div class="col d-none d-lg-block text-center">
+                    <div class="col">
+                        <i class="bi bi-person-circle color-green" style="font-size: 16pt;"></i>
+                        <div class="fw-medium fs-6 color-black mt-0">
+                            BaoNinh
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col d-none d-lg-block text-center">
+                    <div class="col">
+                        <i class="bi bi-person-circle color-blue" style="font-size: 16pt;"></i>
+                        <div class="fw-medium fs-6 color-black mt-0">
+                            Nghia Nguyen
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col text-center border-left border-right d-none d-sm-block">
+                    <div class="fw-medium fs-6 color-blue">
+                        Assigned
+                    </div>
+                </div>
+
+                <div class="col text-center border-left border-right d-none d-sm-block">
+                    <div class="fw-medium fs-6 color-sea">
+                        Medium
+                    </div>
+                </div>
+
+                <div class="col text-center d-none d-md-block">
+                    <div class="fw-medium fs-6 color-black">
+                        March, 25 2024
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- view-detail -->
+        <div class="col-3 col-sm-2 p-2 d-flex align-items-center" style="height: 100%;">
+            <div class="view-detail more-blue-hover clickable" onclick="location.href='#';">
+                <i class="bi bi-box-arrow-right color-blue d-none d-md-block" style="font-size: 18pt;"></i>
+                <span class="color-blue fw-medium fs-6" style="padding-left: 10px;">View Detail</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="task mt-4 p-2 hover-shadow-box">
+    <div class="row align-items-center">
+        <div class="col-1 d-flex align-items-center d-none d-lg-block text-center"
+            style="height: 100%; margin-right: -25px;">
+            <i class="bi bi-bug color-red fs-1"></i>
+        </div>
+
+        <div class="col-md-9 col-9" style="flex-grow: 1;">
+
+            <div class="row align-items-center">
+                <div class="col col-sm-1 text-center">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        ID
+                    </div>
+                </div>
+
+                <div class="col col-sm-3 text-center">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Title
+                    </div>
+                </div>
+
+
+
+                <div class="col d-none d-lg-block text-center">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Created By
+                    </div>
+                </div>
+
+                <div class="col d-none d-lg-block text-center">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Assigned To
+                    </div>
+                </div>
+
+                <div class="col text-center d-none d-sm-block">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Status
+                    </div>
+                </div>
+
+                <div class="col text-center d-none d-sm-block">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Priority
+                    </div>
+                </div>
+
+                <div class="col d-none d-md-block text-center">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Created Date
+                    </div>
+                </div>
+            </div>
+
+            <div class="task-description row align-items-center">
+                <div class="col col-sm-1 text-center p-0">
+                    <div class="fw-medium fs-6 color-black border-right">
+                        BUG-004
+                    </div>
+                </div>
+
+                <div class="col col-sm-3 text-center border-right">
+                    <div class="fw-medium fs-6 color-black">
+                        Shopping cart is empty
+                    </div>
+                </div>
+
+
+                <div class="col d-none d-lg-block text-center">
+                    <div class="col">
+                        <i class="bi bi-person-circle color-green" style="font-size: 16pt;"></i>
+                        <div class="fw-medium fs-6 color-black mt-0">
+                            BaoNinh
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col d-none d-lg-block text-center">
+                    <div class="col">
+                        <i class="bi bi-person-circle color-blue" style="font-size: 16pt;"></i>
+                        <div class="fw-medium fs-6 color-black mt-0">
+                            Nghia Nguyen
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col text-center border-left border-right d-none d-sm-block">
+                    <div class="fw-medium fs-6 color-green">
+                        In Progress
+                    </div>
+                </div>
+
+                <div class="col text-center border-left border-right d-none d-sm-block">
+                    <div class="fw-medium fs-6 color-deep-green">
+                        Low
+                    </div>
+                </div>
+
+                <div class="col text-center d-none d-md-block">
+                    <div class="fw-medium fs-6 color-black">
+                        March, 25 2024
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- view-detail -->
+        <div class="col-3 col-sm-2 p-2 d-flex align-items-center" style="height: 100%;">
+            <div class="view-detail more-blue-hover clickable" onclick="location.href='#';">
+                <i class="bi bi-box-arrow-right color-blue d-none d-md-block" style="font-size: 18pt;"></i>
+                <span class="color-blue fw-medium fs-6" style="padding-left: 10px;">View Detail</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="task mt-4 p-2 hover-shadow-box">
+    <div class="row align-items-center">
+        <div class="col-1 d-flex align-items-center d-none d-lg-block text-center"
+            style="height: 100%; margin-right: -25px;">
+            <i class="bi bi-bug color-red fs-1"></i>
+        </div>
+
+        <div class="col-md-9 col-9" style="flex-grow: 1;">
+
+            <div class="row align-items-center">
+                <div class="col col-sm-1 text-center">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        ID
+                    </div>
+                </div>
+
+                <div class="col col-sm-3 text-center">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Title
+                    </div>
+                </div>
+
+
+
+                <div class="col d-none d-lg-block text-center">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Created By
+                    </div>
+                </div>
+
+                <div class="col d-none d-lg-block text-center">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Assigned To
+                    </div>
+                </div>
+
+                <div class="col text-center d-none d-sm-block">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Status
+                    </div>
+                </div>
+
+                <div class="col text-center d-none d-sm-block">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Priority
+                    </div>
+                </div>
+
+                <div class="col d-none d-md-block text-center">
+                    <div class="fw-medium fs-6 color-deep-violet">
+                        Created Date
+                    </div>
+                </div>
+            </div>
+
+            <div class="task-description row align-items-center">
+                <div class="col col-sm-1 text-center p-0">
+                    <div class="fw-medium fs-6 color-black border-right">
+                        BUG-005
+                    </div>
+                </div>
+
+                <div class="col col-sm-3 text-center border-right">
+                    <div class="fw-medium fs-6 color-black">
+                        Navigate to home page failed
+                    </div>
+                </div>
+
+
+                <div class="col d-none d-lg-block text-center">
+                    <div class="col">
+                        <i class="bi bi-person-circle color-green" style="font-size: 16pt;"></i>
+                        <div class="fw-medium fs-6 color-black mt-0">
+                            BaoNinh
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col d-none d-lg-block text-center">
+                    <div class="col">
+                        <i class="bi bi-person-circle color-blue" style="font-size: 16pt;"></i>
+                        <div class="fw-medium fs-6 color-black mt-0">
+                            Nghia Nguyen
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col text-center border-left border-right d-none d-sm-block">
+                    <div class="fw-medium fs-6 color-deep-green">
+                        Fixed
+                    </div>
+                </div>
+
+                <div class="col text-center border-left border-right d-none d-sm-block">
+                    <div class="fw-medium fs-6 color-deep-green">
+                        Low
+                    </div>
+                </div>
+
+                <div class="col text-center d-none d-md-block">
+                    <div class="fw-medium fs-6 color-black">
+                        March, 25 2024
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- view-detail -->
+        <div class="col-3 col-sm-2 p-2 d-flex align-items-center" style="height: 100%;">
+            <div class="view-detail more-blue-hover clickable" onclick="location.href='#';">
+                <i class="bi bi-box-arrow-right color-blue d-none d-md-block" style="font-size: 18pt;"></i>
+                <span class="color-blue fw-medium fs-6" style="padding-left: 10px;">View Detail</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- next page -->
+<div class="container-fluid row align-items-center justify-content-center mt-4">
+    <div class="col-4 text-center">
+        <i class="bi bi-chevron-left color-black fs-4 fw-bold"></i>
+        <span class="color-black fs-4 fw-bold ps-5 pe-5">1</span>
+        <i class="bi bi-chevron-right color-black fs-4 fw-bold"></i>
+    </div>
+</div>
+
+{{!-- Create Module Modal --}}
+
+{{#block "modal"}}
+<div class="modal fade" id="modal-add-issue" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content align-items-center fw-bold color-deep-violet primary-background"
+            style="padding: 0 6%;">
+            <div class="modal-header" style="border-bottom: none;">
+                <p class="modal-title fs-3" id="modalTitleId">
+                    Add New Issue
+                </p>
+            </div>
+            <div class="modal-body" style="border-bottom: none; width: 100%;">
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="issue-title-input">
+                            Title <span style="color: #F0270C;">*</span> :
+                        </label>
+                        <input type="text" name="issue-title-input" id="issue-title-input" class="form-control mt-2"
+                            placeholder="Title">
+                        <div id="issue-title-error" class="text-danger fs-6 fw-normal" style="display: none;">Please
+                            enter issue title</div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="issue-priority-input">
+                            Priority <span style="color: #F0270C;">*</span> :
+                        </label>
+                        <select name="priority-input" class="form-select mt-2" aria-label="Default select example"
+                            id="issue-priority-input" required>
+                            <option value="" selected>Select priority</option>
+                            <option class="fw-medium fs-6 color-deep-green" value="Low">Low</option>
+                            <option class="fw-medium fs-6 color-sea" value="Medium">Medium</option>
+                            <option class="fw-medium fs-6 color-orange" value="High">High</option>
+                            <option class="fw-medium fs-6 color-red" value="Very High">Very High</option>
+                        </select>
+                        <div id="issue-priority-error" class="text-danger fs-6 fw-normal" style="display: none;">Please
+                            select issue's priority</div>
+
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="issue-status-input">
+                            Status <span style="color: #F0270C;">*</span> :
+                        </label>
+                        <select name="issue-status-input" class="form-select mt-2" aria-label="Default select example"
+                            id="issue-status-input" required>
+                            <option value="" selected>Select status</option>
+                            <option class="fw-medium fs-6 color-blue" value="Opened">Opened</option>
+                            <option class="fw-medium fs-6 color-sea" value="Assigned">Assigned</option>
+                            <option class="fw-medium fs-6 color-green" value="In Progress">In Progress</option>
+                            <option class="fw-medium fs-6 color-black" value="Fixed">Fixed</option>
+                            <option class="fw-medium fs-6 color-black" value="Closed">Closed</option>
+                            <option class="fw-medium fs-6 color-red" value="Reopened">Reopened</option>
+                            <option class="fw-medium fs-6 color-deep-green" value="Deferred">Deferred</option>
+                            <option class="fw-medium fs-6 color-deep-green" value="Duplicate">Duplicate</option>
+                            <option class="fw-medium fs-6 color-black" value="Cannot Reproduce">Cannot Reproduce
+                            </option>
+                            <option class="fw-medium fs-6 color-green" value="Pending Verification">Pending Verification
+                            </option>
+                            <option class="fw-medium fs-6 color-orange" value="Awaiting Feedback">Awaiting Feedback
+                            </option>
+                            <option class="fw-medium fs-6 color-red" value="Blocked">Blocked</option>
+                        </select>
+                        <div id="issue-status-error" class="text-danger fs-6 fw-normal" style="display: none;">Please
+                            select issue's status</div>
+
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="issue-assign-input">
+                            Assign to:
+                        </label>
+                        <input type="text" name="issue-assign-input" id="issue-assign-input" class="form-control mt-2"
+                            placeholder="">
+                        <div id="issue-assign-error-1" class="text-danger fs-6 fw-normal" style="display: none;">Please
+                            enter assignee when status is not opened</div>
+                        <div id="issue-assign-error-2" class="text-danger fs-6 fw-normal" style="display: none;">Please
+                            assign to existing user</div>
+
+
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="issue-type-input">
+                            Issue Type :
+                        </label>
+                        <input type="text" name="issue-type-input" id="issue-type-input" class="form-control mt-2"
+                            placeholder="">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="issue-module-input">
+                            Module :
+                        </label>
+                        <input type="text" name="issue-module-input" id="issue-module-input" class="form-control mt-2"
+                            placeholder="">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="issue-testcase-input">
+                            Test case failed :
+                        </label>
+                        <input type="text" name="issue-testcase-input" id="issue-testcase-input"
+                            class="form-control mt-2" placeholder="">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="issue-description-input">
+                            Description :
+                        </label>
+                        <input type="text" name="issue-description-input" id="issue-description-input"
+                            class="form-control mt-2" placeholder="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="border-top: none;">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary" id="save-add-issue-button">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{/block}}
+
+{{!-- Page's Functionality Button --}}
+
+{{#block "additional-button"}}
+
+{{/block}}
+
+{{!-- Additional Scripts + CSS --}}
+
+{{#block "script"}}
+<script src="https://kit.fontawesome.com/ca0d395c8b.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/issue-view.css"/>
+<link rel="stylesheet" href="/css/font_size.css"/>
+<link rel="stylesheet" href="/css/hover_and_click.css"/>
+<link rel="stylesheet" href="/css/color.css"/>
+
+<!-- CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css" />
+<!-- JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
+
+<script src="/js/addIssueModal.js"></script>
+{{/block}}

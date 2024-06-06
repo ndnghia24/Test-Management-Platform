@@ -1,0 +1,16 @@
+{
+    "database": "testmanagementsystem",
+    "username": "testmanagementsystem_user",
+    "password": "f9QVcXXRl8yOJ1Oj4laQOCdD48vW0vCr",
+    "host": "dpg-cpg2bu6ct0pc73d5imeg-a.singapore-postgres.render.com",
+    "port": 5432,
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      },
+      "connectTimeout": 60000 
+    }
+}
+  

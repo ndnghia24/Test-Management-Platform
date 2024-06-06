@@ -1,0 +1,79 @@
+.table th,tr,td{
+    border: none;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table th{
+    font-weight: 600;
+    color: #969696;
+}
+
+.table .plan-code {
+    color: #232360;
+    font-weight: 700;
+}
+
+.table .testrun-title:not(th),.testcase-quantity:not(th) {
+    font-weight: 600;
+    color: #1EA7FF !important;
+}
+
+.table .testrun-title:not(th):hover {
+    cursor: pointer;
+}
+
+.table .status:not(th) {
+    font-weight: 600;
+    color: #05A946!important;
+}
+
+div.modal select {
+    padding: 5px 10px;
+    margin-left: 20px;
+    text-align: start;
+    border: 1px solid #D1D1D1;
+    border-radius: 5px;
+    color: #232360;
+    width: 50%;
+}
+
+@media screen and (max-width: 994px) {
+    .table-responsive{
+        padding: 0 !important;
+    }
+    
+}
+
+@media screen and (max-width: 917px){
+    .sidebar {
+        display: none;
+    }
+    .main-content {
+        flex-grow: 1;
+    }
+    .logo {
+        margin-left: 10px !important;
+    }
+}
+
+@media screen and (max-width: 880px) {
+    .menu-container {
+        margin-left: 0 !important;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .test-description {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 530px) {
+    .btn-text {
+        display: none !important;
+    }
+}
