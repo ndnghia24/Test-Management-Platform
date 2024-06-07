@@ -48,6 +48,8 @@ controller.addTestPlan = async (req, res) => {
         const project_id = req.params.id;
         const { name, release, description } = req.body;
 
+        console.log(req.body);
+
         const testPlan = await db.test_plans.create({
             name: name,
             release: release,

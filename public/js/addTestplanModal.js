@@ -20,13 +20,13 @@ function onSaveButtonClick() {
 
         let currentUrl = window.location.pathname;
 
-        console.log(data);
         console.log(currentUrl + "/addTestPlan");
 
         $.ajax({
             type: "POST",
             url: currentUrl + "/addTestPlan",
-            data: data,
+            data: JSON.stringify(data),
+            contentType: "application/json",
             success: function (data) {
                 if (data.success) {
                     alert("Test Plan added successfully");

@@ -121,9 +121,9 @@
                         <label for="module">Select Module:</label>
                     </div>
                     <div class="col-7 offset-2">
-                        <select name="module" class="form-control" aria-label="Default select example">
+                        <select id="module-select" name="module" class="form-control" aria-label="Default select example">
                             {{#each modules}}
-                            <option value="{{name}}">{{name}}</option>
+                            <option value="{{module_id}}">{{name}}</option>
                             {{/each}}
                             {{!-- <option value="1">Module 1</option>
                             <option value="2">Module 2</option> --}}
@@ -132,10 +132,10 @@
                 </div>
                 <div class="row mb-3">
                     <div>
-                        <lable for="description">
+                        <lable for="testcase-description">
                             Description:
                         </lable>
-                        <textarea name="description" class="form-control" placeholder="Description" rows="4"></textarea>
+                        <textarea id="testcase-description" name="testcase-description" class="form-control" placeholder="Description" rows="4"></textarea>
                     </div>
                 </div>
             </div>
@@ -166,12 +166,12 @@
                 <div class="row mb-3">
                     <div class="col-6">
                         <label for="description">Description <span style="color: #F0270C;">*</span>:</label>
-                        <textarea id="description" name="description" class="form-control" placeholder="Description"
+                        <textarea id="description" name="description" class="form-control first-testcaseStep-description" placeholder="Description"
                             rows="4"></textarea>
                     </div>
                     <div class="col-6">
                         <label for="expected-result">Expected Result <span style="color: #F0270C;">*</span>:</label>
-                        <textarea id="expected-result" name="expected-result" class="form-control"
+                        <textarea id="expected-result" name="expected-result" class="form-control first-testcaseStep-expected-result"
                             placeholder="Expected Result" rows="4"></textarea>
                     </div>
                 </div>
@@ -328,8 +328,8 @@
                                     {{#each requirements}}
                                     <tr>
                                         <td><input type="checkbox"></td>
-                                        <td class="testcase-code">{{this.requirement_code}}</td>
-                                        <td class="testcase-name">{{this.requirement_name}}</td>
+                                        <td class="requirement-code">{{this.requirement_code}}</td>
+                                        <td class="requirement-name">{{this.requirement_name}}</td>
                                     </tr>
                                     {{/each}}
                                     {{!-- <tr>

@@ -6,11 +6,13 @@ router.get("/:id/testplan", controller.test_planController.getTestPlan);
 router.post("/:id/testplan/addTestPlan", controller.test_planController.addTestPlan);
 
 router.get("/:id/testcase", controller.test_caseController.getTestCase);
+router.post("/:id/testcase/addTestCase", controller.test_caseController.addTestCase);
 
 router.get("/:id/testrun", (req,res) => {
     res.render('test-run-view', {
         title: 'Tetto',
         cssFile: 'test-run-view.css',
+        projectId: req.params.id,
     });
 })
 
