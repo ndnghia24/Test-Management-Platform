@@ -14,46 +14,32 @@
                     {{#each releases}}
                     <button class="dropdown-item" href="#">{{name}}</button>
                     {{/each}}
-                    {{!-- <button class="dropdown-item" href="#">Release 1</button>
-                    <button class="dropdown-item" href="#">Release 2</button>
-                    <button class="dropdown-item" href="#">Release 3</button> --}}
                 </div>
             </div>
         </div>
         <div class="table-responsive px-5 mt-4">
             <table class="table">
                 <thead class="fs-6">
-                    <th class="plan-code" scope="col">Plan's Code</th>
-                    <th class="test-plan-name" scope="col">Plan's Name</th>
-                    <th class="test-description" scope="col">Description</th>
-                    <th class="release" scope="col">Release</th>
+                    <th class="plan-code-col" scope="col">Plan's Code</th>
+                    <th class="test-plan-name-col" scope="col">Plan's Name</th>
+                    <th class="test-description-col" scope="col">Description</th>
+                    <th class="release-col" scope="col">Release</th>
                     <th scope="col">Action</th>
                 </thead>
                 <tbody class="fs-6">
                     {{#each testPlans}}
                     <tr>
-                        <td class="plan-code">{{this.code}}</td>
+                        <td class="test-plan-code">{{this.code}}</td>
                         <td class="test-plan-name">{{this.name}}</td>
-                        <td class="test-description">{{this.description}}</td>
-                        <td class="release">{{this.release}}</td>
+                        <td class="test-plan-description">{{this.description}}</td>
+                        <td class="release" data-release-id="{{release_id}}">{{this.release}}</td>
                         <td style="font-weight: 600;">
-                            <i class="bi bi-eye hover-icon" style="margin-right: 20px;"></i>
-                            <i class="bi bi-pencil hover-icon text-success" style="margin-right: 20px;"></i>
-                            <i class="bi bi-trash hover-icon text-danger"></i>
+                            <i class="bi bi-eye hover-icon" style="margin-right: 20px;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Detail"></i>
+                            <i class="bi bi-pencil hover-icon text-success" style="margin-right: 20px;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit testplan"></i>
+                            <i class="bi bi-trash hover-icon text-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete testplan"></i>
                         </td>
                     </tr>
                     {{/each}}
-                    {{!-- <tr>
-                        <td class="plan-code">T001</td>
-                        <td class="test-plan-name">Test Plan 1</td>
-                        <td class="test-description">Test Plan 1 Description</td>
-                        <td class="release">Release 1</td>
-                    </tr>
-                    <tr>
-                        <td class="plan-code">T002</td>
-                        <td class="test-plan-name">Test Plan 2</td>
-                        <td class="test-description">Test Plan 2 Description</td>
-                        <td class="release">Release 2</td> --}}
                     </tr>
                 </tbody>
             </table>
@@ -91,10 +77,6 @@
                             {{#each releases}}
                             <option value="{{release_id}}">{{name}}</option>
                             {{/each}}
-                            {{!-- <option value="0">Select Release</option> --}}
-                            {{!-- <option value="1">Release 1</option>
-                            <option value="2">Release 2</option>
-                            <option value="3">Release 3</option> --}}
                         </select>
                     </div>
                 </div>
@@ -117,6 +99,134 @@
         </div>
     </div>
 </div>
+
+{{!-- Edit Testplan Modal --}}
+<div class="modal fade" id="edit-test-plan" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true" data-testplan-code="">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content align-items-center"
+            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
+            <div class="modal-header" style="border-bottom: none;">
+                <p class="modal-title fs-3" id="modalTitleId">
+                    Edit Test Plan
+                </p>
+            </div>
+            <div class="modal-body" style="border-bottom: none; width: 100%;">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="test-plan-name">
+                            Plan's Name <span style="color: #F0270C;">*</span> :
+                        </label>
+                        <input id="test-plan-name" type="text" name="test-plan-name" class="form-control"
+                            placeholder="Test Plan's name">
+                    </div>
+                    <div class="col-4 offset-1">
+                        <label for="release">
+                            Release <span style="color: #F0270C;">*</span> :
+                        </label>
+                        <select id="release" name="release" class="form-select" aria-label="Default select example"
+                            required>
+                            {{#each releases}}
+                            <option value="{{release_id}}">{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div>
+                        <lable for="description">
+                            Description <span style="color: #F0270C;">*</span> :
+                        </lable>
+                        <textarea id="test-plan-description" name="description" class="form-control" placeholder="Description"
+                            rows="4"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none;">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary edit-test-plan-save-btn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!-- Delete Testplan Confirm Modal --}}
+<div class="modal fade" id="delete-test-plan" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true" data-testplan-code="">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content align-items-center"
+            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
+            <div class="modal-header">
+                <p class="modal-title fs-3" id="modalTitleId">
+                    Delete Test Plan
+                </p>
+            </div>
+            <div class="modal-body">
+                <h3>
+                    Are you sure you want to delete this test plan?
+                </h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-danger delete-test-plan-btn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!-- Show Testplan Modal --}}
+<div class="modal fade" id="show-test-plan" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true" data-testplan-code="">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content align-items-center"
+            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
+            <div class="modal-header" style="border-bottom: none;">
+                <p class="modal-title fs-3" id="modalTitleId">
+                    View Test Plan
+                </p>
+            </div>
+            <div class="modal-body" style="border-bottom: none; width: 100%;">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="test-plan-name">
+                            Plan's Name:
+                        </label>
+                        <input id="test-plan-name" type="text" name="test-plan-name" class="form-control"
+                            placeholder="Test Plan's name" disabled>
+                    </div>
+                    <div class="col-4 offset-1">
+                        <label for="release">
+                            Release:
+                        </label>
+                        <select id="release" name="release" class="form-select" aria-label="Default select example"
+                            disabled>
+                            {{#each releases}}
+                            <option value="{{release_id}}">{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div>
+                        <lable for="description">
+                            Description:
+                        </lable>
+                        <textarea id="test-plan-description" name="description" class="form-control" placeholder="Description"
+                            rows="4" disabled></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none;">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary edit-test-plan-save-btn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {{/block}}
 
 {{!-- Additional button in view --}}
@@ -134,4 +244,5 @@
 
 {{#block "script"}}
 <script src="/js/addTestplanModal.js"></script>
+<script src="/js/testplanActionBtn.js"></script>
 {{/block}}

@@ -1,4 +1,4 @@
-let data = {} 
+let data = {}
 
 $(document).ready(function () {
     $('.back-button').click(function () {
@@ -8,10 +8,10 @@ $(document).ready(function () {
     });
 });
 
-$(document).ready(function(){
-    $('.add-step').click(function(){
+$(document).ready(function () {
+    $('.add-step').click(function () {
         var step = document.createElement("div");
-        step.classList.add("row", "mb-3","additional-step");
+        step.classList.add("row", "mb-3", "additional-step");
         step.innerHTML = `
             <div class="col-6">
                 <label for="description">Description: </label>
@@ -87,10 +87,10 @@ function onModal2NextClick() {
 function onModal3NextClick() {
     linkingTestcase = [];
 
-   $('#modal3 input[type=checkbox]:checked').each(function() {
+    $('#modal3 input[type=checkbox]:checked').each(function () {
         testcaseCode = ($(this).closest('tr').find('td.testcase-code'))[0].innerText;
         linkingTestcase.push(testcaseCode);
-   });
+    });
 
     data.linkingTestcase = linkingTestcase;
 
@@ -101,7 +101,7 @@ function onModal3NextClick() {
 function onModal4SaveClick() {
     linkingRequirement = [];
 
-    $('#modal4 input[type=checkbox]:checked').each(function() {
+    $('#modal4 input[type=checkbox]:checked').each(function () {
         requirementCode = $(this).closest('tr').find('td.requirement-code')[0].innerText;
         linkingRequirement.push(requirementCode);
     });
@@ -118,20 +118,14 @@ function onModal4SaveClick() {
         data: JSON.stringify(data),
         success: function (data) {
             if (data.success) {
-                alert("Testcase added successfully");
-                window.location.reload();
-            } else {
-                alert("Error adding Testcase");
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+                showRightBelowToast("Testcase added successfully");
             }
         },
         error: function (data) {
-            if (data.success) {
-                alert("Testcase added successfully");
-                window.location.reload();
-            } else {
-                alert("Error adding Testcase");
-                console.log(data);
-            }
+            showRightBelowToast("Error adding Testcase");
         },
     })
 

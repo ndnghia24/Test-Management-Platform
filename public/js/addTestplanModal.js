@@ -29,16 +29,14 @@ function onSaveButtonClick() {
             contentType: "application/json",
             success: function (data) {
                 if (data.success) {
-                    alert("Test Plan added successfully");
-                    window.location.reload();
-                } else {
-                    alert("Error adding Test Plan");
-                    console.log(data);
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                    showRightBelowToast("Test Plan added successfully");
                 }
             },
             error: function (data) {
-                alert("Error adding Test Plan");
-                console.log(data);
+                showRightBelowToast("Error adding Test Plan");
             },
         });
 

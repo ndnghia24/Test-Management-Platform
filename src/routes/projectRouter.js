@@ -4,6 +4,8 @@ const controller = require("../controllers/projectController");
 
 router.get("/:id/testplan", controller.test_planController.getTestPlan);
 router.post("/:id/testplan/addTestPlan", controller.test_planController.addTestPlan);
+router.put("/:id/testplan/editTestPlan", controller.test_planController.editTestPlan);
+router.delete("/:id/testplan/deleteTestPlan", controller.test_planController.deleteTestPlan);
 
 router.get("/:id/testcase", controller.test_caseController.getTestCase);
 router.post("/:id/testcase/addTestCase", controller.test_caseController.addTestCase);

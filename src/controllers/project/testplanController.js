@@ -7,7 +7,7 @@ controller.getTestPlan = async (req, res) => {
 
         const [testPlans, releases] = await Promise.all([
             db.sequelize.query(
-                'SELECT t.testplan_id AS code, t.name AS name, t.description, r.name AS release ' +
+                'SELECT t.testplan_id AS code, t.name AS name, t.description, r.name AS release, r.release_id AS release_id ' +
                 'FROM test_plans AS t, releases AS r ' +
                 'WHERE t.release = r.release_id ' +
                 'AND t.project_id = ? ' +
@@ -60,6 +60,49 @@ controller.addTestPlan = async (req, res) => {
         res.status(200).send({ success: true});
     } catch (error) {
         console.error('Error creating test plan:', error);
+        res.status(500).send({ success: false, error: error });
+    }
+}
+
+controller.editTestPlan = async (req, res) => {
+    try {
+        // const project_id = req.params.id;
+        const planCode  = req.query.planCode;
+        const { name, release, description } = req.body;
+
+        await db.test_plans.update({
+            name: name,
+            release: release,
+            description: description
+        }, {
+            where: {
+                testplan_id: planCode,
+                // project_id: project_id
+            }
+        });
+
+        res.status(200).send({ success: true });
+    } catch (error) {
+        console.error('Error updating test plan:', error);
+        res.status(500).send({ success: false, error: error });
+    }
+}
+
+controller.deleteTestPlan = async (req, res) => {
+    try {
+        // const project_id = req.params.id;
+        const planCode = req.query.planCode;
+
+        await db.test_plans.destroy({
+            where: {
+                testplan_id: planCode,
+                // project_id: project_id
+            }
+        });
+
+        res.status(200).send({ success: true });
+    } catch (error) {
+        console.error('Error deleting test plan:', error);
         res.status(500).send({ success: false, error: error });
     }
 }

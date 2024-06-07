@@ -14,14 +14,6 @@
                 {{this.name}}
             </div>
             {{/each}}
-            {{!-- <div>
-                <i class="bi bi-folder"></i>
-                Modules 1
-            </div>
-            <div>
-                <i class="bi bi-folder"></i>
-                Modules 2
-            </div> --}}
         </div>
     </div>
     <div class="col-1 offset-col"></div>
@@ -74,21 +66,12 @@
                             <td class="testcase-code">{{this.testcase_id}}</td>
                             <td class="testcase-name">{{this.name}}</td>
                             <td>
-                                <i class="bi bi-eye hover-icon" style="margin-right: 20px;"></i>
-                                <i class="bi bi-pencil hover-icon text-success" style="margin-right: 20px;"></i>
-                                <i class="bi bi-trash hover-icon text-danger"></i>
+                            <i class="bi bi-eye hover-icon" style="margin-right: 20px;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Detail"></i>
+                            <i class="bi bi-pencil hover-icon text-success" style="margin-right: 20px;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit test case"></i>
+                            <i class="bi bi-trash hover-icon text-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete test case"></i>
                             </td>
                         </tr>
                         {{/each}}
-                        {{!-- <tr>
-                            <td><input type="checkbox"></input></td>
-                            <td class="testcase-code">TC001</td>
-                            <td class="testcase-name">Testcase 1</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox"></input></td>
-                            <td class="testcase-code">TC002</td>
-                            <td class="testcase-name">Testcase 2</td> --}}
                     </tbody>
                 </table>
             </div>
@@ -125,8 +108,6 @@
                             {{#each modules}}
                             <option value="{{module_id}}">{{name}}</option>
                             {{/each}}
-                            {{!-- <option value="1">Module 1</option>
-                            <option value="2">Module 2</option> --}}
                         </select>
                     </div>
                 </div>
@@ -220,14 +201,6 @@
                                 {{name}}
                             </div>
                             {{/each}}
-                            {{!-- <div>
-                                <i class="bi bi-folder"></i>
-                                Modules 1
-                            </div>
-                            <div>
-                                <i class="bi bi-folder"></i>
-                                Modules 2
-                            </div> --}}
                         </div>
                     </div>
                     <div class="col-7 offset-1" style="background-color: #FFFFFF; border-radius: 5%;">
@@ -245,16 +218,6 @@
                                         <td class="testcase-code">{{this.testcase_id}}</td>
                                         <td class="testcase-name">{{this.name}}</td>
                                     </tr>
-                                    {{!-- <tr>
-                                        <td><input type="checkbox" class="testcase-checkbox"></td>
-                                        <td class="testcase-code">TC001</td>
-                                        <td class="testcase-name">Testcase 1</td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="testcase-checkbox"></td>
-                                        <td class="testcase-code">TC002</td>
-                                        <td class="testcase-name">Testcase 2</td>
-                                    </tr> --}}
                                 </tbody>
                                 {{/each}}
                             </table>
@@ -306,14 +269,6 @@
                                 {{this.name}}
                             </div>
                             {{/each}}
-                            {{!-- <div>
-                                <i class="bi bi-folder"></i>
-                                Functionality
-                            </div>
-                            <div>
-                                <i class="bi bi-folder"></i>
-                                Validation
-                            </div> --}}
                         </div>
                     </div>
                     <div class="col-7 offset-1" style="background-color: #FFFFFF; border-radius: 5%;">
@@ -332,16 +287,6 @@
                                         <td class="requirement-name">{{this.requirement_name}}</td>
                                     </tr>
                                     {{/each}}
-                                    {{!-- <tr>
-                                        <td><input type="checkbox"></td>
-                                        <td class="testcase-code">R001</td>
-                                        <td class="testcase-name">Requirement 1</td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox"></td>
-                                        <td class="testcase-code">R002</td>
-                                        <td class="testcase-name">Requirement 2</td>
-                                    </tr> --}}
                                 </tbody>
                             </table>
                         </div>

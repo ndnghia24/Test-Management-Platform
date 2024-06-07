@@ -10,14 +10,26 @@
     color: #969696;
 }
 
-.table .plan-code {
+.table .plan-code-col {
     color: #232360;
     font-weight: 700;
 }
 
-.table .test-plan-name,.test-description,.release {
-    font-weight: 600;
+.table .test-plan-code {
+    color: #232360;
+    font-weight: 400;
+    opacity: 0.95;
+}
+
+.table .test-plan-name-col,.table .test-description-col,.table .release-col {
+    font-weight: 700;
     color: #1EA7FF !important;
+}
+
+.table .test-plan-name,.table .test-plan-description,.table .release {
+    font-weight: 400;
+    color: #1EA7FF !important;
+    opacity: 0.95;
 }
 
 @media screen and (max-width: 994px) {

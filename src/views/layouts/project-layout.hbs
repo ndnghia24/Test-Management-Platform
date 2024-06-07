@@ -6,13 +6,13 @@
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    
+
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link href="/css/project.css" rel="stylesheet">
-    
+
     {{#if cssFile}}
     <link href="/css/{{cssFile}}" rel="stylesheet">
     {{/if}}
@@ -25,12 +25,14 @@
                 style="min-height: 60px; padding: 0; width: 100%;">
                 <div class="col-auto">
                     <a href="#home">
-                        <img class="logo" src="/img/app-icon.png" alt="logo" style="height: 40px; width: 40px; margin-left: 40px;" />
+                        <img class="logo" src="/img/app-icon.png" alt="logo"
+                            style="height: 40px; width: 40px; margin-left: 40px;" />
                     </a>
                 </div>
                 <div class="col-auto search-bar">
                     <div class="form">
-                        <input type="text" id="search-input" class="form-control" placeholder="Search anything ..." style="color: #23235F; font-weight: 300;" />
+                        <input type="text" id="search-input" class="form-control" placeholder="Search anything ..."
+                            style="color: #23235F; font-weight: 300;" />
                         <i class="bi bi-search" style="opacity: 50%;"></i>
                     </div>
                 </div>
@@ -38,7 +40,8 @@
                     <i class="bi bi-bell fs-4 hover-icon"></i>
                     <i class="bi bi-person-circle fs-4 hover-icon" style="margin-left: 20px;"></i>
                     <div class="dropdown-button" style="display: inline;">
-                        <a class="" type="button" id="dropDownMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #000;">
+                        <a class="" type="button" id="dropDownMenu" data-bs-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false" style="color: #000;">
                             <i class="bi bi-chevron-down" style="color: #5051F9;"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropDownMenu">
@@ -50,7 +53,7 @@
                 </div>
             </div>
             <div class="main flex-grow-1" style="display: flex; flex-direction: row; width: 100%;">
-                <div class="sidebar" style="width: 120px;">
+                <div class="sidebar d-flex flex-column justify-content-evenly" style="width: 120px;">
                     <a href="#home">
                         <div class="sidebar-element">
                             <div class="icon">
@@ -112,7 +115,8 @@
                         </div>
                     </a>
                 </div>
-                <div class="main-content" style="background-color: #f3f4f8; display: flex; flex-direction: column; width: calc(100% - 120px);">
+                <div class="main-content"
+                    style="background-color: #f3f4f8; display: flex; flex-direction: column; width: calc(100% - 120px);">
                     <div class="d-flex align-items-center navigation-container" style="height:7vh; min-height: 50px;">
                         <div id="slideLeft" class="scroll-button left-scroll">
                             <div class="inner-icon">
@@ -135,7 +139,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="project-info d-flex justify-content-between align-items-center" style="height: 8vh; text-align: center; margin: 0 80px; min-height: 70px;">
+                    <div class="project-info d-flex justify-content-between align-items-center"
+                        style="height: 8vh; text-align: center; margin: 0 80px; min-height: 70px;">
                         <nav class="project-detail-nav" style="display: inline-block;">
                             <a href="#">Project</a>
                             <a href="#">Instagram App</a>
@@ -150,12 +155,29 @@
         </div>
     </div>
 
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="right-below-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="/img/app-icon.png" class="rounded me-2" alt="..." style="height: 1.2rem;">
+                <strong class="me-auto">Server Notification</strong>
+                <small>Just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body"></div>
+        </div>
+    </div>
+
     {{{content "modal"}}}
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     <script src="/js/navBarResponsive.js"></script>
+    <script src="/js/showToast.js"></script>
+    <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    </script>
 
     {{{content "script"}}}
 </body>
