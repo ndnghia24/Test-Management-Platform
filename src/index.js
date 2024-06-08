@@ -42,6 +42,7 @@ app.use(express.urlencoded({ extended: false }));
 app.get("/", (req, res) => {
   res.redirect('/project');
 })
+
 app.use("/project", require("./routes/projectRouter"));
 
 

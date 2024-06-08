@@ -43,7 +43,7 @@ controller.getTestPlan = async (req, res) => {
 }
 
 controller.addTestPlan = async (req, res) => {
-    console.log('Adding test plan');   
+    const t = await db.sequelize.transaction();
     try {
         const project_id = req.params.id;
         const { name, release, description } = req.body;
@@ -55,10 +55,13 @@ controller.addTestPlan = async (req, res) => {
             release: release,
             description: description,
             project_id: project_id
-        });
+        }, { transaction: t });
+
+        await t.commit();
 
         res.status(200).send({ success: true});
     } catch (error) {
+        await t.rollback();
         console.error('Error creating test plan:', error);
         res.status(500).send({ success: false, error: error });
     }
@@ -66,7 +69,7 @@ controller.addTestPlan = async (req, res) => {
 
 controller.editTestPlan = async (req, res) => {
     try {
-        // const project_id = req.params.id;
+        const t = await db.sequelize.transaction();
         const planCode  = req.query.planCode;
         const { name, release, description } = req.body;
 
@@ -79,10 +82,12 @@ controller.editTestPlan = async (req, res) => {
                 testplan_id: planCode,
                 // project_id: project_id
             }
-        });
+        }, { transaction: t });
+        await t.commit();
 
         res.status(200).send({ success: true });
     } catch (error) {
+        await t.rollback();
         console.error('Error updating test plan:', error);
         res.status(500).send({ success: false, error: error });
     }
@@ -90,7 +95,7 @@ controller.editTestPlan = async (req, res) => {
 
 controller.deleteTestPlan = async (req, res) => {
     try {
-        // const project_id = req.params.id;
+        const t = await db.sequelize.transaction();
         const planCode = req.query.planCode;
 
         await db.test_plans.destroy({
@@ -98,10 +103,12 @@ controller.deleteTestPlan = async (req, res) => {
                 testplan_id: planCode,
                 // project_id: project_id
             }
-        });
+        }, { transaction: t });
+        await t.commit();
 
         res.status(200).send({ success: true });
     } catch (error) {
+        await t.rollback();
         console.error('Error deleting test plan:', error);
         res.status(500).send({ success: false, error: error });
     }

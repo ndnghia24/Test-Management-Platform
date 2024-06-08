@@ -1,0 +1,49 @@
+<div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content align-items-center"
+            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
+            <div class="modal-header" style="border-bottom: none;">
+                <p class="modal-title fs-3" id="modalTitleId">
+                    Add New Test Plan
+                </p>
+            </div>
+            <div class="modal-body" style="border-bottom: none; width: 100%;">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="test-plan-name">
+                            Plan's Name <span style="color: #F0270C;">*</span> :
+                        </label>
+                        <input id="test-plan-name" type="text" name="test-plan-name" class="form-control"
+                            placeholder="Test Plan's name">
+                    </div>
+                    <div class="col-4 offset-1">
+                        <label for="release">
+                            Release <span style="color: #F0270C;">*</span> :
+                        </label>
+                        <select id="release" name="release" class="form-select" aria-label="Default select example"
+                            required>
+                            {{#each releases}}
+                            <option value="{{release_id}}">{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div>
+                        <lable for="description">
+                            Description <span style="color: #F0270C;">*</span> :
+                        </lable>
+                        <textarea id="description" name="description" class="form-control" placeholder="Description"
+                            rows="4"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none;">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary" onclick="onSaveButtonClick()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

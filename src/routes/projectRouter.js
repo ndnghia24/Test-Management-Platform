@@ -51,9 +51,9 @@ router.get("/:id/issue", (req,res) => {
     });
 });
 
-router.get("/",(req,res) => {
-    res.redirect("/home");
-});
+// router.get("/",(req,res) => {
+//     res.redirect("/home");
+// });
 
 router.get("/:id", (req,res) => {
     res.redirect("/project/" + req.params.id + "/overview");

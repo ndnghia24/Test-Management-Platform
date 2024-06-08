@@ -8,19 +8,19 @@ controller.getTestCase = async (req,res) => {
         const [testCases, modules, requirements, requirementTypes] = await Promise.all([
             db.sequelize.query(
                 'SELECT testcase_id, name FROM test_cases WHERE project_id = ? ORDER BY testcase_id',
-                { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT }
+                { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
             ),
             db.sequelize.query(
                 'SELECT name, module_id FROM modules WHERE project_id = ?',
-                { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT }
+                { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
             ),
             db.sequelize.query(
                 'SELECT requirement_id AS requirement_code, name AS requirement_name FROM requirements WHERE project_id = ? ORDER BY requirement_id',
-                { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT }
+                { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
             ),
             db.sequelize.query(
                 'SELECT name FROM requirement_types WHERE project_id = ?',
-                { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT }
+                { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
             )
         ]);
 
@@ -40,6 +40,7 @@ controller.getTestCase = async (req,res) => {
 }
 
 controller.addTestCase = async (req,res) => {
+    const t = await db.sequelize.transaction();
     try {
         const projectId = req.params.id;
         const { testcaseName, module_id, description, testcaseStep, linkingTestcase ,linkingRequirement } = req.body;
@@ -55,7 +56,8 @@ controller.addTestCase = async (req,res) => {
             module_id: module_id,
             description: description,
             created_by: 1,   
-            project_id: projectId
+            project_id: projectId,
+        }, { transaction: t
         });
 
         const testcaseId = testcase.testcase_id;
@@ -64,8 +66,8 @@ controller.addTestCase = async (req,res) => {
             await db.test_case_step.create({
                 description: step.description,
                 expected_result: step.expectedResult,
-                testcase_id: testcaseId
-            });
+                testcase_id: testcaseId,
+            }, { transaction: t});
         }
 
         for (let linking of linkingTestcase) { 
@@ -73,7 +75,7 @@ controller.addTestCase = async (req,res) => {
             await db.test_case_linking.create({
                 testcase_id: testcaseId,
                 linking_testcase_id: linking
-            });
+            }, { transaction: t});
         }
 
         for (let linking of linkingRequirement) {
@@ -81,11 +83,14 @@ controller.addTestCase = async (req,res) => {
             await db.test_case_requirement.create({
                 testcase_id: testcaseId,
                 requirement_id: linking
-            });
+            }, { transaction: t});
         }
+
+        await t.commit();
 
         res.status(200).send({ success: true});
     } catch (error) {
+        await t.rollback();
         console.error('Error creating test case:', error);
         res.status(500).send({ success: false, error: error });
     }

@@ -1,0 +1,65 @@
+<div class="modal fade" id="edit-testcase-modal" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-fullscreen modal-xl" role="document">
+        <div class="modal-content align-items-center"
+            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8; height: 60vh;">
+            <div class="modal-header" style="border-bottom: none; width: 100%;">
+                <p class="modal-title fs-3" id="modalTitleId" style="margin-left: auto; margin-right: auto;">
+                    Edit testcase
+                </p>
+            </div>
+            <div class="modal-body d-flex flex-column" style="border-bottom: none; width: 100%; overflow-y: auto;">
+                <div class="row mb-3">
+                    <p style="color: #9C9C9C; font-weight: 600;">Linking to Project's Requirements</p>
+                </div>
+                <div class="row mb-3 flex-grow-1">
+                    <div class="col-4" style="background-color: #FFFFFF; border-radius: 5%; overflow-y: auto;">
+                        <div class="d-flex justify-content-between align-items-center p-3"
+                            style="border-bottom: solid rgba(150,150,150,0.2) 1px; height: fit-content">
+                            <p style="color:#232360; font-size: 1.1rem; padding: 0; margin: 0; font-weight: bold;">
+                                Requirement</p>
+                        </div>
+                        <div class="d-flex flex-column gap-1 modules-list px-3 py-1"
+                            style="color: #232360; font-weight: 700; font-size: 1rem;">
+                            {{#each requirements_type}}
+                            <div>
+                                <i class="bi bi-folder"></i>
+                                {{this.name}}
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                    <div class="col-7 offset-1" style="background-color: #FFFFFF; border-radius: 5%;">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <th class="col-1" style="opacity: 0;"><input type="checkbox"></th>
+                                    <th class="col-4">Requirement Code</th>
+                                    <th class="col-7">Requirement Title</th>
+                                </thead>
+                                <tbody>
+                                    {{#each requirements}}
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td class="requirement-code">{{this.requirement_code}}</td>
+                                        <td class="requirement-name">{{this.requirement_name}}</td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer gap-4" style="border-top: none;">
+                <button type="button" class="btn btn-secondary back-button"
+                    style="background-color: #D34164; color: #FBE416; border: none; border-radius: 10px; padding: 10px 40px; font-weight: 600;"
+                    data-back="#modal3">
+                    Go back
+                </button>
+                <button type="button" class="btn save-button"
+                    style="background-color: #41D37E; color: #23235F; border: none; border-radius: 10px; padding: 10px 40px; font-weight: 600;"
+                    data-bs-dismiss="modal" onclick="onModal4SaveClick()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
