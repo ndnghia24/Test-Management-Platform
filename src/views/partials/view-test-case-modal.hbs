@@ -1,4 +1,4 @@
-<div class="modal fade" id="edit-test-case" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+<div class="modal fade" id="view-test-case" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
     aria-hidden="true" data-testplan-code="">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" role="document">
         <div class="modal-content align-items-center"
@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="col-6 offset-2">
                                     <input id="test-case-name" type="text" name="test-case-name" class="form-control"
-                                        placeholder="Testcase name">
+                                        placeholder="Testcase name" disabled>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="col-6 offset-2">
                                     <input id="test-case-module" type="text" name="test-case-name" class="form-control"
-                                        placeholder="Module name">
+                                        placeholder="Testcase name" disabled>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -57,12 +57,10 @@
                                         Testcase Description:
                                     </label>
                                     <textarea id="test-case-description" name="test-case-description"
-                                        class="form-control" placeholder="Testcase description" rows="5"></textarea>
+                                        class="form-control" placeholder="Testcase description" rows="5"
+                                        disabled></textarea>
                                 </div>
                             </div>
-                            <button class="btn btn-sucess test-case-overview-apply">
-                                Apply
-                            </button>
                         </div>
                         <div class="tab-pane fade" id="v-pills-step" role="tabpanel" aria-labelledby="v-pills-step-tab"
                             tabindex="0">
@@ -75,14 +73,16 @@
                                             <th class="col-4 offset-1">Expected Result</th>
                                         </thead>
                                         <tbody class="test-case-step-body-table">
-
+                                            {{!-- {{#each showTestcases}}
+                                            <tr>
+                                                <td>{{this.testcase_id}}</td>
+                                                <td>{{this.name}}</td>
+                                            </tr>
+                                            {{/each}} --}}
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            <button class="btn btn-sucess test-case-step-apply">
-                                Apply
-                            </button>
                         </div>
                         <div class="tab-pane fade" id="v-pills-testcase" role="tabpanel"
                             aria-labelledby="v-pills-testcase-tab" tabindex="0">
@@ -91,38 +91,40 @@
                                     <table class="table">
                                         <thead>
                                             <th class="col-4">Testcase Code</th>
-                                            <th class="col-4 offset-2">Testcase Title</th>
-                                            <th class="col-2">Delete</th>
+                                            <th class="col-6 offset-2">Testcase Title</th>
                                         </thead>
                                         <tbody class="test-case-linking-testcases-body-table">
-
+                                            {{!-- {{#each showTestcases}}
+                                            <tr>
+                                                <td>{{this.testcase_id}}</td>
+                                                <td>{{this.name}}</td>
+                                            </tr>
+                                            {{/each}} --}}
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            <button class="btn btn-sucess test-case-linking-apply">
-                                Apply
-                            </button>
                         </div>
                         <div class="tab-pane fade" id="v-pills-requirement" role="tabpanel"
                             aria-labelledby="v-pills-requirement-tab" tabindex="0">
-                            <div style="width: 100%; background-color: #FFFFFF; border-radius: 10px;">
+                                                        <div style="width: 100%; background-color: #FFFFFF; border-radius: 10px;">
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
                                             <th class="col-4">Requirement Code</th>
-                                            <th class="col-4 offset-2">Requirement Title</th>
-                                            <th class="col-2">Delete</th>
+                                            <th class="col-6 offset-2">Requirement Title</th>
                                         </thead>
                                         <tbody class="test-case-linking-requirements-body-table">
-
+                                            {{!-- {{#each showRequirements}}
+                                            <tr>
+                                                <td>{{this.requirement_id}}</td>
+                                                <td>{{this.name}}</td>
+                                            </tr>
+                                            {{/each}} --}}
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            <button class="btn btn-sucess requirement-linking-apply">
-                                Apply
-                            </button>
                         </div>
                     </div>
                 </div>

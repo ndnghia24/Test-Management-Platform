@@ -48,6 +48,16 @@ table.table .testcase-name,table.table .requirement-name{
     font-weight: 700;
 }
 
+#view-test-case td{
+    font-weight: 500;
+    color: #232360;
+}
+
+#edit-test-case td{
+    font-weight: 500;
+    color: #232360;
+}
+
 @media screen and (max-width: 1415px) {
     .main-area .content {
         padding: 10px !important;

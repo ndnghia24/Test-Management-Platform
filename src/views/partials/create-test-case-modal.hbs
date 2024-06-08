@@ -19,7 +19,8 @@
                         <label for="module">Select Module:</label>
                     </div>
                     <div class="col-7 offset-2">
-                        <select id="module-select" name="module" class="form-control" aria-label="Default select example">
+                        <select id="module-select" name="module" class="form-control"
+                            aria-label="Default select example">
                             {{#each modules}}
                             <option value="{{module_id}}">{{name}}</option>
                             {{/each}}
@@ -31,7 +32,8 @@
                         <lable for="testcase-description">
                             Description:
                         </lable>
-                        <textarea id="testcase-description" name="testcase-description" class="form-control" placeholder="Description" rows="4"></textarea>
+                        <textarea id="testcase-description" name="testcase-description" class="form-control"
+                            placeholder="Description" rows="4"></textarea>
                     </div>
                 </div>
             </div>
@@ -62,13 +64,15 @@
                 <div class="row mb-3">
                     <div class="col-6">
                         <label for="description">Description <span style="color: #F0270C;">*</span>:</label>
-                        <textarea id="description" name="description" class="form-control first-testcaseStep-description" placeholder="Description"
+                        <textarea id="description" name="description"
+                            class="form-control first-testcaseStep-description" placeholder="Description"
                             rows="4"></textarea>
                     </div>
                     <div class="col-6">
                         <label for="expected-result">Expected Result <span style="color: #F0270C;">*</span>:</label>
-                        <textarea id="expected-result" name="expected-result" class="form-control first-testcaseStep-expected-result"
-                            placeholder="Expected Result" rows="4"></textarea>
+                        <textarea id="expected-result" name="expected-result"
+                            class="form-control first-testcaseStep-expected-result" placeholder="Expected Result"
+                            rows="4"></textarea>
                     </div>
                 </div>
             </div>
@@ -133,8 +137,8 @@
                                         <td class="testcase-code">{{this.testcase_id}}</td>
                                         <td class="testcase-name">{{this.name}}</td>
                                     </tr>
+                                    {{/each}}
                                 </tbody>
-                                {{/each}}
                             </table>
                         </div>
                     </div>

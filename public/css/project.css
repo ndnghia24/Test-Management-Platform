@@ -234,7 +234,7 @@ h3 {
         width: 40%;
     }
     .sidebar {
-        display: none;
+        display: none !important;
     }
     .logo {
         margin-left: 10px !important;

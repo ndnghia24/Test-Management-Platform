@@ -1,5 +1,7 @@
 const controller = {};
+const { where } = require('sequelize');
 const db = require('../../models/index');
+const { raw } = require('express');
 
 controller.getTestCase = async (req,res) => {
     try {
@@ -94,6 +96,77 @@ controller.addTestCase = async (req,res) => {
         console.error('Error creating test case:', error);
         res.status(500).send({ success: false, error: error });
     }
+}
+
+controller.deleteTestCase = async (req,res) => {
+    const t = await db.sequelize.transaction();
+    try {
+        const testcaseId = req.query.testcaseId;
+        console.log('testcaseId',testcaseId);
+        
+        await Promise.all([
+            db.test_case_requirement.destroy({ where: { testcase_id: testcaseId }},{ transaction: t}),
+            db.test_case_linking.destroy({ where: { testcase_id: testcaseId }},{ transaction: t}),
+            db.test_case_step.destroy({ where: { testcase_id: testcaseId }},{ transaction: t}),
+        ]);
+
+        await db.test_cases.destroy({ where: { testcase_id: testcaseId }},{ transaction: t});
+        
+        await t.commit();
+        res.status(200).send({ success: true });
+    } catch (error) {
+        await t.rollback();
+        console.error('Error deleting test case:', error);
+        res.status(500).send({ success: false, error: error });
+    }
+}
+
+controller.getSpecifyTestCase = async (req,res) => {
+    const testcaseId = req.query.testcaseId;
+    
+    try {
+        const [testcase, steps, linkingTestcases, linkingRequirements] = await Promise.all([
+            db.sequelize.query(
+                'SELECT t.name AS testcase_name, m.name AS module_name, t.description AS testcase_description ' +
+                'FROM test_cases AS t, modules AS m ' +
+                'WHERE testcase_id = ?' +
+                'AND t.module_id = m.module_id', { replacements: [testcaseId], type: db.sequelize.QueryTypes.SELECT, raw: true},
+            ),
+
+            db.sequelize.query(
+                'SELECT description AS step_description, expected_result AS step_result ' +
+                'FROM test_case_step ' +
+                'WHERE testcase_id = ? ' +
+                'ORDER BY testcase_step_id', { replacements: [testcaseId], type: db.sequelize.QueryTypes.SELECT, raw: true}
+            ),
+            
+            db.sequelize.query(
+                'SELECT tl.linking_testcase_id AS testcase_code, t.name AS testcase_name ' +
+                'FROM test_case_linking AS tl, test_cases AS t ' +
+                'WHERE tl.testcase_id = ? ' +
+                'AND tl.linking_testcase_id = t.testcase_id', { replacements: [testcaseId], type: db.sequelize.QueryTypes.SELECT, raw: true}
+            ),
+
+            db.sequelize.query(
+                'SELECT tr.requirement_id AS requirement_code, r.name AS requirement_name ' +
+                'FROM test_case_requirement AS tr, requirements AS r ' +
+                'WHERE tr.testcase_id = ? ' +
+                'AND tr.requirement_id = r.requirement_id', { replacements: [testcaseId], type: db.sequelize.QueryTypes.SELECT, raw: true}    
+            )
+        ])
+
+        console.log('testcase',testcase);
+        console.log('steps',steps);
+        console.log('linkingTestcases',linkingTestcases);
+        console.log('linkingRequirements',linkingRequirements);
+
+        res.status(200).send({ success: true, testcase: testcase[0], steps: steps, linkingTestcases: linkingTestcases, linkingRequirements: linkingRequirements});
+
+    } catch (error) {
+        console.error('Error viewing test case:', error);
+        res.status(500).send({ success: false, error: error });
+    }
+
 }
 
 module.exports = controller;
