@@ -1,0 +1,89 @@
+/* CSS for Navbar Link Hover Effect */
+.navbar-search {
+    margin: auto;
+}
+
+.navbar-nav .nav-item .dropdown-toggle::after {
+    display: none !important;
+}
+
+.navbar-nav a {
+    color: #232360 !important;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+    position: relative;
+    transition: color 0.3s;
+}
+
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 4px;
+    border-radius: 2px;
+    background-color: transparent;
+    transition: background-color 0.3s;
+    margin-left: 5%;
+    width: 90%;
+}
+
+
+
+/*Nav bar*/
+/* apply this eff only for xl size or smaller*/
+@media (max-width: 1199px) {
+    #navbarSupportedContent {
+        padding-top: 10px;
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #232360;
+    }
+    
+    #navbarSupportedContent .nav-item {
+        margin: 0 0.6rem;
+        padding-left: 0.2rem;
+    }
+
+    .navbar-nav .nav-link:hover {
+        background-color: whitesmoke;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-radius: 5px;
+        background-color: beige;
+    }
+    
+    .navbar-nav .nav-link:hover::after {
+        background-color: whitesmoke;
+    }
+    
+    .navbar-nav .nav-item.active .nav-link::after {
+        background-color: whitesmoke;
+    }
+}
+
+@media (min-width: 1200px) {
+    #navbarSupportedContent {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #232360;
+    }
+    
+    #navbarSupportedContent .nav-item {
+        margin: 0 0.6rem;
+    }
+
+    .navbar-nav .nav-link:hover {
+        color: #5051f9;
+    }
+    
+    .navbar-nav .nav-link:hover::after {
+        background-color: #5051f9;
+    }
+    
+    .navbar-nav .nav-item.active .nav-link::after {
+        background-color: #5051f9;
+    }
+}
