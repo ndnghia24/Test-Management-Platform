@@ -123,16 +123,27 @@
     function displayModules(modules, containerId, onClickFunction) {
         const container = document.getElementById(containerId);
         container.innerHTML = '';
+
         if (!modules || modules.length === 0) {
-            return;
-        }else {
+            // Nếu không có mô-đun hoặc mảng mô-đun rỗng
+            const emptyModuleItem = document.createElement('div');
+            emptyModuleItem.className = 'card';
+            emptyModuleItem.style = 'border: 2px dashed #000;';
+            
+            const cardBody = document.createElement('div');
+            cardBody.className = 'card-body d-flex align-items-center justify-content-center';
+            cardBody.textContent = 'Click to add new module';
+
+            emptyModuleItem.appendChild(cardBody);
+            container.appendChild(emptyModuleItem);
+        } else {
             modules.forEach(module => {
-            const moduleItem = document.createElement('div');
-            moduleItem.className = 'module-item';
-            moduleItem.innerHTML = `<i class="fa fa-folder-open"></i> ${module.name}`;
-            moduleItem.onclick = () => onClickFunction(module.module_id, module.level);
-            container.appendChild(moduleItem);
-        });
+                const moduleItem = document.createElement('div');
+                moduleItem.className = 'module-item';
+                moduleItem.innerHTML = `<i class="fa fa-folder-open"></i> ${module.name}`;
+                moduleItem.onclick = () => onClickFunction(module.module_id, module.level);
+                container.appendChild(moduleItem);
+            });
         }
     }
 
