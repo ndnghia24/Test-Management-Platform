@@ -5,8 +5,7 @@ const controller = require("../controllers/projectController");
 //PROJECT SUPPORT ROUTES
 router.get("/:id/getAllModule", controller.getModule);
 router.get("/:id/getAllRequirement", controller.getRequirement);
-
-
+router.get("/:id/getAllTestCase", controller.getAllTestCase);
 
 //TESTPLAN
 router.get("/:id/testplan", controller.test_planController.getTestPlan);
@@ -20,11 +19,6 @@ router.get("/:id/testcase/getTestCase", controller.test_caseController.getSpecif
 router.post("/:id/testcase/addTestCase", controller.test_caseController.addTestCase);
 router.delete("/:id/testcase/deleteTestCase", controller.test_caseController.deleteTestCase);
 
-<<<<<<< HEAD
-router.get("/:id/getAllModule", controller.getModule);
-router.get("/:id/getAllRequirement", controller.getRequirement);
-router.get("/:id/getAllTestCase", controller.getAllTestCase);
-=======
 //MODULE
 router.get("/:id/module", controller.moduleController.getModule);
 
@@ -40,7 +34,6 @@ router.get("/:id/overview", controller.overviewController.getOverview);
 //REPORT
 router.get("/:id/report", controller.reportController.getReport);
 
->>>>>>> f6917ce3febd4e42e2ceec0302662c7f2e6590fc
 
 // router.put("/:id/testcase/editTestCaseLinking", controller.test_caseController.editTestCase);
 // router.put("/:id/testcase/editTestCaseRequirement", controller.test_caseController.editTestCase);

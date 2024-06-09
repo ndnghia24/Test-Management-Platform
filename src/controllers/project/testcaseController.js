@@ -4,12 +4,20 @@ const db = require('../../models/index');
 const { raw } = require('express');
 
 controller.getTestCase = async (req,res) => {
+    // Set up pagination
+    const page = isNaN(req.query.page) ? 1 : Math.max(1,parseInt(req.query.page));
+    const limit = 12;
+    const offset = (page - 1) * limit;
     try {
         const projectId = req.params.id;
         
-        const [testCases, modules, requirements, requirementTypes] = await Promise.all([
+        const [testCases, testcaseNum, modules, requirements, requirementTypes] = await Promise.all([
             db.sequelize.query(
-                'SELECT testcase_id, name FROM test_cases WHERE project_id = ? ORDER BY testcase_id',
+                'SELECT testcase_id, name FROM test_cases WHERE project_id = ? ORDER BY testcase_id LIMIT ? OFFSET ?',
+                { replacements: [projectId,limit,offset], type: db.sequelize.QueryTypes.SELECT}
+            ),
+            db.sequelize.query(
+                'SELECT COUNT(*) AS count FROM test_cases WHERE project_id = ?',
                 { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
             ),
             db.sequelize.query(
@@ -34,6 +42,11 @@ controller.getTestCase = async (req,res) => {
             title: 'Tetto',
             cssFile: 'test-case-view.css',
             projectId: projectId,
+            pagination: {
+                page: page,
+                limit: limit,
+                totalRows: testcaseNum[0].count
+            }
         });
     } catch (error) {
         console.error('Error fetching data:', error);
