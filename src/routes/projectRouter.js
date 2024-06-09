@@ -25,6 +25,7 @@ router.post("/:id/module/addModule", controller.moduleController.addModule);
 //REQUIREMENT & REQUIREMENT TYPE
 router.get("/:id/requirement", controller.requirementController.getRequirement);
 router.get("/:id/requirement/getRequirement", controller.requirementController.getSpecifyRequirement);
+router.get("/:id/requirement/getRequirementByTypeFilter", controller.requirementController.getRequirementByTypeFilter);
 router.post("/:id/requirement/addRequirement", controller.requirementController.addRequirement);
 router.put("/:id/requirement/editRequirement", controller.requirementController.editRequirement);
 router.delete("/:id/requirement/deleteRequirement", controller.requirementController.deleteRequirement);

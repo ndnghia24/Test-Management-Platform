@@ -3,8 +3,9 @@
 
 <div class="container-fluid mt-3">
     <div class="row">
+        {{#if modules_level_1}}
         <div class="col-sm-4">
-            <div class="card custom-card">
+            <div class="modules-level-1 card custom-card">
                 <!-- Header của card -->
                 <div class="card-header bg-white border-0 align-items-center">
                     <div class="row">
@@ -19,25 +20,26 @@
                 <div class="card-body p-0">
                     <div class="d-flex flex-column gap-3 modules-list px-4 py-3"
                         style="color: #232360; font-weight: 700; font-size: 1.1rem;">
+                        {{#each modules_level_1}}
                         <div class="module-item">
                             <i class="fa fa-folder-open"></i>
-                            Home Page
+                            {{this.name}}
                         </div>
-                        <div class="module-item">
-                            <i class="fa fa-folder"></i>
-                            Footer Section
-                        </div>
+                        {{/each}}
                     </div>
                 </div>
             </div>
         </div>
+        {{/if}}
+
+        {{#if modules_level_2}}
         <div class="col-sm-4">
-            <div class="card custom-card">
+            <div class="modules-level-2 card custom-card">
                 <!-- Header của card -->
                 <div class="card-header bg-white border-0 align-items-center">
                     <div class="row">
                         <div class="col">
-                            <h3 class="card-title">Home Page</h3>
+                            <h3 class="card-title">Sub Modules</h3>
                         </div>
                     </div>
                 </div>
@@ -47,29 +49,26 @@
                 <div class="card-body p-0">
                     <div class="d-flex flex-column gap-3 modules-list px-4 py-3"
                         style="color: #232360; font-weight: 700; font-size: 1.1rem;">
-                        <div class="module-item">
-                            <i class="fa fa-folder"></i>
-                            Header Section
-                        </div>
+                        {{#each modules_level_2}}
                         <div class="module-item">
                             <i class="fa fa-folder-open"></i>
-                            Content
+                            {{this.name}}
                         </div>
-                        <div class="module-item">
-                            <i class="fa fa-folder"></i>
-                            Detail
-                        </div>
+                        {{/each}}
                     </div>
                 </div>
             </div>
         </div>
+        {{/if}}
+
+        {{#if modules_level_3}}
         <div class="col-sm-4">
-            <div class="card custom-card">
+            <div class="modules-level-3 card custom-card">
                 <!-- Header của card -->
                 <div class="card-header bg-white border-0 align-items-center">
                     <div class="row">
                         <div class="col">
-                            <h3 class="card-title">Content</h3>
+                            <h3 class="card-title">SubSub Modules</h3>
                         </div>
                     </div>
                 </div>
@@ -79,16 +78,23 @@
                 <div class="card-body p-0">
                     <div class="d-flex flex-column gap-3 modules-list px-4 py-3"
                         style="color: #232360; font-weight: 700; font-size: 1.1rem;">
-                        <!-- card with dash line border with bootstrap-->
+                        <!-- card with dash line border with bootstrap
                         <div class="card" style="border: 2px dashed #000;">
                             <div class="card-body d-flex align-items-center justify-content-center">
                                 Click to add new module
-                            </div>
+                            </div>-->
+                        {{#each modules_level_3}}
+                        <div class="module-item">
+                            <i class="fa fa-folder-open"></i>
+                            {{this.name}}
+                        </div>
+                        {{/each}}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        {{/if}}
     </div>
 </div>
 
