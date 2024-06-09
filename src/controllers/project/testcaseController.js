@@ -34,6 +34,8 @@ controller.getTestCase = async (req,res) => {
             )
         ]);
 
+        console.log('testCases',modules);
+
         res.locals.requirements_type = requirementTypes;
         res.locals.requirements = requirements;
         res.locals.testcases = testCases;

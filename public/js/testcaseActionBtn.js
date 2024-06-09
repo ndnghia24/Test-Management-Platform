@@ -206,9 +206,10 @@ function renderTestCaseDetailsForEdit(data) {
     let steps = data.steps;
     let module_id = data.testcase.module_id;
 
-    fetch(window.location.pathname.split('/testcase')[0] + '/getAllModule')
+    fetch(window.location.pathname.split('/testcase')[0] + '/module/getModule')
         .then(response => response.json())
         .then(data => {
+            console.log(data);
             modal.find('#test-case-module').empty();
             data.modules.forEach(module => {
                 let option = `<option value="${module.module_id}">${module.name}</option>`;
