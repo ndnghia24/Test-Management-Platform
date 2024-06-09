@@ -100,6 +100,10 @@ nav.project-detail-nav a:not(:last-child):after{
     cursor: pointer;
 }
 
+.sidebar {
+    height: 866px !important;
+}
+
 .sidebar a {
     display: block;
     color: black;

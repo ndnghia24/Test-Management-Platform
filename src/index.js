@@ -36,7 +36,6 @@ app.engine(
       eq: function (a, b) {
         return a === b;
       },
-
     },
   })
 );
