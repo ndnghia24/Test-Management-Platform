@@ -178,13 +178,13 @@
                 </div>
 
                 <div class="col text-center border-left border-right d-none d-sm-block">
-                    <div class="fw-medium fs-6 color-black">
+                    <div class="fw-medium fs-6 {{statusColor status}}">
                         {{status}}
                     </div>
                 </div>
 
                 <div class="col text-center border-left border-right d-none d-sm-block">
-                    <div class="fw-medium fs-6 color-red">
+                    <div class="fw-medium fs-6 {{priorityColor priority}}">
                         {{priority}}
                     </div>
                 </div>
@@ -207,6 +207,7 @@
     </div>
 </div>
 {{/each}}
+
 <!-- next page -->
 <div class="container-fluid row align-items-center justify-content-center mt-4">
     <div class="col-4 text-center">
