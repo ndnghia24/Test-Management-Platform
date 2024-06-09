@@ -29,7 +29,8 @@
     <span
       class="button-blue p-md-2 p-sm-1 ms-3 hover-to-bg-darken-blue clickable"
       id="save-change-button"
-      onclick="location.href='../../HTML/Dev/issues_detail.html';"
+      data-issue-id="{{issue.issue_id}}"
+      onclick="updateIssue(this)"
     >
       <span class="color-deep-violet fw-medium fs-5 pe-2 ps-2">Save</span>
     </span>
@@ -69,6 +70,7 @@
         Status :
       </div>
       <select
+        id="status-dropdown"
         class="fw-medium fs-6 p-2 mt-1 color-sea full-width-box white-background"
         aria-label=".dropdown-for-issue-status"
       >
@@ -291,4 +293,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
 
 <script src="/js/addIssueModal.js"></script>
+<script src="/js/updateIssue.js?v=1"></script>
 {{/block}}
