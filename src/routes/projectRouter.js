@@ -54,7 +54,9 @@ router.get("/:id/overview", (req,res) => {
     });
 });
 
+//issue
 router.get("/:id/issues", controller.issuesController.getIssues);
+//issue-detail
 router.get("/:id/issues/getIssue", controller.issuesController.getSpecifyIssue);
 router.get("/:id/issues/editIssue", controller.issuesController.getEditIssue);
 router.put("/:id/issues/editIssue", controller.issuesController.editIssue);
