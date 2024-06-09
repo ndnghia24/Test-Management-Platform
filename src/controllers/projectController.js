@@ -6,6 +6,8 @@ controller.test_planController = require('../controllers/project/testplanControl
 controller.test_caseController = require('../controllers/project/testcaseController');
 controller.requirementController = require('../controllers/project/requirementController');
 
+//issue
+controller.issuesController = require('../controllers/project/issuesController');
 
 controller.getModule = async (req, res) => {
     try {

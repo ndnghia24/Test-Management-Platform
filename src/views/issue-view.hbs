@@ -6,7 +6,7 @@
         </span>
 
         <span class="number-button fw-bold fs-4 color-red" style="padding: 0px 15px; margin-left: 20px;">
-            5
+            {{issue_details.length}}
         </span>
     </div>
 
@@ -17,9 +17,9 @@
 
         <span class="fw-medium fs-6 color-gray" style="margin-left: 10px;">
             <select class="form-select-sm d-inline" aria-label=".dropdown-for-project-name">
-                <option selected>10</option>
-                <option value="1">20</option>
-                <option value="2">50</option>
+                <option selected>5</option>
+                <option value="1">7</option>
+                <option value="2">10</option>
             </select>
         </span>
     </div>
@@ -89,6 +89,7 @@
 </div>
 
 <!--issues-->
+{{#each issue_details}}
 <div class="task mt-4 p-2 hover-shadow-box">
     <div class="row align-items-center">
         <div class="col-1 d-flex align-items-center d-none d-lg-block text-center"
@@ -146,14 +147,14 @@
             <div class="task-description row align-items-center">
                 <div class="col col-sm-1 text-center p-0">
                     <div class="fw-medium fs-6 color-black border-right">
-                        BUG-001
+                        ISS-{{issue_id}}
                     </div>
                 </div>
 
 
                 <div class="col col-sm-3 text-center border-right">
                     <div class="fw-medium fs-6 color-black">
-                        Login with Google Failed
+                        {{title}}
                     </div>
                 </div>
 
@@ -162,7 +163,7 @@
                     <div class="col">
                         <i class="bi bi-person-circle color-green" style="font-size: 16pt;"></i>
                         <div class="fw-medium fs-6 color-black mt-0">
-                            BaoNinh
+                            {{created_by}}
                         </div>
                     </div>
                 </div>
@@ -171,20 +172,20 @@
                     <div class="col">
                         <i class="bi bi-person-circle color-blue" style="font-size: 16pt;"></i>
                         <div class="fw-medium fs-6 color-black mt-0">
-                            Nghia Nguyen
+                            {{assigned_to}}
                         </div>
                     </div>
                 </div>
 
                 <div class="col text-center border-left border-right d-none d-sm-block">
                     <div class="fw-medium fs-6 color-black">
-                        Closed
+                        {{status}}
                     </div>
                 </div>
 
                 <div class="col text-center border-left border-right d-none d-sm-block">
                     <div class="fw-medium fs-6 color-red">
-                        Very High
+                        {{priority}}
                     </div>
                 </div>
 
@@ -205,358 +206,7 @@
         </div>
     </div>
 </div>
-
-<div class="task mt-4 p-2 hover-shadow-box">
-    <div class="row align-items-center">
-        <div class="col-1 d-flex align-items-center d-none d-lg-block text-center"
-            style="height: 100%; margin-right: -25px;">
-            <i class="bi bi-bug color-red fs-1"></i>
-        </div>
-
-        <div class="col-md-9 col-9" style="flex-grow: 1;">
-
-            <div class="row align-items-center">
-                <div class="col col-sm-1 text-center">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        ID
-                    </div>
-                </div>
-
-                <div class="col col-sm-3 text-center">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        Title
-                    </div>
-                </div>
-
-
-
-                <div class="col d-none d-lg-block text-center">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        Created By
-                    </div>
-                </div>
-
-                <div class="col d-none d-lg-block text-center">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        Assigned To
-                    </div>
-                </div>
-
-                <div class="col text-center d-none d-sm-block">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        Status
-                    </div>
-                </div>
-
-                <div class="col text-center d-none d-sm-block">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        Priority
-                    </div>
-                </div>
-
-                <div class="col d-none d-md-block text-center">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        Created Date
-                    </div>
-                </div>
-            </div>
-
-            <div class="task-description row align-items-center">
-                <div class="col col-sm-1 text-center p-0">
-                    <div class="fw-medium fs-6 color-black  border-right">
-                        BUG-003
-                    </div>
-                </div>
-
-                <div class="col col-sm-3 text-center border-right">
-                    <div class="fw-medium fs-6 color-black">
-                        Can not click into "Buy" button
-                    </div>
-                </div>
-
-
-                <div class="col d-none d-lg-block text-center">
-                    <div class="col">
-                        <i class="bi bi-person-circle color-green" style="font-size: 16pt;"></i>
-                        <div class="fw-medium fs-6 color-black mt-0">
-                            BaoNinh
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col d-none d-lg-block text-center">
-                    <div class="col">
-                        <i class="bi bi-person-circle color-blue" style="font-size: 16pt;"></i>
-                        <div class="fw-medium fs-6 color-black mt-0">
-                            Nghia Nguyen
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col text-center border-left border-right d-none d-sm-block">
-                    <div class="fw-medium fs-6 color-blue">
-                        Assigned
-                    </div>
-                </div>
-
-                <div class="col text-center border-left border-right d-none d-sm-block">
-                    <div class="fw-medium fs-6 color-sea">
-                        Medium
-                    </div>
-                </div>
-
-                <div class="col text-center d-none d-md-block">
-                    <div class="fw-medium fs-6 color-black">
-                        March, 25 2024
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- view-detail -->
-        <div class="col-3 col-sm-2 p-2 d-flex align-items-center" style="height: 100%;">
-            <div class="view-detail more-blue-hover clickable" onclick="location.href='#';">
-                <i class="bi bi-box-arrow-right color-blue d-none d-md-block" style="font-size: 18pt;"></i>
-                <span class="color-blue fw-medium fs-6" style="padding-left: 10px;">View Detail</span>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="task mt-4 p-2 hover-shadow-box">
-    <div class="row align-items-center">
-        <div class="col-1 d-flex align-items-center d-none d-lg-block text-center"
-            style="height: 100%; margin-right: -25px;">
-            <i class="bi bi-bug color-red fs-1"></i>
-        </div>
-
-        <div class="col-md-9 col-9" style="flex-grow: 1;">
-
-            <div class="row align-items-center">
-                <div class="col col-sm-1 text-center">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        ID
-                    </div>
-                </div>
-
-                <div class="col col-sm-3 text-center">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        Title
-                    </div>
-                </div>
-
-
-
-                <div class="col d-none d-lg-block text-center">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        Created By
-                    </div>
-                </div>
-
-                <div class="col d-none d-lg-block text-center">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        Assigned To
-                    </div>
-                </div>
-
-                <div class="col text-center d-none d-sm-block">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        Status
-                    </div>
-                </div>
-
-                <div class="col text-center d-none d-sm-block">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        Priority
-                    </div>
-                </div>
-
-                <div class="col d-none d-md-block text-center">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        Created Date
-                    </div>
-                </div>
-            </div>
-
-            <div class="task-description row align-items-center">
-                <div class="col col-sm-1 text-center p-0">
-                    <div class="fw-medium fs-6 color-black border-right">
-                        BUG-004
-                    </div>
-                </div>
-
-                <div class="col col-sm-3 text-center border-right">
-                    <div class="fw-medium fs-6 color-black">
-                        Shopping cart is empty
-                    </div>
-                </div>
-
-
-                <div class="col d-none d-lg-block text-center">
-                    <div class="col">
-                        <i class="bi bi-person-circle color-green" style="font-size: 16pt;"></i>
-                        <div class="fw-medium fs-6 color-black mt-0">
-                            BaoNinh
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col d-none d-lg-block text-center">
-                    <div class="col">
-                        <i class="bi bi-person-circle color-blue" style="font-size: 16pt;"></i>
-                        <div class="fw-medium fs-6 color-black mt-0">
-                            Nghia Nguyen
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col text-center border-left border-right d-none d-sm-block">
-                    <div class="fw-medium fs-6 color-green">
-                        In Progress
-                    </div>
-                </div>
-
-                <div class="col text-center border-left border-right d-none d-sm-block">
-                    <div class="fw-medium fs-6 color-deep-green">
-                        Low
-                    </div>
-                </div>
-
-                <div class="col text-center d-none d-md-block">
-                    <div class="fw-medium fs-6 color-black">
-                        March, 25 2024
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- view-detail -->
-        <div class="col-3 col-sm-2 p-2 d-flex align-items-center" style="height: 100%;">
-            <div class="view-detail more-blue-hover clickable" onclick="location.href='#';">
-                <i class="bi bi-box-arrow-right color-blue d-none d-md-block" style="font-size: 18pt;"></i>
-                <span class="color-blue fw-medium fs-6" style="padding-left: 10px;">View Detail</span>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="task mt-4 p-2 hover-shadow-box">
-    <div class="row align-items-center">
-        <div class="col-1 d-flex align-items-center d-none d-lg-block text-center"
-            style="height: 100%; margin-right: -25px;">
-            <i class="bi bi-bug color-red fs-1"></i>
-        </div>
-
-        <div class="col-md-9 col-9" style="flex-grow: 1;">
-
-            <div class="row align-items-center">
-                <div class="col col-sm-1 text-center">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        ID
-                    </div>
-                </div>
-
-                <div class="col col-sm-3 text-center">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        Title
-                    </div>
-                </div>
-
-
-
-                <div class="col d-none d-lg-block text-center">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        Created By
-                    </div>
-                </div>
-
-                <div class="col d-none d-lg-block text-center">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        Assigned To
-                    </div>
-                </div>
-
-                <div class="col text-center d-none d-sm-block">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        Status
-                    </div>
-                </div>
-
-                <div class="col text-center d-none d-sm-block">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        Priority
-                    </div>
-                </div>
-
-                <div class="col d-none d-md-block text-center">
-                    <div class="fw-medium fs-6 color-deep-violet">
-                        Created Date
-                    </div>
-                </div>
-            </div>
-
-            <div class="task-description row align-items-center">
-                <div class="col col-sm-1 text-center p-0">
-                    <div class="fw-medium fs-6 color-black border-right">
-                        BUG-005
-                    </div>
-                </div>
-
-                <div class="col col-sm-3 text-center border-right">
-                    <div class="fw-medium fs-6 color-black">
-                        Navigate to home page failed
-                    </div>
-                </div>
-
-
-                <div class="col d-none d-lg-block text-center">
-                    <div class="col">
-                        <i class="bi bi-person-circle color-green" style="font-size: 16pt;"></i>
-                        <div class="fw-medium fs-6 color-black mt-0">
-                            BaoNinh
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col d-none d-lg-block text-center">
-                    <div class="col">
-                        <i class="bi bi-person-circle color-blue" style="font-size: 16pt;"></i>
-                        <div class="fw-medium fs-6 color-black mt-0">
-                            Nghia Nguyen
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col text-center border-left border-right d-none d-sm-block">
-                    <div class="fw-medium fs-6 color-deep-green">
-                        Fixed
-                    </div>
-                </div>
-
-                <div class="col text-center border-left border-right d-none d-sm-block">
-                    <div class="fw-medium fs-6 color-deep-green">
-                        Low
-                    </div>
-                </div>
-
-                <div class="col text-center d-none d-md-block">
-                    <div class="fw-medium fs-6 color-black">
-                        March, 25 2024
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- view-detail -->
-        <div class="col-3 col-sm-2 p-2 d-flex align-items-center" style="height: 100%;">
-            <div class="view-detail more-blue-hover clickable" onclick="location.href='#';">
-                <i class="bi bi-box-arrow-right color-blue d-none d-md-block" style="font-size: 18pt;"></i>
-                <span class="color-blue fw-medium fs-6" style="padding-left: 10px;">View Detail</span>
-            </div>
-        </div>
-    </div>
-</div>
-
+{{/each}}
 <!-- next page -->
 <div class="container-fluid row align-items-center justify-content-center mt-4">
     <div class="col-4 text-center">

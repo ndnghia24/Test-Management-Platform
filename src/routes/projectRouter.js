@@ -54,12 +54,13 @@ router.get("/:id/overview", (req,res) => {
     });
 });
 
-router.get("/:id/issue", (req,res) => {
-    res.render('issue-view', {
-        title: 'Tetto',
-        projectId: req.params.id,
-    });
-});
+router.get("/:id/issues", controller.issuesController.getIssues);
+router.get("/:id/issues/getIssue", controller.issuesController.getSpecifyIssue);
+router.get("/:id/issues/editIssue", controller.issuesController.getEditIssue);
+router.put("/:id/issues/editIssue", controller.issuesController.editIssue);
+// router.post("/:id/issues/addTestCase", controller.issuesController.addTestCase);
+// router.delete("/:id/issues/deleteTestCase", controller.issuesController.deleteTestCase);
+
 
 // router.get("/",(req,res) => {
 //     res.redirect("/home");
