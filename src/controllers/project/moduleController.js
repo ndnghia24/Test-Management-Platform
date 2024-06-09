@@ -11,9 +11,30 @@ controller.getModule = async (req,res) => {
                 { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
             ),
         ]);
-        res.locals.modules_level_1 = modules.filter(module => module.level === 1);
-        res.locals.modules_level_2 = modules.filter(module => module.level === 2);
-        res.locals.modules_level_3 = modules.filter(module => module.level === 3);
+    
+        // infomation: 1 module has a root_module_id, represent the parent module
+        // if root_module_id is 0, then it is a parent module
+        // build the tree structure, then convert it to array json and send it to the client
+
+        const moduleMap = new Map();
+        
+        // Khởi tạo các node trong map
+        modules.forEach(module => {
+            moduleMap.set(module.module_id, { ...module, children: [] });
+        });  
+        const tree = [];  
+        modules.forEach(module => {
+            if (module.root_module_id === 0) {
+                tree.push(moduleMap.get(module.module_id));
+                } else {
+                const parent = moduleMap.get(module.root_module_id);
+                if (parent) {
+                    parent.children.push(moduleMap.get(module.module_id));
+                }
+            }
+        });
+
+        res.locals.modules = JSON.stringify(tree, null, 2);
 
         res.render('module-view', {
             title: 'Tetto',
