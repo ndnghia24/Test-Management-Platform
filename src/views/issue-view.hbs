@@ -199,7 +199,7 @@
 
         <!-- view-detail -->
         <div class="col-3 col-sm-2 p-2 d-flex align-items-center" style="height: 100%;">
-            <div class="view-detail more-blue-hover clickable" onclick="location.href='#';">
+            <div class="view-detail more-blue-hover clickable" data-issue-id={{issue_id}} onclick="goToIssueDetail(this)">
                 <i class="bi bi-box-arrow-right color-blue d-none d-md-block" style="font-size: 18pt;"></i>
                 <span class="color-blue fw-medium fs-6" style="padding-left: 10px;">View Detail</span>
             </div>
@@ -382,4 +382,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
 
 <script src="/js/addIssueModal.js"></script>
+<script src="/js/issueButton.js"></script>
 {{/block}}
