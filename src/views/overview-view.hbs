@@ -392,17 +392,17 @@
                         </div>
                         <div class="custom-divider"></div>
                         <!-- Nội dung (body) của card -->
-                        <div class="card-body d-flex align-items-center justify-content-center">
-                            {{#if testcaseList}}
-                                {{#each testcaseList}}
+                        <div class="card-body">
+                            {{#if testcasesList}}
+                                {{#each testcasesList}}
                                 <div class="d-flex align-items-center justify-content-between">
                                     <span>{{this.name}}</span>
                                     <button type="button" class="btn bg-white p-0"><i class="fas fa-eye"></i></button>
                                 </div>
                                 {{/each}}
                             {{/if}}
-                            {{#unless testcaseList}}
-                            <div>
+                            {{#unless testcasesList}}
+                            <div class="d-flex align-items-center justify-content-center">
                                 <i class="fa fa-bug" style="font-size: 1rem; color: #B39DDB;"></i>
                                 No Testcase Available
                             </div>
