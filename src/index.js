@@ -27,6 +27,9 @@ app.engine(
       // Helper 'content'
       content: function (name) {
         return (this._blocks && this._blocks[name]) ? this._blocks[name] : null;
+      },
+      json: function (context) {
+        return JSON.stringify(context);
       }
     },
   })

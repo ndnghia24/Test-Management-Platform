@@ -3,6 +3,15 @@ const db = require('../../models/index');
 
 controller.getRelease = async (req,res) => {
     try {
+        const projectId = req.params.id;
+        
+        const [releases] = await Promise.all([
+            db.sequelize.query(
+                'SELECT * FROM releases WHERE project_id = ? ORDER BY release_id',
+                { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
+            ),
+        ]);
+        res.locals.releases = releases;
         res.render('release-view', {
             title: 'Tetto',
             cssFile: 'release-view.css',
