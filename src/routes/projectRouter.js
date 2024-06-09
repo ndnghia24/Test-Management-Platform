@@ -58,8 +58,9 @@ router.get("/:id/overview", (req,res) => {
 router.get("/:id/issues", controller.issuesController.getIssues);
 //issue-detail
 router.get("/:id/issues/getIssue", controller.issuesController.getSpecifyIssue);
-//update issue
+//update issue (navigate to edit issue page)
 router.get("/:id/issues/editIssue", controller.issuesController.getEditIssue);
+//update issue
 router.put("/:id/issues/editIssue", controller.issuesController.editIssue);
 // router.post("/:id/issues/addTestCase", controller.issuesController.addTestCase);
 // router.delete("/:id/issues/deleteTestCase", controller.issuesController.deleteTestCase);
