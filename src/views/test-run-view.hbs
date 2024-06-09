@@ -28,7 +28,34 @@
                     <th class="action col-xl-3" scope="col">Action</th>
                 </thead>
                 <tbody class="fs-6">
+                    {{#each testRuns}}
                     <tr>
+                        <td class="created-by">
+                            <div style="text-align: center;">
+                                <i class="bi bi-person-circle fs-4" style="display: block;"></i>
+                                <span>{{this.created_by}}</span>
+                            </div>
+                        </td>
+                        <td class="testrun-title">{{this.testrun_title}}</td>
+                        <td class="assigned-to">
+                            <div style="text-align: center;">
+                                <i class="bi bi-person-circle fs-4" style="display: block;"></i>
+                                <span>{{this.assigned_to}}</span>
+                            </div>
+                        </td>
+                        <td class="testcase-quantity"> {{this.testcase_quantity}} </td>
+                        <td class="status {{{formatClassName this.testrun_status}}}"> {{this.testrun_status}} </td>
+                        <td class="action">
+                            <i class="bi bi-eye hover-icon" style="margin-right: 20px;" data-bs-toggle="tooltip"
+                                data-bs-placement="top" data-bs-title="Detail"></i>
+                            <i class="bi bi-pencil hover-icon text-success" style="margin-right: 20px;"
+                                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit testrun"></i>
+                            <i class="bi bi-trash hover-icon text-danger" data-bs-toggle="tooltip"
+                                data-bs-placement="top" data-bs-title="Delete testrun"></i>
+                        </td>
+                    </tr>
+                    {{/each}}
+                    {{!-- <tr>
                         <td class="created-by">
                             <div style="text-align: center;">
                                 <i class="bi bi-person-circle fs-4" style="display: block;"></i>
@@ -61,7 +88,7 @@
                         </td>
                         <td class="testcase-quantity"> 20 </td>
                         <td class="status"> New </td>
-                    </tr>
+                    </tr> --}}
                 </tbody>
             </table>
         </div>

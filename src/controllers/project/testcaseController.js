@@ -1,25 +1,72 @@
 const controller = {};
 const { where } = require('sequelize');
 const db = require('../../models/index');
-const { raw } = require('express');
+const { raw, query } = require('express');
 
 controller.getTestCase = async (req,res) => {
     // Set up pagination
     const page = isNaN(req.query.page) ? 1 : Math.max(1,parseInt(req.query.page));
     const limit = 12;
     const offset = (page - 1) * limit;
+
+    // Get query parameters
+    const showOption = isNaN(req.query.showOption) ? 1 : parseInt(req.query.showOption);
+    const sortOption = isNaN(req.query.sortOption) ? 1 : parseInt(req.query.sortOption);
+    const search = req.query.search;
+    queryParameters = {};
+
     try {
         const projectId = req.params.id;
-        
-        const [testCases, testcaseNum, modules, requirements, requirementTypes] = await Promise.all([
-            db.sequelize.query(
-                'SELECT testcase_id, name FROM test_cases WHERE project_id = ? ORDER BY testcase_id LIMIT ? OFFSET ?',
-                { replacements: [projectId,limit,offset], type: db.sequelize.QueryTypes.SELECT}
-            ),
-            db.sequelize.query(
-                'SELECT COUNT(*) AS count FROM test_cases WHERE project_id = ?',
-                { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
-            ),
+        const promises = [];
+
+        let order_by = 'testcase_id';
+        switch (showOption) {
+            case 2:
+                order_by = 'name';
+                break;
+            case 3:
+                order_by = 'module_id';
+                break;
+            default:
+        }
+
+        let order = 'ASC';
+        switch (sortOption) {
+            case 2:
+                order = 'DESC';
+                break;
+            default:                
+                order = 'ASC';
+                break;
+        }
+
+        if (search) {
+            promises.push(
+                db.sequelize.query(
+                    'SELECT testcase_id, name FROM test_cases WHERE project_id = ? AND name LIKE ? ORDER BY ' + order_by + ' ' + order + ' LIMIT ? OFFSET ?',
+                    { replacements: [projectId, '%' + search + '%', limit, offset], type: db.sequelize.QueryTypes.SELECT}
+                ),
+                db.sequelize.query(
+                    'SELECT COUNT(*) AS count FROM test_cases WHERE project_id = ? AND name LIKE ?',
+                    { replacements: [projectId, '%' + search + '%'], type: db.sequelize.QueryTypes.SELECT}
+                ),
+            );
+            queryParameters = { showOption: showOption, sortOption: sortOption, search: search };
+        } else {
+            promises.push(
+                db.sequelize.query(
+                    'SELECT testcase_id, name FROM test_cases WHERE project_id = ? ORDER BY ' + order_by + ' ' + order + ' LIMIT ? OFFSET ?',
+                    { replacements: [projectId,limit,offset], type: db.sequelize.QueryTypes.SELECT}
+                ),
+                db.sequelize.query(
+                    'SELECT COUNT(*) AS count FROM test_cases WHERE project_id = ?',
+                    { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
+                ),
+            );
+            queryParameters = { showOption: showOption, sortOption: sortOption };
+        }
+
+        promises.push(
             db.sequelize.query(
                 'SELECT * FROM modules WHERE project_id = ?',
                 { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
@@ -32,7 +79,9 @@ controller.getTestCase = async (req,res) => {
                 'SELECT name FROM requirement_types WHERE project_id = ?',
                 { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
             )
-        ]);
+        );
+
+        const [testCases, testcaseNum, modules, requirements, requirementTypes] = await Promise.all(promises);
 
         console.log('testCases',modules);
 
@@ -47,7 +96,8 @@ controller.getTestCase = async (req,res) => {
             pagination: {
                 page: page,
                 limit: limit,
-                totalRows: testcaseNum[0].count
+                totalRows: testcaseNum[0].count,
+                queryParams: queryParameters,
             }
         });
     } catch (error) {

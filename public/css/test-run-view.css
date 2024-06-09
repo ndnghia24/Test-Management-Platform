@@ -26,9 +26,21 @@
     cursor: pointer;
 }
 
-.table .status:not(th) {
-    font-weight: 600;
+
+.status.not-started {
+    color: #FFC107 !important;
+}
+
+.status.in-progress {
+    color: #230e97 !important;
+}
+
+.status.completed {
     color: #05A946!important;
+}
+
+.status {
+    font-weight: 600;
 }
 
 div.modal select {

@@ -36,6 +36,9 @@ app.engine(
       eq: function (a, b) {
         return a === b;
       },
+      formatClassName: function (name) {
+        return name.replace(/ /g, "-").toLowerCase();
+      }
     },
   })
 );

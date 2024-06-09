@@ -9,6 +9,7 @@ controller.overviewController = require('../controllers/project/overviewControll
 controller.releaseController = require('../controllers/project/releaseController');
 controller.moduleController = require('../controllers/project/moduleController');
 controller.reportController = require('../controllers/project/reportController');
+controller.testrunController = require('../controllers/project/testrunController');
 
 controller.getRequirement = async (req, res) => {
     try {

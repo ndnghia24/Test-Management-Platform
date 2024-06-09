@@ -51,13 +51,7 @@ router.get("/:id/report", controller.reportController.getReport);
 router.put("/:id/testcase/editTestCaseStep", controller.test_caseController.editTestCaseStep);
 router.put("/:id/testcase/editTestCaseOverview", controller.test_caseController.editTestCaseOverview);
 
-router.get("/:id/testrun", (req,res) => {
-    res.render('test-run-view', {
-        title: 'Tetto',
-        cssFile: 'test-run-view.css',
-        projectId: req.params.id,
-    });
-})
+router.get("/:id/testrun", controller.testrunController.getTestRun);
 
 router.get("/:id/issue", (req,res) => {
     res.render('issue-view', {

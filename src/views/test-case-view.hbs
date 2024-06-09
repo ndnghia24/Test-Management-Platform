@@ -41,20 +41,20 @@
                 style="color: #C4C4DA; font-weight: 600; width: 24%; background-color: #F1F1F1; border-radius: 5px; border:none; padding: 10px" />
         </div>
         <div class="d-flex align-items-center justify-content-between px-xl-5 py-xl-4" style="height: 10%;">
-            <div class="top-right-testcase-list d-flex justify-content-between align-items-center gap-3">
-                <label for="show" class="form-label" style="margin-bottom: 0px;">Filter by: </label>
-                <select name="show" class="form-select feature" aria-label="Default select example"
-                    style="width: max-content;" required>
-                    <option value="1">Created Date</option>
-                    <option value="2">Testcase Code</option>
-                    <option value="3">Testcase Title</option>
+            <div class="top-right-testcase-list d-flex justify-content-between align-items-center gap-4">
+                <i class="bi bi-funnel-fill filter-icon hover-icon" style="padding-top: 1px;"></i>
+                <label for="show" class="form-label" style="margin-bottom: 0px;">Filter: </label>
+                <select name="show" class="form-select feature" aria-label="Default select example">
+                    <option value="1" selected>Testcase Code</option>
+                    <option value="2">Testcase Title</option>
+                    <option value="3">Module</option>
                 </select>
             </div>
             <div class="top-right-testcase-list d-flex justify-content-between align-items-center gap-3">
                 <label for="sort" class="form-label" style="margin-bottom: 0px;">Sort by:</label>
                 <select name="sort" style="width: max-content;" class="form-select sorting"
                     aria-label="Default select example" required>
-                    <option value="1">ASC</option>
+                    <option value="1" selected>ASC</option>
                     <option value="2">DES</option>
                 </select>
             </div>

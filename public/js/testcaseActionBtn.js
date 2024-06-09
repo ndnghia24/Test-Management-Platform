@@ -1,4 +1,19 @@
 $('document').ready(function () {
+    const url = new URL(window.location.href);
+    const searchParams = new URLSearchParams(url.search);
+    const showOption = searchParams.get('showOption');
+    const sortOption = searchParams.get('sortOption');
+
+    if (showOption) {
+        $('select[name="show"]').val(showOption);
+    }
+
+    if (sortOption) {
+        $('select[name="sort"]').val(sortOption);
+    }
+});
+
+$('document').ready(function () {
     $('i.bi-trash').click(function () {
         var curRow = $(this).closest('tr');
         var testcaseId = curRow.find('.testcase-code').text();
@@ -257,3 +272,21 @@ function renderTestCaseDetailsForEdit(data) {
     });
     modal.modal('show');
 }
+
+$('document').ready(function () {
+    $('.filter-icon').click(function () {
+        var showOption = $('select[name="show"]').val();
+        var sortOption = $('select[name="sort"]').val();
+        
+        window.location.href = window.location.pathname + '?showOption=' + showOption + '&sortOption=' + sortOption;
+    });
+
+    $('#search-input-title').on('keydown', function (e) {
+        if (e.key === 'Enter') {
+            var showOption = $('select[name="show"]').val();
+            var sortOption = $('select[name="sort"]').val();
+            var search = $('#search-input-title').val();
+            window.location.href = window.location.pathname + '?showOption=' + showOption + '&sortOption=' + sortOption + '&search=' + search;
+        }
+    });
+});
