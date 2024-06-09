@@ -1,5 +1,5 @@
 <div class="modal fade" id="edit-test-case" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
-    aria-hidden="true" data-testplan-code="">
+    aria-hidden="true" data-testcase-id="">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" role="document">
         <div class="modal-content align-items-center"
             style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
@@ -10,25 +10,25 @@
             </div>
             <div class="modal-body" style="border-bottom: none; width: 100%;">
                 <div class="d-flex align-items-start">
-                    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
+                    <div class="nav flex-column nav-pills me-3" id="v-pills-edit-tab" role="tablist"
                         aria-orientation="vertical">
-                        <button class="nav-link active" id="v-pills-index-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-index" type="button" role="tab" aria-controls="v-pills-index"
-                            aria-selected="true">Overview</button>
-                        <button class="nav-link" id="v-pills-step-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-step" type="button" role="tab" aria-controls="v-pills-step"
-                            aria-selected="false">Steps</button>
-                        <button class="nav-link" id="v-pills-testcase-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-testcase" type="button" role="tab" aria-controls="v-pills-testcase"
-                            aria-selected="false">Testcase linking</button>
-                        <button class="nav-link" id="v-pills-requirement-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-requirement" type="button" role="tab"
-                            aria-controls="v-pills-requirement" aria-selected="false">Requirement linking</button>
+                        <button class="nav-link active" id="v-pills-edit-index-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-edit-index" type="button" role="tab"
+                            aria-controls="v-pills-edit-index" aria-selected="true">Overview</button>
+                        <button class="nav-link" id="v-pills-edit-step-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-edit-step" type="button" role="tab"
+                            aria-controls="v-pills-edit-step" aria-selected="false">Steps</button>
+                        <button class="nav-link" id="v-pills-edit-testcase-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-edit-testcase" type="button" role="tab"
+                            aria-controls="v-pills-edit-testcase" aria-selected="false">Testcase linking</button>
+                        <button class="nav-link" id="v-pills-edit-requirement-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-edit-requirement" type="button" role="tab"
+                            aria-controls="v-pills-edit-requirement" aria-selected="false">Requirement linking</button>
                     </div>
                     <div style="width: 20px;"></div>
-                    <div class="tab-content flex-grow-1" id="v-pills-tabContent">
-                        <div class="tab-pane fade show active" id="v-pills-index" role="tabpanel"
-                            aria-labelledby="v-pills-index-tab" tabindex="0">
+                    <div class="tab-content flex-grow-1" id="v-pills-edit-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-edit-index" role="tabpanel"
+                            aria-labelledby="v-pills-edit-index-tab" tabindex="0">
                             <div class="row mb-3">
                                 <div class="col-4">
                                     <label for="test-case-name">
@@ -47,8 +47,9 @@
                                     </label>
                                 </div>
                                 <div class="col-6 offset-2">
-                                    <input id="test-case-module" type="text" name="test-case-name" class="form-control"
-                                        placeholder="Module name">
+                                    <select name="test-case-module" id="test-case-module" class="form-select">
+
+                                    </select>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -60,19 +61,20 @@
                                         class="form-control" placeholder="Testcase description" rows="5"></textarea>
                                 </div>
                             </div>
-                            <button class="btn btn-sucess test-case-overview-apply">
-                                Apply
-                            </button>
+                            <div class="row">
+                                <button type="button" class="btn btn-primary test-case-overview-apply">
+                                    Apply
+                                </button>
+                            </div>
                         </div>
-                        <div class="tab-pane fade" id="v-pills-step" role="tabpanel" aria-labelledby="v-pills-step-tab"
-                            tabindex="0">
-                            <div style="width: 100%; background-color: #FFFFFF; border-radius: 10px;">
+                        <div class="tab-pane fade" id="v-pills-edit-step" role="tabpanel"
+                            aria-labelledby="v-pills-edit-step-tab" tabindex="0">
+                            <div class="mb-3" style="width: 100%; background-color: #FFFFFF; border-radius: 10px;">
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
-                                            <th class="col-2">Step Number</th>
-                                            <th class="col-4 offset-1">Step Description</th>
-                                            <th class="col-4 offset-1">Expected Result</th>
+                                            <th class="col-5 offset-1">Step Description</th>
+                                            <th class="col-5">Expected Result</th>
                                         </thead>
                                         <tbody class="test-case-step-body-table">
 
@@ -80,13 +82,18 @@
                                     </table>
                                 </div>
                             </div>
-                            <button class="btn btn-sucess test-case-step-apply">
-                                Apply
-                            </button>
+                            <div class="row align-items-center justify-content-start d-flex px-2">
+                                <button type="button" class="btn btn-primary test-case-step-apply col-2">
+                                    Apply
+                                </button>
+                                <button type="button" class="btn btn-primary test-case-step-add-step col-2 offset-1">
+                                    Add Step
+                                </button>
+                            </div>
                         </div>
-                        <div class="tab-pane fade" id="v-pills-testcase" role="tabpanel"
-                            aria-labelledby="v-pills-testcase-tab" tabindex="0">
-                            <div style="width: 100%; background-color: #FFFFFF; border-radius: 10px;">
+                        <div class="tab-pane fade" id="v-pills-edit-testcase" role="tabpanel"
+                            aria-labelledby="v-pills-edit-testcase-tab" tabindex="0">
+                            <div class="mb-3" style="width: 100%; background-color: #FFFFFF; border-radius: 10px;">
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
@@ -100,13 +107,14 @@
                                     </table>
                                 </div>
                             </div>
-                            <button class="btn btn-sucess test-case-linking-apply">
+                            <button type="button" class="btn btn-primary test-case-linking-apply"
+                                style="margin: 0 auto;">
                                 Apply
                             </button>
                         </div>
-                        <div class="tab-pane fade" id="v-pills-requirement" role="tabpanel"
-                            aria-labelledby="v-pills-requirement-tab" tabindex="0">
-                            <div style="width: 100%; background-color: #FFFFFF; border-radius: 10px;">
+                        <div class="tab-pane fade" id="v-pills-edit-requirement" role="tabpanel"
+                            aria-labelledby="v-pills-edit-requirement-tab" tabindex="0">
+                            <div class="mb-3" style="width: 100%; background-color: #FFFFFF; border-radius: 10px;">
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
@@ -120,7 +128,8 @@
                                     </table>
                                 </div>
                             </div>
-                            <button class="btn btn-sucess requirement-linking-apply">
+                            <button type="button" class="btn btn-primary requirement-linking-apply"
+                                style="margin: 0 auto;">
                                 Apply
                             </button>
                         </div>

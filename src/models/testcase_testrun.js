@@ -19,10 +19,13 @@ module.exports = function(sequelize, DataTypes) {
         key: 'testrun_id'
       }
     },
-    status: {
-      type: DataTypes.STRING(255),
+    status_id: {
+      type: DataTypes.INTEGER,
       allowNull: true,
-      defaultValue: "New"
+      references: {
+        model: 'test_run_test_case_status',
+        key: 'status_id'
+      }
     }
   }, {
     sequelize,

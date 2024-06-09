@@ -47,8 +47,8 @@ router.get("/:id/report", controller.reportController.getReport);
 
 // router.put("/:id/testcase/editTestCaseLinking", controller.test_caseController.editTestCase);
 // router.put("/:id/testcase/editTestCaseRequirement", controller.test_caseController.editTestCase);
-// router.put("/:id/testcase/editTestCaseStep", controller.test_caseController.editTestCase);
-// router.put("/:id/testcase/editTestCaseOverview", controller.test_caseController.editTestCase);
+router.put("/:id/testcase/editTestCaseStep", controller.test_caseController.editTestCaseStep);
+router.put("/:id/testcase/editTestCaseOverview", controller.test_caseController.editTestCaseOverview);
 
 router.get("/:id/testrun", (req,res) => {
     res.render('test-run-view', {
