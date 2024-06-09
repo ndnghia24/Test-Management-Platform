@@ -29,7 +29,14 @@ app.engine(
         return (this._blocks && this._blocks[name]) ? this._blocks[name] : null;
       },
       // Paginate
-      paginate: createPagination
+      paginate: createPagination,
+      json: function (context) {
+        return JSON.stringify(context);
+      },
+      eq: function (a, b) {
+        return a === b;
+      },
+
     },
   })
 );

@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$('document').ready(function () {
     $('i.bi-trash').click(function () {
         var curRow = $(this).closest('tr');
         var testcaseId = curRow.find('.testcase-code').text();
