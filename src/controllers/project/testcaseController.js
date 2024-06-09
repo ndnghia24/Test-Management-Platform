@@ -13,7 +13,7 @@ controller.getTestCase = async (req,res) => {
                 { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
             ),
             db.sequelize.query(
-                'SELECT name, module_id FROM modules WHERE project_id = ?',
+                'SELECT * FROM modules WHERE project_id = ?',
                 { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
             ),
             db.sequelize.query(

@@ -1,307 +1,260 @@
-<link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- fa icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+<body>
+    <div class="container mt-5">
+        {{#each requirement_types}}
+        <div class="requirement-item">
+            <label for="checkbox{{this.name}}" class="d-flex align-items-center">
+                <input class="form-check-input me-2" type="checkbox" value="1" id="checkbox{{this.name}}" checked>
+                {{this.name}}
+            </label>
+        </div>
+        {{/each}}
+    </div>
 
-<div class="container-fluid mt-3">
-    <div class="card custom-card">
-        <!-- Header của card -->
-        <div class="card-header bg-white border-0 align-items-center">
-            <div class="row">
-                <div class="col-sm-4">
-                    <h3 class="card-title" id="releaseStatus">All releases</h3>
-                </div>
-                <div class="col-sm-8 d-flex justify-content-end">
-                    <div class="releases">
-                        <ul class="list-unstyled d-flex flex-row">
-                            <li class="me-4 clickable" id="openReleases">
-                                <a id="countOpenRelease" onclick="addReleaseCards('open');"
-                                    style="cursor: pointer; color: cornflowerblue;">● 2 Open Release(s)</a>
-                            </li>
-                            <li class="me-4 clickable" id="upcomingReleases">
-                                <a id="countUpcomingRelease" onclick="addReleaseCards('upcoming');"
-                                    style="cursor: pointer;color:tan;">● 0 Upcoming Release(s)</a>
-                            </li>
-                            <li class="clickable" id="completedReleases">
-                                <a id="countCompletedRelease" onclick="addReleaseCards('completed');"
-                                    style="cursor: pointer;color:green;">● 0 Completed Release(s)</a>
-                            </li>
-                        </ul>
+    {{!-- Release Cards --}}
+    <div class="container-fluid mt-3">
+        <div class="card custom-card">
+            <!-- Header of card -->
+            <div class="card-header bg-white border-0 align-items-center">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h3 class="card-title" id="releaseStatus">All releases</h3>
+                    </div>
+                    <div class="col-sm-8 d-flex justify-content-end">
+                        <div class="releases">
+                            <ul class="list-unstyled d-flex flex-row">
+                                <li class="me-4 clickable" id="openReleases">
+                                    <a id="countOpenRelease" onclick="addReleaseCards('open');"
+                                       style="cursor: pointer; color: cornflowerblue;">● 2 Open Release(s)</a>
+                                </li>
+                                <li class="me-4 clickable" id="upcomingReleases">
+                                    <a id="countUpcomingRelease" onclick="addReleaseCards('upcoming');"
+                                       style="cursor: pointer;color:tan;">● 0 Upcoming Release(s)</a>
+                                </li>
+                                <li class="clickable" id="completedReleases">
+                                    <a id="countCompletedRelease" onclick="addReleaseCards('completed');"
+                                       style="cursor: pointer;color:green;">● 0 Completed Release(s)</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="custom-divider"></div>
-        <!-- Nội dung (body) của card -->
-        <div class="card-body" id="main-content">
-            <div class="container-fluid" id="releaseContainer">
-                <div class="row" id="releaseRow">
+            <div class="custom-divider"></div>
+            <!-- Body of card -->
+            <div class="card-body" id="main-content">
+                <div class="container-fluid" id="releaseContainer">
+                    <div class="row" id="releaseRow">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-{{!-- Create Module Modal --}}
-
-{{#block "modal"}}
-<div class="modal fade" id="modalAddRelease" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content align-items-center"
-            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
-            <div class="modal-header" style="border-bottom: none;">
-                <p class="modal-title fs-3" id="modalTitleId">Add Release</p>
-            </div>
-            <div class="modal-body" style="border-bottom: none; width: 100%;">
-                <div class="row mb-3">
-                    <div>
-                        <lable for="description">Name <span style="color: #F0270C;">*</span> :</lable>
-                        <input type="text" name="release-name" class="form-control" placeholder="Release's Name">
-                        <div id="alertMessageReleaseNameInput" style="display: none; color: red"></div>
-                    </div>
+    {{!-- Create Module Modal --}}
+    {{#block "modal"}}
+    <div class="modal fade" id="modalAddRelease" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content align-items-center"
+                 style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
+                <div class="modal-header" style="border-bottom: none;">
+                    <p class="modal-title fs-3" id="modalTitleId">Add Release</p>
                 </div>
-                <div class="row mb-3">
-                    <div>
-                        <lable for="description">Start Date <span style="color: #F0270C;">*</span> :</lable>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-calendar-check" style="height: 1.5rem;"
-                                        aria-hidden="true"></i></span>
-                            </div>
-                            <input type="text" name="release-start-date" class="form-control datepicker"
-                                placeholder="Select a date">
-                            <div id="alertMessageReleaseStartDateInput" style="display: none; color: red"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div>
-                        <lable for="description">Due Date <span style="color: #F0270C;">*</span> :</lable>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-calendar-check" style="height: 1.5rem;"
-                                        aria-hidden="true"></i></span>
-                            </div>
-                            <input type="text" name="release-due-date" class="form-control datepicker"
-                                placeholder="Select a date">
-                            <div id="alertMessageReleaseDueDateInput" style="display: none; color: red"></div>
-                        </div>
-                    </div>
-
-                    <div class="row mt-2">
+                <div class="modal-body" style="border-bottom: none; width: 100%;">
+                    <div class="row mb-3">
                         <div>
-                            <label for="description">Attachments:</label>
-                            <div id="myDropzone" class="dropzone">
-                                <div class="dz-message">
-                                    Drop file here or click to upload...
+                            <label for="description">Name <span style="color: #F0270C;">*</span> :</label>
+                            <input type="text" name="release-name" class="form-control" placeholder="Release's Name">
+                            <div id="alertMessageReleaseNameInput" style="display: none; color: red"></div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div>
+                            <label for="description">Start Date <span style="color: #F0270C;">*</span> :</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-calendar-check"
+                                                                      style="height: 1.5rem;"
+                                                                      aria-hidden="true"></i></span>
+                                </div>
+                                <input type="text" name="release-start-date" class="form-control datepicker"
+                                       placeholder="Select a date">
+                                <div id="alertMessageReleaseStartDateInput" style="display: none; color: red"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div>
+                            <label for="description">Due Date <span style="color: #F0270C;">*</span> :</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-calendar-check"
+                                                                      style="height: 1.5rem;"
+                                                                      aria-hidden="true"></i></span>
+                                </div>
+                                <input type="text" name="release-due-date" class="form-control datepicker"
+                                       placeholder="Select a date">
+                                <div id="alertMessageReleaseDueDateInput" style="display: none; color: red"></div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div>
+                                <label for="description">Attachments:</label>
+                                <div id="myDropzone" class="dropzone">
+                                    <div class="dz-message">
+                                        Drop file here or click to upload...
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer" style="border-top: none; align-items: center;">
-                <button type="button" class="btn btn-primary">Save</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <div class="modal-footer" style="border-top: none; align-items: center;">
+                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-{{/block}}
+    {{/block}}
 
-{{!-- Page's Functionality Button --}}
+    {{!-- Page's Functionality Button --}}
+    {{#block "additional-button"}}
+    <div class="text-right">
+        <button type="button" class="btn btn-light-green me-2" data-bs-toggle="modal" data-bs-target="#modalAddRelease">
+            <i class="fas fa-plus-circle"></i>  
+            Add Release
+        </button>
+    </div>
+    {{/block}}
 
-{{#block "additional-button"}}
-<div class="text-right">
-    <button type="button" class="btn btn-light-green me-2" data-bs-toggle="modal" data-bs-target="#modalAddRelease">
-        <i class="fas fa-plus-circle"></i>  
-        Add Release
-    </button>
-</div>
-{{/block}}
+    {{!-- Additional Scripts + CSS --}}
+    {{#block "script"}}
+    <!-- jQuery (required for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Bootstrap JS (choose the appropriate version) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Bootstrap Datepicker CSS and JS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+          rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css"/>
+    <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
 
-{{!-- Additional Scripts + CSS --}}
+    <script>
+        const releases = {{{json releases}}};
 
-{{#block "script"}}
-<!-- jQuery (required for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!-- Bootstrap JS (choose the appropriate version) -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<!-- Bootstrap Datepicker CSS and JS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
-    rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-
-
-<!-- CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css" />
-
-<!-- JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
-
-<script>
-    releases = [
-        {
-            name: "Release 1",
-            key: "REL-001",
-            startDate: "2024-04-01",
-            dueDate: "2024-04-15",
-            progress: 0.8,
-            isPinned: true,
-            status: "completed"
-        },
-        {
-            name: "Release 2",
-            key: "REL-002",
-            startDate: "2024-05-01",
-            dueDate: "2024-05-15",
-            progress: 0.5,
-            isPinned: false,
-            status: "open"
-        },
-        {
-            name: "Release 4",
-            key: "REL-002",
-            startDate: "2024-05-01",
-            dueDate: "2024-05-15",
-            progress: 0.5,
-            isPinned: true,
-            status: "open"
-        },
-        {
-            name: "Release 3",
-            key: "REL-003",
-            startDate: "2024-06-01",
-            dueDate: "2024-06-15",
-            progress: 0.2,
-            isPinned: true,
-            status: "upcoming"
-        },
-    ];
-
-    function beautifulDate(date) {
-        // convert Date to Mar 10, 2024
-        const d = new Date(date);
-        const month = d.toLocaleString('en-us', { month: 'short' });
-        const day = d.getDate();
-        const year = d.getFullYear();
-        return `${month} ${day}, ${year}`;
-    }
-
-    function addReleaseCards(status) {
-        let releasesClone = releases;
-        countOpenRelease.innerHTML = `● ${releases.filter(release => release.status === 'open').length} Open Release(s)`;
-        countUpcomingRelease.innerHTML = `● ${releases.filter(release => release.status === 'upcoming').length} Upcoming Release(s)`;
-        countCompletedRelease.innerHTML = `● ${releases.filter(release => release.status === 'completed').length} Completed Release(s)`;
-
-        // apply to 
-        document.getElementById('countOpenRelease').innerHTML = countOpenRelease.outerHTML;
-        document.getElementById('countUpcomingRelease').innerHTML = countUpcomingRelease.outerHTML;
-        document.getElementById('countCompletedRelease').innerHTML = countCompletedRelease.outerHTML;
-
-
-        // if status == none, show all releases
-        if (status === undefined) {
-            document.getElementById('releaseStatus').innerHTML = `All releases`;
-            // sort release by status (open -> upcoming -> completed)
-            releasesClone.sort((a, b) => {
-                if (a.status === b.status) {
-                    return a.isPinned - b.isPinned;
-                }
-                return a.status.localeCompare(b.status);
-            });
-        } else {
-            document.getElementById('releaseStatus').innerHTML = `${status.charAt(0).toUpperCase() + status.slice(1)}`;
-            // filter release by status
-            releasesClone = releases.filter(release => release.status === status);
-            // sort release by isPinned
-            releasesClone.sort((a, b) => {
-                if (a.isPinned === b.isPinned) {
-                    return a.status.localeCompare(b.status);
-                }
-                return b.isPinned - a.isPinned;
-            });
+        function beautifulDate(date) {
+            const d = new Date(date);
+            const month = d.toLocaleString('en-us', { month: 'short' });
+            const day = d.getDate();
+            const year = d.getFullYear();
+            return `${month} ${day}, ${year}`;
         }
 
-        const releaseRow = document.getElementById('releaseRow');
-        releaseRow.innerHTML = '';
-        /* custom 4 cards in a row for releaseRow */
-        releaseRow.classList.add('row', 'row-cols-xl-4', 'row-cols-lg-4', 'row-cols-md-1', 'row-cols-sm-1');
+        function addReleaseCards(status) {
+            let releasesClone = releases;
+            countOpenRelease.innerHTML = `● ${releases.filter(release => release.release_status === 'open').length} Open Release(s)`;
+            countUpcomingRelease.innerHTML = `● ${releases.filter(release => release.release_status === 'upcoming').length} Upcoming Release(s)`;
+            countCompletedRelease.innerHTML = `● ${releases.filter(release => release.release_status === 'completed').length} Completed Release(s)`;
 
-        releasesClone.forEach((release) => {
-            const cardCol = document.createElement('div');
-            cardCol.classList.add('col-md-4', 'mb-4');
-
-            const cardElement = document.createElement('div');
-            cardElement.classList.add('card');
-
-            const cardBody = document.createElement('div');
-            cardBody.classList.add('card-body');
-
-            const cardText = document.createElement('p');
-            cardText.classList.add('card-text');
-
-            const cardPinIcon = document.createElement('i');
-            if (release.isPinned) {
-                cardPinIcon.classList.add('fa', 'fa-thumb-tack');
-                // icon size 
-                cardPinIcon.style.color = 'white';
-                cardPinIcon.style.fontSize = '1.5rem';
+            switch (status) {
+                case "open":
+                    releasesClone = releases.filter(release => release.release_status === 'open');
+                    break;
+                case "upcoming":
+                    releasesClone = releases.filter(release => release.release_status === 'upcoming');
+                    break;
+                case "completed":
+                    releasesClone = releases.filter(release => release.release_status === 'completed');
+                    break;
+                default:
+                    releasesClone = releases;
+                    break;
             }
 
-            const backgroundColor = release.status == "open" ? 'var(--light-blue)'
-                : release.status == "upcoming" ? 'tan'
-                    : 'var(--light-green)';
+            const releaseRow = document.getElementById("releaseRow");
+            releaseRow.innerHTML = "";
+            releasesClone.forEach((release, index) => {
+                const cardCol = document.createElement('div');
+                cardCol.classList.add('col-md-4', 'mb-4');
 
-            cardElement.classList.add('card', 'text-white', 'px-3');
-            cardElement.style.borderRadius = '1rem';
-            cardElement.style.border = 'none';
-            cardElement.style.backgroundColor = backgroundColor;
+                const cardElement = document.createElement('div');
+                cardElement.classList.add('card');
 
-            const cardTitle = document.createElement('div');
-            cardTitle.classList.add('card-title');
-            cardTitle.innerHTML =
-                `<div class="row">
-            <div class="col-10">
-                <h5>
-                    <svg width="36" height="35" viewBox="0 0 36 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <ellipse cx="18.0846" cy="17.5" rx="17.7657" ry="17.5" fill="#F3F7FD"/>
-                    <path d="M27.3361 15.5419C27.2805 15.3831 27.1793 15.2437 27.0449 15.1405C26.9104 15.0374 26.7484 14.9748 26.5786 14.9605L21.5664 14.2403L19.3201 9.75425C19.248 9.60755 19.1354 9.48382 18.9951 9.39725C18.8549 9.31069 18.6928 9.26477 18.5273 9.26477C18.3618 9.26477 18.1997 9.31069 18.0595 9.39725C17.9193 9.48382 17.8067 9.60755 17.7345 9.75425L15.4883 14.2316L10.4761 14.9605C10.313 14.9833 10.1598 15.0507 10.0336 15.155C9.90753 15.2593 9.81361 15.3963 9.76255 15.5505C9.71582 15.7012 9.71162 15.8616 9.75042 16.0145C9.78922 16.1674 9.86954 16.3069 9.98277 16.4182L13.6208 19.8891L12.7399 24.8176C12.7085 24.9803 12.725 25.1485 12.7874 25.3022C12.8498 25.456 12.9556 25.5889 13.0923 25.6853C13.2255 25.7791 13.3826 25.8345 13.546 25.8452C13.7094 25.856 13.8725 25.8216 14.0172 25.7461L18.5273 23.4293L23.0198 25.7548C23.1434 25.8235 23.2831 25.8593 23.425 25.8589C23.6116 25.8595 23.7936 25.8018 23.9447 25.694C24.0814 25.5976 24.1872 25.4646 24.2496 25.3109C24.3121 25.1571 24.3285 24.989 24.2971 24.8263L23.4162 19.8977L27.0543 16.4269C27.1814 16.3208 27.2754 16.1813 27.3253 16.0246C27.3752 15.8679 27.379 15.7005 27.3361 15.5419ZM21.9187 19.0127C21.8154 19.1111 21.7381 19.2329 21.6936 19.3675C21.6491 19.5022 21.6386 19.6455 21.6633 19.7849L22.2975 23.4206L18.9854 21.6852C18.8579 21.6184 18.7158 21.5834 18.5714 21.5834C18.427 21.5834 18.2848 21.6184 18.1574 21.6852L14.8452 23.4206L15.4795 19.7849C15.5041 19.6455 15.4937 19.5022 15.4491 19.3675C15.4046 19.2329 15.3273 19.1111 15.224 19.0127L12.5814 16.4096L16.2899 15.8803C16.4326 15.8607 16.5682 15.807 16.685 15.7238C16.8017 15.6406 16.8959 15.5304 16.9594 15.403L18.5273 12.0971L20.1834 15.4117C20.2468 15.5391 20.3411 15.6492 20.4578 15.7324C20.5745 15.8157 20.7101 15.8694 20.8528 15.8889L24.5614 16.4182L21.9187 19.0127Z" fill="#6B95D6"/>
-                    </svg>
-                    ${release.name}
-                </h5>
+                const cardBody = document.createElement('div');
+                cardBody.classList.add('card-body');
+
+                const cardText = document.createElement('p');
+                cardText.classList.add('card-text');
+
+                const cardPinIcon = document.createElement('i');
+                if (release.isPinned) {
+                    cardPinIcon.classList.add('fa', 'fa-thumb-tack');
+                    // icon size 
+                    cardPinIcon.style.color = 'white';
+                    cardPinIcon.style.fontSize = '1.5rem';
+                }
+
+                const backgroundColor = release.release_status == "open" ? 'var(--light-blue)'
+                    : release.release_status == "upcoming" ? 'tan'
+                        : 'var(--light-green)';
+
+                cardElement.classList.add('card', 'text-white', 'px-3');
+                cardElement.style.borderRadius = '1rem';
+                cardElement.style.border = 'none';
+                cardElement.style.backgroundColor = backgroundColor;
+
+                const cardTitle = document.createElement('div');
+                cardTitle.classList.add('card-title');
+                cardTitle.innerHTML =
+                    `<div class="row">
+                <div class="col-10">
+                    <h5>
+                        <svg width="36" height="35" viewBox="0 0 36 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="18.0846" cy="17.5" rx="17.7657" ry="17.5" fill="#F3F7FD"/>
+                        <path d="M27.3361 15.5419C27.2805 15.3831 27.1793 15.2437 27.0449 15.1405C26.9104 15.0374 26.7484 14.9748 26.5786 14.9605L21.5664 14.2403L19.3201 9.75425C19.248 9.60755 19.1354 9.48382 18.9951 9.39725C18.8549 9.31069 18.6928 9.26477 18.5273 9.26477C18.3618 9.26477 18.1997 9.31069 18.0595 9.39725C17.9193 9.48382 17.8067 9.60755 17.7345 9.75425L15.4883 14.2316L10.4761 14.9605C10.313 14.9833 10.1598 15.0507 10.0336 15.155C9.90753 15.2593 9.81361 15.3963 9.76255 15.5505C9.71582 15.7012 9.71162 15.8616 9.75042 16.0145C9.78922 16.1674 9.86954 16.3069 9.98277 16.4182L13.6208 19.8891L12.7399 24.8176C12.7085 24.9803 12.725 25.1485 12.7874 25.3022C12.8498 25.456 12.9556 25.5889 13.0923 25.6853C13.2255 25.7791 13.3826 25.8345 13.546 25.8452C13.7094 25.856 13.8725 25.8216 14.0172 25.7461L18.5273 23.4293L23.0198 25.7548C23.1434 25.8235 23.2831 25.8593 23.425 25.8589C23.6116 25.8595 23.7936 25.8018 23.9447 25.694C24.0814 25.5976 24.1872 25.4646 24.2496 25.3109C24.3121 25.1571 24.3285 24.989 24.2971 24.8263L23.4162 19.8977L27.0543 16.4269C27.1814 16.3208 27.2754 16.1813 27.3253 16.0246C27.3752 15.8679 27.379 15.7005 27.3361 15.5419ZM21.9187 19.0127C21.8154 19.1111 21.7381 19.2329 21.6936 19.3675C21.6491 19.5022 21.6386 19.6455 21.6633 19.7849L22.2975 23.4206L18.9854 21.6852C18.8579 21.6184 18.7158 21.5834 18.5714 21.5834C18.427 21.5834 18.2848 21.6184 18.1574 21.6852L14.8452 23.4206L15.4795 19.7849C15.5041 19.6455 15.4937 19.5022 15.4491 19.3675C15.4046 19.2329 15.3273 19.1111 15.224 19.0127L12.5814 16.4096L16.2899 15.8803C16.4326 15.8607 16.5682 15.807 16.685 15.7238C16.8017 15.6406 16.8959 15.5304 16.9594 15.403L18.5273 12.0971L20.1834 15.4117C20.2468 15.5391 20.3411 15.6492 20.4578 15.7324C20.5745 15.8157 20.7101 15.8694 20.8528 15.8889L24.5614 16.4182L21.9187 19.0127Z" fill="#6B95D6"/>
+                        </svg>
+                        ${release.name}
+                    </h5>
+                </div>
+                <div class="col-2 d-flex justify-content-end">
+                    <button class="btn" style="background-color: transparent; border: none;">
+                        ${cardPinIcon.outerHTML}
+                    </button>
+                </div>
             </div>
-            <div class="col-2 d-flex justify-content-end">
-                <button class="btn" style="background-color: transparent; border: none;">
-                    ${cardPinIcon.outerHTML}
+            `;
+
+                cardText.innerHTML = `
+            <div style="">Release Key: 
+                <button type="button" class="btn btn-key me-2" data-bs-toggle="modal" data-bs-target="#addReleaseModal1">
+                    ${release.release_key}
+                </button></div>
+            <div style="">Start date: ${beautifulDate(release.start_date)}</div>
+            <div style="">Due date: ${beautifulDate(release.due_date)}</div>
+            <div class="mt-2"style="color: #232360"><strong>${Math.round(release.release_progress * 100)}% complete</strong></div>
+            <div class="col mt-3">
+                <div class="progress progress-sm mr-2" style="height: 5px;">
+                    <div class="progress-bar" role="progressbar"
+                        style="width: ${Math.round(release.release_progress * 100)}%; background-color: #232360;" aria-valuenow="50" aria-valuemin="0"
+                        aria-valuemax="100"></div>
+                </div>
+            </div>
+            <div class="col d-flex justify-content-end mt-2">
+                <button class="btn" style="color: white; border: none;">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn" style="color: white; border: none;">
+                    <i class="fas fa-trash"></i>
                 </button>
             </div>
-        </div>
-        `;
-
-            cardText.innerHTML = `
-        <div style="">Release Key: 
-            <button type="button" class="btn btn-key me-2" data-bs-toggle="modal" data-bs-target="#addReleaseModal1">
-                ${release.key}
-            </button></div>
-        <div style="">Start date: ${beautifulDate(release.startDate)}</div>
-        <div style="">Due date: ${beautifulDate(release.dueDate)}</div>
-        <div class="mt-2"style="color: #232360"><strong>${Math.round(release.progress * 100)}% complete</strong></div>
-        <div class="col mt-3">
-            <div class="progress progress-sm mr-2" style="height: 5px;">
-                <div class="progress-bar" role="progressbar"
-                    style="width: ${Math.round(release.progress * 100)}%; background-color: #232360;" aria-valuenow="50" aria-valuemin="0"
-                    aria-valuemax="100"></div>
-            </div>
-        </div>
-        <div class="col d-flex justify-content-end mt-2">
-            <button class="btn" style="color: white; border: none;">
-                <i class="fas fa-edit"></i>
-            </button>
-            <button class="btn" style="color: white; border: none;">
-                <i class="fas fa-trash"></i>
-            </button>
-        </div>
-        `;
+            `;
 
             // Thêm các phần tử vào trong nhau theo cấu trúc của card
             cardBody.appendChild(cardTitle);
@@ -313,79 +266,29 @@
             // Thêm card vào trong releaseRow
             releaseRow.appendChild(cardCol);
         });
-    }
-    /* Datepicker */
-    $(document).ready(function () {
-        $('.datepicker').datepicker({
-            format: 'dd/mm/yyyy',
-            startDate: '-3d',
-            autoclose: true
+        }
+
+        addReleaseCards("all");
+
+        $(document).ready(function () {
+            $(".datepicker").datepicker({
+                format: "yyyy-mm-dd",
+                todayHighlight: true,
+                autoclose: true
+            });
+
+            $(".requirement-item input[type=checkbox]").on("change", function () {
+                let count = 0;
+                $(".requirement-item input[type=checkbox]").each(function () {
+                    if ($(this).is(":checked")) {
+                        count++;
+                    }
+                });
+                $(".requirement-item input[type=checkbox]").prop("checked", false);
+                $(this).prop("checked", true);
+            });
         });
-    });
-
-    /* Dropzone */
-    Dropzone.options.myDropzone = {
-        url: '/path/to/upload/handler', // replace this with your upload handler URL
-        maxFilesize: 2, // Maximum file size in MB
-        acceptedFiles: 'image/*,application/pdf,.psd', // Accepted file types
-    };
-
-    /* Add release modal */
-    function handleModalInput() {
-        document.querySelector('#modalAddRelease .btn-primary').addEventListener('click', function () {
-            var releaseNameInput = document.querySelector('input[name="release-name"]');
-            var releaseStartDateInput = document.querySelector('input[name="release-start-date"]');
-            var releaseDueDateInput = document.querySelector('input[name="release-due-date"]');
-            var alertMessageReleaseNameInput = document.querySelector('#alertMessageReleaseNameInput');
-            var alertMessageReleaseStartDateInput = document.querySelector('#alertMessageReleaseStartDateInput');
-            var alertMessageReleaseDueDateInput = document.querySelector('#alertMessageReleaseDueDateInput');
-
-            // Validate release name
-            var releaseName = releaseNameInput.value;
-            if (releaseName === '') {
-                alertMessageReleaseNameInput.textContent = 'Please enter a release name.';
-                alertMessageReleaseNameInput.style.display = 'block';
-                return;
-            } else {
-                alertMessageReleaseNameInput.textContent = '';
-                alertMessageReleaseNameInput.style.display = 'none';
-            }
-
-            // Validate release start date
-            var releaseStartDate = releaseStartDateInput.value;
-            if (releaseStartDate === '') {
-                alertMessageReleaseStartDateInput.textContent = 'Please enter a start date.';
-                alertMessageReleaseStartDateInput.style.display = 'block';
-                return;
-            } else {
-                alertMessageReleaseStartDateInput.textContent = '';
-                alertMessageReleaseStartDateInput.style.display = 'none';
-            }
-
-            // Validate release due date
-            var releaseDueDate = releaseDueDateInput.value;
-            if (releaseDueDate === '') {
-                alertMessageReleaseDueDateInput.textContent = 'Please enter a due date.';
-                alertMessageReleaseDueDateInput.style.display = 'block';
-                return;
-            } else {
-                alertMessageReleaseDueDateInput.textContent = '';
-                alertMessageReleaseDueDateInput.style.display = 'none';
-            }
-
-            var release = {
-                name: releaseName,
-                startDate: releaseStartDate,
-                dueDate: releaseDueDate,
-            };
-
-            alert('Data: ' + JSON.stringify(release));
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        addReleaseCards();
-        handleModalInput();
-    });
-</script>
-{{/block}}
+    </script>
+    {{/block}}
+</body>
+</html>
