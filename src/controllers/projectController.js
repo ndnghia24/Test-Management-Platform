@@ -39,4 +39,20 @@ controller.getRequirement = async (req, res) => {
     }
 }
 
+controller.getAllTestCase = async (req, res) => {
+    try {
+        const projectId = req.params.id;
+        const testcases = await db.test_cases.findAll({
+            where: {
+                project_id: projectId
+            },
+            raw: true
+        });
+        res.status(200).send({ testcases });
+    } catch (error) {
+        console.error('Error getting test cases:', error);
+        res.status(500).send({ success: false, error });
+    }
+}
+
 module.exports = controller;

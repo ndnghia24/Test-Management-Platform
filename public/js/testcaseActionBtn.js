@@ -1,13 +1,11 @@
-$('docuemnt').ready(function () {
+$(document).ready(function () {
     $('i.bi-trash').click(function () {
         var curRow = $(this).closest('tr');
         var testcaseId = curRow.find('.testcase-code').text();
         $('#delete-test-case-modal')[0].dataset.testcaseCode = testcaseId;
         $('#delete-test-case-modal').modal('show');
     });
-});
 
-$('document').ready(function () {
     $('.delete-test-case-btn').click(function () {
         var testcaseId = $('#delete-test-case-modal')[0].dataset.testcaseCode;
         let curUrl = window.location.pathname;
@@ -27,9 +25,7 @@ $('document').ready(function () {
             }
         });
     });
-});
 
-$('document').ready(function () {
     $('i.bi-eye').click(function () {
         var curRow = $(this).closest('tr');
         var testcaseId = curRow.find('.testcase-code').text();
@@ -46,10 +42,8 @@ $('document').ready(function () {
                 }
             }
         });
-    })
-});
+    });
 
-$('document').ready(function () {
     $('i.bi-pencil').click(function () {
         var testcaseId = $(this).closest('tr').find('.testcase-code').text();
 
@@ -57,13 +51,106 @@ $('document').ready(function () {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    $('#edit-test-case')[0].dataset.testcaseId = testcaseId;
                     renderTestCaseDetailsForEdit(data);
+                    var biTrash = $('.test-case-step-body-table').find('.bi-trash');
+                    for (let i = 0; i < biTrash.length; i++) {
+                        biTrash[i].addEventListener('click', function () {
+                            this.closest('tr').remove();
+                        });
+                    }
                 } else {
                     showRightBelowToast('Error getting Test Case information');
                 }
             });
+
+    });
+
+    $('.test-case-overview-apply').click(function () {
+        var testcaseId = $('#edit-test-case')[0].dataset.testcaseId;
+        var testcaseName = $('#test-case-name').val();
+        var testcaseModule = $('#test-case-module').val();
+        var testcaseDescription = $('#test-case-description').val();
+
+        $.ajax({
+            url: window.location.pathname + '/editTestCaseOverview?testcaseId=' + testcaseId,
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                testcaseName,
+                testcaseModule,
+                testcaseDescription
+            }),
+            success: function (data) {
+                if (data.success) {
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                    showRightBelowToast('Test Case updated successfully');
+                } else {
+                    showRightBelowToast('Error updating Test Case');
+                }
+            }
+        });
+    });
+
+    $('.test-case-step-add-step').click(function () {
+        var modal = $('#edit-test-case');
+        var stepRow = `<tr>
+            <td>
+                <textarea type="text" id="test-case-step-edit-description" class="form-control step" rows="4"></textarea>
+            </td>
+            <td>
+                <textarea type="text" id="test-case-step-result" class="form-control step" rows="4"></textarea>
+            </td>
+            <td><i class ="bi bi-trash hover-icon text-danger" style="font-size: 25px;"></i></td> `;
+        modal.find('.test-case-step-body-table').append(stepRow);
+
+        var biTrash = $('.test-case-step-body-table').find('.bi-trash');
+        for (let i = 0; i < biTrash.length; i++) {
+            biTrash[i].addEventListener('click', function () {
+                this.closest('tr').remove();
+            });
+        }
+    });
+
+    $('.test-case-step-apply').click(function () {
+        var description = document.querySelectorAll('#test-case-step-edit-description');
+        var result = document.querySelectorAll('#test-case-step-result');
+
+        console.log(description);
+
+        var step = [];
+
+        description.forEach((element, index) => {
+            step.push({
+                description: element.value,
+                result: result[index].value
+            });
+        });
+
+        var testcaseId = $('#edit-test-case')[0].dataset.testcaseId;
+
+        $.ajax({
+            url: window.location.pathname + '/editTestCaseStep?testcaseId=' + testcaseId,
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({steps: step}),
+            success: function (data) {
+                if (data.success) {
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                    showRightBelowToast('Test Case updated successfully');
+                } else {
+                    showRightBelowToast('Error updating Test Case');
+                }
+            }
+        });
     });
 });
+
+
 
 function renderTestCaseDetails(data) {
     let modal = $('#view-test-case');
@@ -117,13 +204,29 @@ function renderTestCaseDetailsForEdit(data) {
     modal.find('#test-case-description').val(data.testcase.testcase_description);
 
     let steps = data.steps;
+    let module_id = data.testcase.module_id;
+
+    fetch(window.location.pathname.split('/testcase')[0] + '/getAllModule')
+        .then(response => response.json())
+        .then(data => {
+            modal.find('#test-case-module').empty();
+            data.modules.forEach(module => {
+                let option = `<option value="${module.module_id}">${module.name}</option>`;
+                modal.find('#test-case-module').append(option);
+            });
+            modal.find('#test-case-module').val(module_id);
+        });
 
     modal.find('.test-case-step-body-table').empty();
     steps.forEach((step, index) => {
         let stepRow = `<tr>
-            <td>${index + 1}</td>
-            <td>${step.step_description}</td>
-            <td>${step.step_result}</td>
+            <td>
+                <textarea type="text" id="test-case-step-edit-description" class="form-control step" rows="4">${step.step_description}</textarea>
+            </td>
+            <td>
+                <textarea type="text" id="test-case-step-result" class="form-control step" rows="4">${step.step_result}</textarea>
+            </td>
+            <td><i class ="bi bi-trash hover-icon text-danger" style="font-size: 25px;"></i></td>
         </tr>`;
         modal.find('.test-case-step-body-table').append(stepRow);
     });
@@ -152,5 +255,4 @@ function renderTestCaseDetailsForEdit(data) {
         modal.find('.test-case-linking-requirements-body-table').append(linkRow);
     });
     modal.modal('show');
-    reActivateTooltips();
 }

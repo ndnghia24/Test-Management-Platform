@@ -15,6 +15,7 @@ var _test_case_requirement = require("./test_case_requirement");
 var _test_case_step = require("./test_case_step");
 var _test_cases = require("./test_cases");
 var _test_plans = require("./test_plans");
+var _test_run_test_case_status = require("./test_run_test_case_status");
 var _test_runs = require("./test_runs");
 var _testcase_testrun = require("./testcase_testrun");
 var _user_in_project = require("./user_in_project");
@@ -37,6 +38,7 @@ function initModels(sequelize) {
   var test_case_step = _test_case_step(sequelize, DataTypes);
   var test_cases = _test_cases(sequelize, DataTypes);
   var test_plans = _test_plans(sequelize, DataTypes);
+  var test_run_test_case_status = _test_run_test_case_status(sequelize, DataTypes);
   var test_runs = _test_runs(sequelize, DataTypes);
   var testcase_testrun = _testcase_testrun(sequelize, DataTypes);
   var user_in_project = _user_in_project(sequelize, DataTypes);
@@ -60,6 +62,8 @@ function initModels(sequelize) {
   issues.hasMany(comment, { as: "comments", foreignKey: "issue_id"});
   test_cases.belongsTo(modules, { as: "module", foreignKey: "module_id"});
   modules.hasMany(test_cases, { as: "test_cases", foreignKey: "module_id"});
+  issues.belongsTo(projects, { as: "project", foreignKey: "project_id"});
+  projects.hasMany(issues, { as: "issues", foreignKey: "project_id"});
   modules.belongsTo(projects, { as: "project", foreignKey: "project_id"});
   projects.hasMany(modules, { as: "modules", foreignKey: "project_id"});
   releases.belongsTo(projects, { as: "project", foreignKey: "project_id"});
@@ -94,6 +98,8 @@ function initModels(sequelize) {
   test_cases.hasMany(test_case_step, { as: "test_case_steps", foreignKey: "testcase_id"});
   testcase_testrun.belongsTo(test_cases, { as: "testcase", foreignKey: "testcase_id"});
   test_cases.hasMany(testcase_testrun, { as: "testcase_testruns", foreignKey: "testcase_id"});
+  testcase_testrun.belongsTo(test_run_test_case_status, { as: "status", foreignKey: "status_id"});
+  test_run_test_case_status.hasMany(testcase_testrun, { as: "testcase_testruns", foreignKey: "status_id"});
   testcase_testrun.belongsTo(test_runs, { as: "testrun", foreignKey: "testrun_id"});
   test_runs.hasMany(testcase_testrun, { as: "testcase_testruns", foreignKey: "testrun_id"});
   issues.belongsTo(testcase_testrun, { as: "test_case", foreignKey: "test_case_id"});
@@ -136,6 +142,7 @@ function initModels(sequelize) {
     test_case_step,
     test_cases,
     test_plans,
+    test_run_test_case_status,
     test_runs,
     testcase_testrun,
     user_in_project,

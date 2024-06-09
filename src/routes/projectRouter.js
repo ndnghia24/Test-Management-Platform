@@ -14,11 +14,12 @@ router.delete("/:id/testcase/deleteTestCase", controller.test_caseController.del
 
 router.get("/:id/getAllModule", controller.getModule);
 router.get("/:id/getAllRequirement", controller.getRequirement);
+router.get("/:id/getAllTestCase", controller.getAllTestCase);
 
 // router.put("/:id/testcase/editTestCaseLinking", controller.test_caseController.editTestCase);
 // router.put("/:id/testcase/editTestCaseRequirement", controller.test_caseController.editTestCase);
-// router.put("/:id/testcase/editTestCaseStep", controller.test_caseController.editTestCase);
-// router.put("/:id/testcase/editTestCaseOverview", controller.test_caseController.editTestCase);
+router.put("/:id/testcase/editTestCaseStep", controller.test_caseController.editTestCaseStep);
+router.put("/:id/testcase/editTestCaseOverview", controller.test_caseController.editTestCaseOverview);
 
 router.get("/:id/testrun", (req,res) => {
     res.render('test-run-view', {

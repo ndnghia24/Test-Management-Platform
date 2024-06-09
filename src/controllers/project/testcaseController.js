@@ -127,7 +127,7 @@ controller.getSpecifyTestCase = async (req,res) => {
     try {
         const [testcase, steps, linkingTestcases, linkingRequirements] = await Promise.all([
             db.sequelize.query(
-                'SELECT t.name AS testcase_name, m.name AS module_name, t.description AS testcase_description ' +
+                'SELECT t.name AS testcase_name, m.name AS module_name, t.description AS testcase_description, m.module_id AS module_id ' +
                 'FROM test_cases AS t, modules AS m ' +
                 'WHERE testcase_id = ?' +
                 'AND t.module_id = m.module_id', { replacements: [testcaseId], type: db.sequelize.QueryTypes.SELECT, raw: true},
@@ -167,6 +167,56 @@ controller.getSpecifyTestCase = async (req,res) => {
         res.status(500).send({ success: false, error: error });
     }
 
+}
+
+controller.editTestCaseOverview = async (req,res) => {
+    const t = await db.sequelize.transaction();
+    try {
+        const { testcaseName, testcaseModule, testcaseDescription } = req.body;
+        const testcaseId = req.query.testcaseId;
+
+        console.log(req.body);
+
+        await db.test_cases.update({
+            name: testcaseName,
+            module_id: testcaseModule,
+            description: testcaseDescription,
+        }, { where: { testcase_id: testcaseId }, transaction: t});
+
+        await t.commit();
+        res.status(200).send({ success: true });
+    } catch (error) {
+        await t.rollback();
+        console.error('Error updating test case:', error);
+        res.status(500).send({ success: false, error: error });
+    }
+}
+
+controller.editTestCaseStep = async (req,res) => {
+    const t = await db.sequelize.transaction();
+    try {
+        const { steps } = req.body;
+        const testcaseId = req.query.testcaseId;
+
+        console.log(req.body);
+
+        await db.test_case_step.destroy({ where: { testcase_id: testcaseId }}, { transaction: t});
+
+        for (let step of steps) {
+            await db.test_case_step.create({
+                description: step.description,
+                expected_result: step.result,
+                testcase_id: testcaseId,
+            }, { transaction: t});
+        }
+
+        await t.commit();
+        res.status(200).send({ success: true });
+    } catch (error) {
+        await t.rollback();
+        console.error('Error updating test case:', error);
+        res.status(500).send({ success: false, error: error });
+    }
 }
 
 module.exports = controller;
