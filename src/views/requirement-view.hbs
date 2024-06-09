@@ -421,6 +421,9 @@
             showPage(currentPage);
 
             document.getElementById("prevPageBtn").addEventListener('click', function() {
+                currentTotal = parseInt(document.getElementById("totalPages").textContent);
+                currentPage = parseInt(document.getElementById("currentPage").textContent);
+
                 if (currentPage > 1) {
                     currentPage--;
                     showPage(currentPage);
@@ -428,7 +431,10 @@
             });
 
             document.getElementById("nextPageBtn").addEventListener('click', function() {
-                if (currentPage < totalPages) {
+                currentTotal = parseInt(document.getElementById("totalPages").textContent);
+                currentPage = parseInt(document.getElementById("currentPage").textContent);
+
+                if (currentPage < currentTotal) {
                     currentPage++;
                     showPage(currentPage);
                 }
