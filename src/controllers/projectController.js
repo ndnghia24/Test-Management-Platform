@@ -5,7 +5,10 @@ controller = {}
 controller.test_planController = require('../controllers/project/testplanController');
 controller.test_caseController = require('../controllers/project/testcaseController');
 controller.requirementController = require('../controllers/project/requirementController');
-
+controller.overviewController = require('../controllers/project/overviewController');
+controller.releaseController = require('../controllers/project/releaseController');
+controller.moduleController = require('../controllers/project/moduleController');
+controller.reportController = require('../controllers/project/reportController');
 
 controller.getModule = async (req, res) => {
     try {
