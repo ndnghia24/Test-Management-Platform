@@ -120,12 +120,18 @@
 <script>
     const modules = {{{modules}}};
 
-    function displayModules(modules, containerId, onClickFunction) {
+    function displayModules(rootModuleName, modules, containerId, onClickFunction) {
         const container = document.getElementById(containerId);
         container.innerHTML = '';
 
+        if (containerId === 'modulesLevel2') {
+            document.querySelector('.modules-level-2 .card-title').textContent = rootModuleName;
+            document.querySelector('.modules-level-3 .card-title').textContent = 'SubSub Modules';
+        } else if (containerId === 'modulesLevel3') {
+            document.querySelector('.modules-level-3 .card-title').textContent = rootModuleName;
+        }
+
         if (!modules || modules.length === 0) {
-            // Nếu không có mô-đun hoặc mảng mô-đun rỗng
             const emptyModuleItem = document.createElement('div');
             emptyModuleItem.className = 'card';
             emptyModuleItem.style = 'border: 2px dashed #000;';
@@ -149,9 +155,11 @@
 
     function getSubModules(rootModuleId) {
         let subModules = [];
+        let rootModuleName = '';
         function findSubModules(currentModule) {
             if (currentModule.module_id === rootModuleId) {
                 subModules = currentModule.children;
+                rootModuleName = currentModule.name;
                 return;
             } else {
                 currentModule.children.forEach(childModule => {
@@ -166,22 +174,21 @@
                 findSubModules(module);
             });
         }
-        
-        return subModules;
+        return { rootname: rootModuleName, children: subModules };
     }
 
     function bindingSubModule(module_id, level) {
         const subModules = getSubModules(module_id);
-        displayModules(subModules, 'modulesLevel2', bindingSubSubModule);
+        displayModules(subModules.rootname, subModules.children, 'modulesLevel2', bindingSubSubModule);
         document.getElementById('modulesLevel3').innerHTML = '';
     }
 
     function bindingSubSubModule(module_id, level) {
         const subSubModules = getSubModules(module_id);
-        displayModules(subSubModules, 'modulesLevel3', () => {});
+        displayModules(subSubModules.rootname, subSubModules.children, 'modulesLevel3', () => {});
     }
 
     // Initialize root modules
     const rootModules = getSubModules(0);
-    displayModules(rootModules, 'modulesLevel1', bindingSubModule);
+    displayModules('Modules', rootModules, 'modulesLevel1', bindingSubModule);
 </script>
