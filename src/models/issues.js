@@ -53,11 +53,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: true
     },
     created_date: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: true
     },
     created_by: {
       type: DataTypes.INTEGER,
@@ -66,6 +66,18 @@ module.exports = function(sequelize, DataTypes) {
         model: 'users',
         key: 'user_id'
       }
+    },
+    project_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'projects',
+        key: 'project_id'
+      }
+    },
+    assigned_to: {
+      type: DataTypes.INTEGER,
+      allowNull: true
     }
   }, {
     sequelize,

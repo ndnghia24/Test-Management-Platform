@@ -100,6 +100,10 @@ nav.project-detail-nav a:not(:last-child):after{
     cursor: pointer;
 }
 
+.sidebar {
+    height: 866px !important;
+}
+
 .sidebar a {
     display: block;
     color: black;
@@ -216,6 +220,26 @@ h3 {
     color: #232360 !important;
     font-weight: 600;
 }
+
+.input-zoom {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 1000 !important;
+    font-size: 1.5em !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    z-index: 999 !important;
+  }
 
 @media screen and (max-width: 1180px) {
     .main-content {

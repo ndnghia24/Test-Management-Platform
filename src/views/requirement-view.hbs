@@ -8,8 +8,14 @@
                 <!-- Header của card -->
                 <div class="card-header bg-white border-0 align-items-center">
                     <div class="row">
-                        <div class="col">
+                        <div class="col col-9">
                             <h3 class="card-title">Requirement Type</h3>
+                        </div>
+                        <div class="col d-flex justify-content-end">
+                            <button id="filterButton" type="button" class="btn">
+                                <i class="fas fa-filter"></i>&nbsp;&nbsp;
+                                Filter
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -22,8 +28,10 @@
                             style="color: #232360; font-weight: 700; font-size: 1.1rem;">
                             {{#each requirement_types}}
                             <div class="requirement-item">
-                                <i class="fa fa-plus-square"></i>
-                                {{this.name}}
+                                <label for="checkbox{{this.name}}" class="d-flex">
+                                    <input class="form-check-input me-2" type="checkbox" value="1" checked id="checkboxRequirementType{{this.requirement_type_id}}">
+                                    {{this.name}}
+                                </label>
                             </div>
                             {{/each}}
                             {{!-- <div class="requirement-item">
@@ -45,17 +53,15 @@
                 <div class="card-header bg-white border-0 align-items-center">
                     <div class="row">
                         <div class="col-4">
-                            <h3 class="card-title">Functionality</h3>
+                            <h3 class="card-title">Requirements</h3>
                         </div>
                         <div class="col d-flex justify-content-end">
                             <ul class="list-unstyled d-flex flex-row">
                                 <li id="requirements-filter-box">
-                                    <div class="box">
-                                        <form name="search-requirement" role="search">
-                                            <input id="search" type="search" placeholder="Search..." autofocus
-                                                required />
-                                        </form>
-                                    </div>
+                                    <form name="search-requirement" role="search">
+                                        <input type="text" class="form-control" id="search-input-requirement" placeholder="Search Title..."
+                                            style="color: #C4C4DA; font-weight: 600; width: 100%; background-color: #F1F1F1; border-radius: 5px; border:none; padding: 10px" />
+                                    </form>
                                 <li>
                                     <button id="btn-bg-transparent" type="button" class="btn">
                                         <i class="fas fa-download"></i>  
@@ -88,29 +94,27 @@
                 <!-- Nội dung (body) của card -->
                 <div class="card-body" id="main-content">
                     <div class="container-fluid" id="requirementsContainer" style="overflow-y: auto;">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <div class="row-lg-8 col-6 d-flex align-items-center">
-                                    <div class="color-purpleblack normal-text" style="padding-right: 10px;">Show</div>
-                                    <select class="form-select form-select-sm ml-2"
-                                        aria-label=".dropdown-for-created-date">
-                                        <option value="5">5</option>
-                                        <option value="10">10</option>
-                                        <option value="10">25</option>
-                                    </select>
-                                </div>
+                        <div class="d-flex align-items-center justify-content-between pb-3" style="height: 10%;">
+                            <div class="top-left-requirement-list d-flex justify-content-center align-items-center gap-3" style="height: 100%;">
+                                <p style="font-size: 1rem; color: #9c9c9c; font-weight: 600; margin: 0;">Show</p>
+                                <select name="show" class="form-select number-of-row" aria-label="Default select example" required>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                    <option value="50">50</option>
+                                </select>
                             </div>
-                            <div class="col-8 d-flex justify-content-end">
-                                <div class="row-lg-8 col-5 d-flex align-items-center">
-                                    <div class="color-purpleblack normal-text" style="padding-right: 10px;">Created Date
-                                    </div>
-                                    <select class="form-select form-select-sm ml-2"
-                                        aria-label=".dropdown-for-created-date">
-                                        <option selected>--</option>
-                                        <option value="asc">Asc</option>
-                                        <option value="decs">Decs</option>
-                                    </select>
-                                </div>
+                            <div class="top-right-requirement-list d-flex justify-content-between align-items-center gap-3">
+                                <select name="show" class="form-select feature" aria-label="Default select example"
+                                    style="width: max-content;" required>
+                                    <option value="2">Requirement's Code</option>
+                                    <option value="3">Requirement's  Title</option>
+                                </select>
+                                <select name="show" style="width: max-content;" class="form-select sorting"
+                                    aria-label="Default select example" required>
+                                    <option value="1">ASC</option>
+                                    <option value="2">DES</option>
+                                </select>
                             </div>
                         </div>
 
@@ -130,8 +134,9 @@
                                             id="flexCheckDefault"></td>
                                         <td class="requirement-code">{{this.requirement_code}}</td>
                                         <td class="requirement-title">{{this.requirement_name}}</td>
+                                        <td class="d-none requirement-type-of-requirement ">{{this.requirement_type_id}}</td>
                                         <td>
-                                            <i class="fa fa-eye clickable" style="margin-right: 20px;"></i>
+                                            <i class="fa fa-eye clickable" data-requirement-code="{{this.requirement_code}}" style="margin-right: 20px; cursor: pointer" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Detail"></i>
                                             <i class="fa fa-pencil clickable text-success" style="margin-right: 20px;"></i>
                                             <i class="fa fa-trash clickable text-danger"></i>
                                         </td>
@@ -176,6 +181,18 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="pagination-container d-flex justify-content-start align-items-center ms-5 mt-3">
+                            Page
+                            <button class="btn btn-link" id="prevPageBtn">
+                                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                            </button>
+                            <span id="currentPage" class="mx-2 border px-2 py-1">1</span>/  <span id="totalPages">3</span>
+                            <button class="btn btn-link" id="nextPageBtn">
+                                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                            </button>
+                        </div>
+
+
                         {{!-- <script>
                             function addIcon() {
                                 var viewIcon = document.createElement("i");
@@ -306,6 +323,46 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modalDetailsRequirement" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content align-items-center"
+            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
+            <div class="modal-header" style="border-bottom: none;">
+                <p class="modal-title fs-3" id="modalTitleId">Requirement name</p>
+            </div>
+            <div class="modal-body" style="border-bottom: none; width: 100%;">
+                <div class="row mb-3">
+                    <div>
+                        <lable for="description">Requirement Title <span style="color: red"></span>:</lable>
+                        <input type="text" class="form-control" name="requirement-title" id="requirement-title"
+                            placeholder="Enter Requirement Title" required>
+                        <div id="alertMessageRequirementTitle" style="display: none; color: red"></div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div>
+                        <lable for="description">Requirement Type <span style="color: red"></span>:</lable>
+                        <input type="text" class="form-control" name="requirement-type" id="requirement-type"
+                            placeholder="Enter Requirement Title" required>
+                        <div id="alertMessageRequirementTitle" style="display: none; color: red"></div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div>
+                        <lable for="description">Requirement Description:</lable>
+                        <textarea name="description" id="description" class="form-control" rows="3"
+                            placeholder="Enter Requirement Description"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none; align-items: center;">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 {{/block}}
 
 {{!-- Page's Functionality Button --}}
@@ -329,4 +386,145 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
 
 <script src="/js/addModuleModal.js"></script>
+<script src="/js/requirementActionBtn.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var currentPage = 1;
+        var rowsPerPage = parseInt(document.querySelector(".number-of-row").value);
+
+        function showPage(page) {
+            var tableItems = document.querySelectorAll("#requirementsContainer table tbody tr:not(.removed-item)");
+            var startIndex = (page - 1) * rowsPerPage;
+            var endIndex = startIndex + rowsPerPage;
+
+            tableItems.forEach((item, index) => {
+                if (index >= startIndex && index < endIndex) {
+                    item.style.display = "table-row";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+
+            document.getElementById("currentPage").textContent = page;
+        }
+
+        function updatePagination() {
+            var totalRows = document.querySelectorAll("#requirementsContainer table tbody tr:not(.removed-item)").length;
+            var totalPages = Math.ceil(totalRows / rowsPerPage);
+            document.getElementById("totalPages").textContent = totalPages;
+            return totalPages;
+        }
+
+        function paginate() {
+            var totalPages = updatePagination();
+            showPage(currentPage);
+
+            document.getElementById("prevPageBtn").addEventListener('click', function() {
+                currentTotal = parseInt(document.getElementById("totalPages").textContent);
+                currentPage = parseInt(document.getElementById("currentPage").textContent);
+
+                if (currentPage > 1) {
+                    currentPage--;
+                    showPage(currentPage);
+                }
+            });
+
+            document.getElementById("nextPageBtn").addEventListener('click', function() {
+                currentTotal = parseInt(document.getElementById("totalPages").textContent);
+                currentPage = parseInt(document.getElementById("currentPage").textContent);
+
+                if (currentPage < currentTotal) {
+                    currentPage++;
+                    showPage(currentPage);
+                }
+            });
+
+            document.querySelector(".number-of-row").addEventListener("change", function() {
+                rowsPerPage = parseInt(this.value);
+                currentPage = 1;
+                updatePagination();
+                showPage(currentPage);
+            });
+        }
+
+        function filterItems() {
+            try {
+                var searchValue = document.getElementById("search-input-requirement").value.trim().toUpperCase();
+                var requirementTypeIds = [];
+                var requirementTypeCheckboxes = document.querySelectorAll('.requirements-list input[type="checkbox"]');
+                requirementTypeCheckboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        requirementTypeIds.push(checkbox.id.replace('checkboxRequirementType', ''));
+                    }
+                });
+
+                var tableItems = document.querySelectorAll("#requirementsContainer table tbody tr");
+                var selectedRowCount = document.querySelector(".number-of-row").value;
+                var selectedFeature = document.querySelector(".feature").value;
+                var selectedSorting = document.querySelector(".sorting").value;
+
+                tableItems.forEach((item, index) => {
+                    var title = item.querySelector(".requirement-title").textContent.trim().toUpperCase();
+                    var requirementTypeId = item.querySelector('.requirement-type-of-requirement').textContent;
+                    if (title.includes(searchValue) && (requirementTypeIds.length === 0 || requirementTypeIds.includes(requirementTypeId))) {
+                        item.classList.remove("removed-item");
+                    } else {
+                        item.classList.add("removed-item");
+                    }
+                });
+
+                var tbody = document.querySelector("#requirementsContainer table tbody");
+                var rows = Array.from(tbody.querySelectorAll("tr"));
+
+                if (selectedFeature === "3") { // Sắp xếp theo requirement-title
+                    rows.sort((a, b) => {
+                        var titleA = a.querySelector(".requirement-title").textContent.trim().toUpperCase();
+                        var titleB = b.querySelector(".requirement-title").textContent.trim().toUpperCase();
+                        return selectedSorting === "2" ? titleB.localeCompare(titleA) : titleA.localeCompare(titleB);
+                    });
+                } else if (selectedFeature === "2") { // Sắp xếp theo requirement-code
+                    rows.sort((a, b) => {
+                        var codeA = parseInt(a.querySelector(".requirement-code").textContent.trim());
+                        var codeB = parseInt(b.querySelector(".requirement-code").textContent.trim());
+                        return selectedSorting === "2" ? codeB - codeA : codeA - codeB;
+                    });
+                }
+
+                let count = 0;
+                rows.forEach((row, index) => {
+                    if (count < selectedRowCount && !row.classList.contains("removed-item")) {
+                        count++;
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+
+                tbody.innerHTML = "";
+                rows.forEach(row => tbody.appendChild(row));
+
+                paginate();
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        var tableItems = document.querySelectorAll("#requirementsContainer table tbody tr");
+
+        for (var i = 0; i < tableItems.length; i++) {
+            if (i >= 10) {
+                tableItems[i].style.display = "none";
+            }
+        }
+
+        document.getElementById("filterButton").addEventListener("click", filterItems);
+        document.getElementById("search-input-requirement").addEventListener("input", filterItems);
+        document.querySelector(".number-of-row").addEventListener("change", filterItems);
+        document.querySelector(".feature").addEventListener("change", filterItems);
+        document.querySelector(".sorting").addEventListener("change", filterItems);
+
+        paginate();
+    });
+</script>
+
 {{/block}}

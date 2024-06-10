@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const expressHbs = require("express-handlebars");
-const { createPagination } = require("express-handlebars-paginate");
+const { createPagination }  = require("express-handlebars-paginate");
 const path = require("path");
 
 app.use(express.static(path.dirname(__dirname) + "/public"));
@@ -27,6 +27,17 @@ app.engine(
       // Helper 'content'
       content: function (name) {
         return (this._blocks && this._blocks[name]) ? this._blocks[name] : null;
+      },
+      // Paginate
+      paginate: createPagination,
+      json: function (context) {
+        return JSON.stringify(context);
+      },
+      eq: function (a, b) {
+        return a === b;
+      },
+      formatClassName: function (name) {
+        return name.replace(/ /g, "-").toLowerCase();
       },
       // Helper 'priority color'
       priorityColor: function(priority) {

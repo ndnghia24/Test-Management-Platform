@@ -1,19 +1,74 @@
 const controller = {};
 const { where } = require('sequelize');
 const db = require('../../models/index');
-const { raw } = require('express');
+const { raw, query } = require('express');
 
 controller.getTestCase = async (req,res) => {
+    // Set up pagination
+    const page = isNaN(req.query.page) ? 1 : Math.max(1,parseInt(req.query.page));
+    const limit = 12;
+    const offset = (page - 1) * limit;
+
+    // Get query parameters
+    const showOption = isNaN(req.query.showOption) ? 1 : parseInt(req.query.showOption);
+    const sortOption = isNaN(req.query.sortOption) ? 1 : parseInt(req.query.sortOption);
+    const search = req.query.search;
+    queryParameters = {};
+
     try {
         const projectId = req.params.id;
-        
-        const [testCases, modules, requirements, requirementTypes] = await Promise.all([
+        const promises = [];
+
+        let order_by = 'testcase_id';
+        switch (showOption) {
+            case 2:
+                order_by = 'name';
+                break;
+            case 3:
+                order_by = 'module_id';
+                break;
+            default:
+        }
+
+        let order = 'ASC';
+        switch (sortOption) {
+            case 2:
+                order = 'DESC';
+                break;
+            default:                
+                order = 'ASC';
+                break;
+        }
+
+        if (search) {
+            promises.push(
+                db.sequelize.query(
+                    'SELECT testcase_id, name FROM test_cases WHERE project_id = ? AND name LIKE ? ORDER BY ' + order_by + ' ' + order + ' LIMIT ? OFFSET ?',
+                    { replacements: [projectId, '%' + search + '%', limit, offset], type: db.sequelize.QueryTypes.SELECT}
+                ),
+                db.sequelize.query(
+                    'SELECT COUNT(*) AS count FROM test_cases WHERE project_id = ? AND name LIKE ?',
+                    { replacements: [projectId, '%' + search + '%'], type: db.sequelize.QueryTypes.SELECT}
+                ),
+            );
+            queryParameters = { showOption: showOption, sortOption: sortOption, search: search };
+        } else {
+            promises.push(
+                db.sequelize.query(
+                    'SELECT testcase_id, name FROM test_cases WHERE project_id = ? ORDER BY ' + order_by + ' ' + order + ' LIMIT ? OFFSET ?',
+                    { replacements: [projectId,limit,offset], type: db.sequelize.QueryTypes.SELECT}
+                ),
+                db.sequelize.query(
+                    'SELECT COUNT(*) AS count FROM test_cases WHERE project_id = ?',
+                    { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
+                ),
+            );
+            queryParameters = { showOption: showOption, sortOption: sortOption };
+        }
+
+        promises.push(
             db.sequelize.query(
-                'SELECT testcase_id, name FROM test_cases WHERE project_id = ? ORDER BY testcase_id',
-                { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
-            ),
-            db.sequelize.query(
-                'SELECT name, module_id FROM modules WHERE project_id = ?',
+                'SELECT * FROM modules WHERE project_id = ?',
                 { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
             ),
             db.sequelize.query(
@@ -24,7 +79,11 @@ controller.getTestCase = async (req,res) => {
                 'SELECT name FROM requirement_types WHERE project_id = ?',
                 { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
             )
-        ]);
+        );
+
+        const [testCases, testcaseNum, modules, requirements, requirementTypes] = await Promise.all(promises);
+
+        console.log('testCases',modules);
 
         res.locals.requirements_type = requirementTypes;
         res.locals.requirements = requirements;
@@ -34,6 +93,12 @@ controller.getTestCase = async (req,res) => {
             title: 'Tetto',
             cssFile: 'test-case-view.css',
             projectId: projectId,
+            pagination: {
+                page: page,
+                limit: limit,
+                totalRows: testcaseNum[0].count,
+                queryParams: queryParameters,
+            }
         });
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -127,7 +192,7 @@ controller.getSpecifyTestCase = async (req,res) => {
     try {
         const [testcase, steps, linkingTestcases, linkingRequirements] = await Promise.all([
             db.sequelize.query(
-                'SELECT t.name AS testcase_name, m.name AS module_name, t.description AS testcase_description ' +
+                'SELECT t.name AS testcase_name, m.name AS module_name, t.description AS testcase_description, m.module_id AS module_id ' +
                 'FROM test_cases AS t, modules AS m ' +
                 'WHERE testcase_id = ?' +
                 'AND t.module_id = m.module_id', { replacements: [testcaseId], type: db.sequelize.QueryTypes.SELECT, raw: true},
@@ -167,6 +232,56 @@ controller.getSpecifyTestCase = async (req,res) => {
         res.status(500).send({ success: false, error: error });
     }
 
+}
+
+controller.editTestCaseOverview = async (req,res) => {
+    const t = await db.sequelize.transaction();
+    try {
+        const { testcaseName, testcaseModule, testcaseDescription } = req.body;
+        const testcaseId = req.query.testcaseId;
+
+        console.log(req.body);
+
+        await db.test_cases.update({
+            name: testcaseName,
+            module_id: testcaseModule,
+            description: testcaseDescription,
+        }, { where: { testcase_id: testcaseId }, transaction: t});
+
+        await t.commit();
+        res.status(200).send({ success: true });
+    } catch (error) {
+        await t.rollback();
+        console.error('Error updating test case:', error);
+        res.status(500).send({ success: false, error: error });
+    }
+}
+
+controller.editTestCaseStep = async (req,res) => {
+    const t = await db.sequelize.transaction();
+    try {
+        const { steps } = req.body;
+        const testcaseId = req.query.testcaseId;
+
+        console.log(req.body);
+
+        await db.test_case_step.destroy({ where: { testcase_id: testcaseId }}, { transaction: t});
+
+        for (let step of steps) {
+            await db.test_case_step.create({
+                description: step.description,
+                expected_result: step.result,
+                testcase_id: testcaseId,
+            }, { transaction: t});
+        }
+
+        await t.commit();
+        res.status(200).send({ success: true });
+    } catch (error) {
+        await t.rollback();
+        console.error('Error updating test case:', error);
+        res.status(500).send({ success: false, error: error });
+    }
 }
 
 module.exports = controller;

@@ -258,96 +258,20 @@
                             </div>
                             <div class="col col-9">
                                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4">
+                                    {{#each issueStatusSingleCount}}
                                     <div class="col">
                                         <div class="card border-0">
                                             <div class="card-body p-0">
-                                                <h5 style="display: flex; align-items: center;">0
+                                                <h5 style="display: flex; align-items: center;">{{this.count}}
                                                     <span style="font-size: 12px; margin-left: 5px;">
-                                                        <i class="fa fa-circle" style="color: green"></i>
+                                                        <i class="fa fa-circle" style="color: {{this.color}}"></i>
                                                     </span>
                                                 </h5>
-                                                <p class="card-text test-status">Passed</p>
+                                                <p class="card-text test-status">{{this.status}}</p>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="col">
-                                        <div class="card border-0">
-                                            <div class="card-body p-0">
-                                                <h5 style="display: flex; align-items: center;">20
-                                                    <span style="font-size: 12px; margin-left: 5px;">
-                                                        <i class="fa fa-circle" style="color: blue"></i>
-                                                    </span>
-                                                </h5>
-                                                <p class="card-text test-status">Untested</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="card border-0">
-                                            <div class="card-body p-0">
-                                                <h5 style="display: flex; align-items: center;">0
-                                                    <span style="font-size: 12px; margin-left: 5px;">
-                                                        <i class="fa fa-circle" style="color: gray"></i>
-                                                    </span>
-                                                </h5>
-                                                <p class="card-text test-status">Blocked</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="card border-0">
-                                            <div class="card-body p-0">
-                                                <h5 style="display: flex; align-items: center;">0
-                                                    <span style="font-size: 12px; margin-left: 5px;">
-                                                        <i class="fa fa-circle" style="color: purple"></i>
-                                                    </span>
-                                                </h5>
-                                                <p class="card-text test-status">In Progress</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="card border-0">
-                                            <div class="card-body p-0">
-                                                <h5 style="display: flex; align-items: center;">0
-                                                    <span style="font-size: 12px; margin-left: 5px;">
-                                                        <i class="fa fa-circle" style="color: red"></i>
-                                                    </span>
-                                                </h5>
-                                                <p class="card-text test-status">Failed</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="card border-0">
-                                            <div class="card-body p-0">
-                                                <h5 style="display: flex; align-items: center;">0
-                                                    <span style="font-size: 12px; margin-left: 5px;">
-                                                        <i class="fa fa-circle" style="color: brown"></i>
-                                                    </span>
-                                                </h5>
-                                                <p class="card-text test-status">Not Applicable</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="card border-0">
-                                            <div class="card-body p-0">
-                                                <h5 style="display: flex; align-items: center;">0
-                                                    <span style="font-size: 12px; margin-left: 5px;">
-                                                        <i class="fa fa-circle" style="color: skyblue"></i>
-                                                    </span>
-                                                </h5>
-                                                <p class="card-text test-status">Hold</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {{/each}}
                                 </div>
                             </div>
                         </div>
@@ -369,21 +293,31 @@
                                             stroke="#F48FB1" stroke-width="1.5" stroke-linecap="round"
                                             stroke-linejoin="round"></path>
                                     </svg></div>
-                                <h3 class="card-title">1</h3>
+                                <h3 class="card-title">{{releaseCount}}</h3>
                                 <h5 class="card-title">Releases</h5>
                             </div>
                         </div>
                         <div class="custom-divider"></div>
                         <!-- Nội dung (body) của card -->
                         <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <span>release 1</span>
-                                <button type="button" class="btn bg-white p-0"><i class="fas fa-eye"></i></button>
-                            </div>
+                            {{#if releaseList}}
+                                {{#each releaseList}}
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <span>{{this.name}}</span>
+                                    <button type="button" class="btn bg-white p-0"><i class="fas fa-eye"></i></button>
+                                </div>
+                                {{/each}}
+                            {{/if}}
+                            {{#unless releaseList}}
+                                <div>
+                                    <i class="fa fa-bug" style="font-size: 1rem; color: #B39DDB;"></i>
+                                    No Releases Available
+                                </div>
+                            {{/unless}}
                         </div>
 
                         <div class="card-footer bg-white border-0 d-flex justify-content-end">
-                            <a href="./releases.html" class="btn border-0" style="color: #232360">View All</a>
+                            <a href="./release" class="btn border-0" style="color: #232360">View All</a>
                         </div>
                     </div>
                 </div>
@@ -402,29 +336,31 @@
                                             stroke="#FFCC80" stroke-width="1.5" stroke-linecap="round"
                                             stroke-linejoin="round"></path>
                                     </svg></div>
-                                <h3 class="card-title">3</h3>
+                                <h3 class="card-title">{{testrunCount}}</h3>
                                 <h5 class="card-title">Test Run</h5>
                             </div>
                         </div>
                         <div class="custom-divider"></div>
                         <!-- Nội dung (body) của card -->
                         <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <span>Test run 1</span>
-                                <button type="button" class="btn bg-white p-0"><i class="fas fa-eye"></i></button>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <span>Test run 2</span>
-                                <button type="button" class="btn bg-white p-0"><i class="fas fa-eye"></i></button>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <span>Test run 3</span>
-                                <button type="button" class="btn bg-white p-0"><i class="fas fa-eye"></i></button>
-                            </div>
+                            {{#if testrunList}}
+                                {{#each testrunList}}
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <span>{{this.testrun_title}}</span>
+                                    <button type="button" class="btn bg-white p-0"><i class="fas fa-eye"></i></button>
+                                </div>
+                                {{/each}}
+                            {{/if}}
+                            {{#unless testrunList}}
+                                <div>
+                                    <i class="fa fa-bug" style="font-size: 1rem; color: #B39DDB;"></i>
+                                    No Testrun Available
+                                </div>
+                            {{/unless}}
                         </div>
 
                         <div class="card-footer bg-white border-0 d-flex justify-content-end">
-                            <a href="#" class="btn border-0" style="color: #232360">View All</a>
+                            <a href="./testrun" class="btn border-0" style="color: #232360">View All</a>
                         </div>
                     </div>
                 </div>
@@ -450,21 +386,31 @@
                                         <path d="M14.5834 10.8334H17.9167" stroke="#B39DDB" stroke-width="1.5"
                                             stroke-linecap="round" stroke-linejoin="round"></path>
                                     </svg></div>
-                                <h3 class="card-title">0</h3>
-                                <h5 class="card-title">Issues</h5>
+                                <h3 class="card-title">{{testcaseCount}}</h3>
+                                <h5 class="card-title">Test case</h5>
                             </div>
                         </div>
                         <div class="custom-divider"></div>
                         <!-- Nội dung (body) của card -->
-                        <div class="card-body d-flex align-items-center justify-content-center">
-                            <div>
+                        <div class="card-body">
+                            {{#if testcasesList}}
+                                {{#each testcasesList}}
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <span>{{this.name}}</span>
+                                    <button type="button" class="btn bg-white p-0"><i class="fas fa-eye"></i></button>
+                                </div>
+                                {{/each}}
+                            {{/if}}
+                            {{#unless testcasesList}}
+                            <div class="d-flex align-items-center justify-content-center">
                                 <i class="fa fa-bug" style="font-size: 1rem; color: #B39DDB;"></i>
-                                No Issues Available
+                                No Testcase Available
                             </div>
+                            {{/unless}}
                         </div>
 
                         <div class="card-footer bg-white border-0 d-flex justify-content-end">
-                            <a href="#" class="btn border-0" style="color: #232360">View All</a>
+                            <a href="./testcase" class="btn border-0" style="color: #232360">View All</a>
                         </div>
                     </div>
                 </div>

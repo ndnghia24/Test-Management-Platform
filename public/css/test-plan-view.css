@@ -32,6 +32,11 @@
     opacity: 0.95;
 }
 
+.pagination a{
+    color: #1EA7FF !important;
+    padding: 0 10px;
+}
+
 @media screen and (max-width: 994px) {
     .table-responsive{
         padding: 0 !important;

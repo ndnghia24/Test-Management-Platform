@@ -4,7 +4,7 @@
 <div class="container-fluid mt-3">
     <div class="row">
         <div class="col-sm-4">
-            <div class="card custom-card">
+            <div class="modules-level-1 card custom-card">
                 <!-- Header của card -->
                 <div class="card-header bg-white border-0 align-items-center">
                     <div class="row">
@@ -15,76 +15,46 @@
                 </div>
                 <div class="custom-divider"></div>
                 <!-- Nội dung (body) của card -->
-
                 <div class="card-body p-0">
-                    <div class="d-flex flex-column gap-3 modules-list px-4 py-3"
-                        style="color: #232360; font-weight: 700; font-size: 1.1rem;">
-                        <div class="module-item">
-                            <i class="fa fa-folder-open"></i>
-                            Home Page
-                        </div>
-                        <div class="module-item">
-                            <i class="fa fa-folder"></i>
-                            Footer Section
-                        </div>
+                    <div id="modulesLevel1" class="d-flex flex-column gap-3 modules-list px-4 py-3" style="color: #232360; font-weight: 700; font-size: 1.1rem;">
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="col-sm-4">
-            <div class="card custom-card">
+            <div class="modules-level-2 card custom-card">
                 <!-- Header của card -->
                 <div class="card-header bg-white border-0 align-items-center">
                     <div class="row">
                         <div class="col">
-                            <h3 class="card-title">Home Page</h3>
+                            <h3 class="card-title">Sub Modules</h3>
                         </div>
                     </div>
                 </div>
                 <div class="custom-divider"></div>
                 <!-- Nội dung (body) của card -->
-
                 <div class="card-body p-0">
-                    <div class="d-flex flex-column gap-3 modules-list px-4 py-3"
-                        style="color: #232360; font-weight: 700; font-size: 1.1rem;">
-                        <div class="module-item">
-                            <i class="fa fa-folder"></i>
-                            Header Section
-                        </div>
-                        <div class="module-item">
-                            <i class="fa fa-folder-open"></i>
-                            Content
-                        </div>
-                        <div class="module-item">
-                            <i class="fa fa-folder"></i>
-                            Detail
-                        </div>
+                    <div id="modulesLevel2" class="d-flex flex-column gap-3 modules-list px-4 py-3" style="color: #232360; font-weight: 700; font-size: 1.1rem;">
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="col-sm-4">
-            <div class="card custom-card">
+            <div class="modules-level-3 card custom-card">
                 <!-- Header của card -->
                 <div class="card-header bg-white border-0 align-items-center">
                     <div class="row">
                         <div class="col">
-                            <h3 class="card-title">Content</h3>
+                            <h3 class="card-title">SubSub Modules</h3>
                         </div>
                     </div>
                 </div>
                 <div class="custom-divider"></div>
                 <!-- Nội dung (body) của card -->
-
                 <div class="card-body p-0">
-                    <div class="d-flex flex-column gap-3 modules-list px-4 py-3"
-                        style="color: #232360; font-weight: 700; font-size: 1.1rem;">
-                        <!-- card with dash line border with bootstrap-->
-                        <div class="card" style="border: 2px dashed #000;">
-                            <div class="card-body d-flex align-items-center justify-content-center">
-                                Click to add new module
-                            </div>
-                        </div>
+                    <div id="modulesLevel3" class="d-flex flex-column gap-3 modules-list px-4 py-3" style="color: #232360; font-weight: 700; font-size: 1.1rem;">
                     </div>
                 </div>
             </div>
@@ -93,20 +63,16 @@
 </div>
 
 {{!-- Create Module Modal --}}
-
-{{#block "modal"}}
-<div class="modal fade" id="modalAddModules" tabindex="1" role="dialog" aria-labelledby="modalTitleId"
-    aria-hidden="true">
+<div class="modal fade" id="modalAddModules" tabindex="1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content align-items-center"
-            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
+        <div class="modal-content align-items-center" style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
             <div class="modal-header" style="border-bottom: none;">
                 <p class="modal-title fs-3" id="modalTitleId">Add Modules</p>
             </div>
             <div class="modal-body" style="border-bottom: none; width: 100%;">
                 <div class="row mb-3">
                     <div>
-                        <lable for="description">Select Root Module:</lable>
+                        <label for="description">Select Root Module:</label>
                         <select name="release-selection" class="form-select overflow-y">
                             <option value="0">Home Page</option>
                             <option value="00">Home Page/Header Section</option>
@@ -119,14 +85,12 @@
                 </div>
                 <div class="row mb-3">
                     <div>
-                        <lable for="modules-name">Modules Name<span style="color: red">*</span>:</lable>
-                        <input type="text" class="form-control" name="modules-name" id="modules-name"
-                            placeholder="Enter Module Name" required>
+                        <label for="modules-name">Modules Name<span style="color: red">*</span>:</label>
+                        <input type="text" class="form-control" name="modules-name" id="modules-name" placeholder="Enter Module Name" required>
                         <div id="alertMessage" style="display: none; color: red"></div>
                     </div>
                 </div>
             </div>
-
             <div class="modal-footer" style="border-top: none; align-items: center;">
                 <button type="button" class="btn btn-primary">Save</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -134,10 +98,8 @@
         </div>
     </div>
 </div>
-{{/block}}
 
 {{!-- Page's Functionality Button --}}
-
 {{#block "additional-button"}}
 <div class="text-right">
     <button type="button" class="btn btn-light-green me-2">
@@ -152,8 +114,81 @@
 {{/block}}
 
 {{!-- Additional Scripts + CSS --}}
-
-{{#block "script"}}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css" />
 <script src="/js/addModuleModal.js"></script>
-{{/block}}
+
+<script>
+    const modules = {{{modules}}};
+
+    function displayModules(rootModuleName, modules, containerId, onClickFunction) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+
+        if (containerId === 'modulesLevel2') {
+            document.querySelector('.modules-level-2 .card-title').textContent = rootModuleName;
+            document.querySelector('.modules-level-3 .card-title').textContent = 'SubSub Modules';
+        } else if (containerId === 'modulesLevel3') {
+            document.querySelector('.modules-level-3 .card-title').textContent = rootModuleName;
+        }
+
+        if (!modules || modules.length === 0) {
+            const emptyModuleItem = document.createElement('div');
+            emptyModuleItem.className = 'card';
+            emptyModuleItem.style = 'border: 2px dashed #000;';
+            
+            const cardBody = document.createElement('div');
+            cardBody.className = 'card-body d-flex align-items-center justify-content-center';
+            cardBody.textContent = 'Click to add new module';
+
+            emptyModuleItem.appendChild(cardBody);
+            container.appendChild(emptyModuleItem);
+        } else {
+            modules.forEach(module => {
+                const moduleItem = document.createElement('div');
+                moduleItem.className = 'module-item';
+                moduleItem.innerHTML = `<i class="fa fa-folder-open"></i> ${module.name}`;
+                moduleItem.onclick = () => onClickFunction(module.module_id, module.level);
+                container.appendChild(moduleItem);
+            });
+        }
+    }
+
+    function getSubModules(rootModuleId) {
+        let subModules = [];
+        let rootModuleName = '';
+        function findSubModules(currentModule) {
+            if (currentModule.module_id === rootModuleId) {
+                subModules = currentModule.children;
+                rootModuleName = currentModule.name;
+                return;
+            } else {
+                currentModule.children.forEach(childModule => {
+                    findSubModules(childModule);
+                });
+            }
+        }
+        if (rootModuleId === 0) {
+            return modules;
+        } else {
+            modules.forEach(module => {
+                findSubModules(module);
+            });
+        }
+        return { rootname: rootModuleName, children: subModules };
+    }
+
+    function bindingSubModule(module_id, level) {
+        const subModules = getSubModules(module_id);
+        displayModules(subModules.rootname, subModules.children, 'modulesLevel2', bindingSubSubModule);
+        document.getElementById('modulesLevel3').innerHTML = '';
+    }
+
+    function bindingSubSubModule(module_id, level) {
+        const subSubModules = getSubModules(module_id);
+        displayModules(subSubModules.rootname, subSubModules.children, 'modulesLevel3', () => {});
+    }
+
+    // Initialize root modules
+    const rootModules = getSubModules(0);
+    displayModules('Modules', rootModules, 'modulesLevel1', bindingSubModule);
+</script>

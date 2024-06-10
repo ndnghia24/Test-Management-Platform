@@ -1,6 +1,6 @@
 <div class="main-area">
     <div class="container py-3 my-3"
-        style="background-color: white; border-radius: 5px; height: 70vh; min-height: 500px; margin-top: 1%;">
+        style="background-color: white; border-radius: 5px; height: 70vh; min-height: 647px; margin-top: 1%;">
         <div class="d-flex justify-content-between align-items-center" style="padding: 0 12px;">
             <p class="" style="font-weight: 600; font-size: 1.2rem; color: #232360; margin-bottom: 0;">Test
                 plan</p>
@@ -17,14 +17,14 @@
                 </div>
             </div>
         </div>
-        <div class="table-responsive px-5 mt-4">
+        <div class="table-responsive px-5 mt-4" style="height: 537px;">
             <table class="table">
                 <thead class="fs-6">
-                    <th class="plan-code-col" scope="col">Plan's Code</th>
-                    <th class="test-plan-name-col" scope="col">Plan's Name</th>
-                    <th class="test-description-col" scope="col">Description</th>
-                    <th class="release-col" scope="col">Release</th>
-                    <th scope="col">Action</th>
+                    <th class="plan-code-col col-1" scope="col">Plan's Code</th>
+                    <th class="test-plan-name-col col-2" scope="col">Plan's Name</th>
+                    <th class="test-description-col col-6" scope="col">Description</th>
+                    <th class="release-col col-2" scope="col">Release</th>
+                    <th scope="col col-1">Action</th>
                 </thead>
                 <tbody class="fs-6">
                     {{#each testPlans}}
@@ -34,9 +34,12 @@
                         <td class="test-plan-description">{{this.description}}</td>
                         <td class="release" data-release-id="{{release_id}}">{{this.release}}</td>
                         <td style="font-weight: 600;">
-                            <i class="bi bi-eye hover-icon" style="margin-right: 20px;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Detail"></i>
-                            <i class="bi bi-pencil hover-icon text-success" style="margin-right: 20px;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit testplan"></i>
-                            <i class="bi bi-trash hover-icon text-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete testplan"></i>
+                            <i class="bi bi-eye hover-icon" style="margin-right: 20px;" data-bs-toggle="tooltip"
+                                data-bs-placement="top" data-bs-title="Detail"></i>
+                            <i class="bi bi-pencil hover-icon text-success" style="margin-right: 20px;"
+                                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit testplan"></i>
+                            <i class="bi bi-trash hover-icon text-danger" data-bs-toggle="tooltip"
+                                data-bs-placement="top" data-bs-title="Delete testplan"></i>
                         </td>
                     </tr>
                     {{/each}}
@@ -44,6 +47,14 @@
                 </tbody>
             </table>
         </div>
+
+        <nav style="margin: 0 auto;">
+            {{{paginate pagination
+                paginationClass="pagination justify-content-center p-1"
+                leftText = '<i class="bi bi-arrow-left"></i>'
+                rightText = '<i class="bi bi-arrow-right"></i>'
+            }}}
+        </nav>
     </div>
 </div>
 

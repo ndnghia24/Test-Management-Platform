@@ -23,6 +23,14 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: false
     },
+    release_progress: {
+      type: DataTypes.DOUBLE,
+      allowNull: true
+    },
+    release_status: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
     start_date: {
       type: DataTypes.DATE,
       allowNull: false

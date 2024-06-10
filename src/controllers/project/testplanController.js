@@ -2,16 +2,32 @@ const controller = {};
 const db = require('../../models/index');
 
 controller.getTestPlan = async (req, res) => {
+    // Set up pagination
+    const page = isNaN(req.query.page) ? 1 : Math.max(1,parseInt(req.query.page));
+    const limit = 12;
+    const offset = (page - 1) * limit;
+
     try {
+        // Fetch data
         const project_id = req.params.id;
 
-        const [testPlans, releases] = await Promise.all([
+        const [testPlans, count ,releases] = await Promise.all([
             db.sequelize.query(
                 'SELECT t.testplan_id AS code, t.name AS name, t.description, r.name AS release, r.release_id AS release_id ' +
                 'FROM test_plans AS t, releases AS r ' +
                 'WHERE t.release = r.release_id ' +
                 'AND t.project_id = ? ' +
-                'ORDER BY t.testplan_id',
+                'ORDER BY t.testplan_id ' +
+                'LIMIT ? OFFSET ?',
+                {
+                    replacements: [project_id, limit, offset],
+                    type: db.sequelize.QueryTypes.SELECT
+                }
+            ),
+            db.sequelize.query(
+                'SELECT COUNT(*) AS count ' +
+                'FROM test_plans ' +
+                'WHERE project_id = ?',
                 {
                     replacements: [project_id],
                     type: db.sequelize.QueryTypes.SELECT
@@ -31,10 +47,16 @@ controller.getTestPlan = async (req, res) => {
 
         res.locals.testPlans = testPlans;
         res.locals.releases = releases;
+
         res.render('test-plan-view', {
             title: 'Tetto',
             cssFile: 'test-plan-view.css',
             projectId: project_id,
+            pagination: {
+                page: page,
+                limit: limit,
+                totalRows: count[0].count
+            }
         });
     } catch (error) {
         console.error('Error fetching data:', error);
