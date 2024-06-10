@@ -21,15 +21,16 @@
   <div class="col-lg-4 col-sm-6 col-xs-12 align-end p-0 mt-1">
     <span
       class="button-blue p-md-2 p-sm-1 gray-background hover-to-bg-light-violet clickable"
-      onclick="location.href='../../HTML/Dev/issues_detail.html';"
+      onclick="location.href='/project/{{projectId}}/issues/getIssue?issueId={{issue.issue_id}}';"
     >
-      <span class="color-deep-violet fw-medium fs-5 pe-2 ps-2">Close</span>
+      <span class="color-deep-violet fw-medium fs-5 pe-2 ps-2">Go Back</span>
     </span>
 
     <span
       class="button-blue p-md-2 p-sm-1 ms-3 hover-to-bg-darken-blue clickable"
       id="save-change-button"
       data-issue-id="{{issue.issue_id}}"
+      data-project-id="{{projectId}}"
       onclick="updateIssue(this)"
     >
       <span class="color-deep-violet fw-medium fs-5 pe-2 ps-2">Save</span>
@@ -238,7 +239,9 @@
       <span
         class="button-blue p-md-2 p-sm-1 hover-to-bg-darken-blue mt-3 clickable"
         id="save-button"
-        onclick="location.href='../../HTML/Dev/issues_detail.html';"
+        data-issue-id="{{issue.issue_id}}"
+        data-project-id="{{projectId}}"
+        onclick="updateIssue(this)"
       >
         <span class="color-deep-violet fw-medium fs-5 ps-2 pe-2">Save change</span>
       </span>

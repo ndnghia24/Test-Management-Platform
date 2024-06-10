@@ -224,6 +224,7 @@ controller.getSpecifyIssue = async (req,res) => {
 
 controller.getEditIssue = async (req,res) => {
     try {
+        const projectId = req.params.id;
         const issueId = req.query.issueId;
         const issue = await db.sequelize.query(
             'SELECT i.title, i.issue_id, i.description, i.test_case_id, ip.priority, iss.status, it.type, i.created_by, i.assigned_to ' +
@@ -280,7 +281,8 @@ controller.getEditIssue = async (req,res) => {
         console.log('statusColorMap',statusColorMap);
 
         res.render('update-issue-view', {
-            title: 'Update Issues'
+            title: 'Update Issues',
+            projectId: projectId
         });    
     }
     catch (error) {
