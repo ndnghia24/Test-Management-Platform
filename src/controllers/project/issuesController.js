@@ -131,6 +131,10 @@ controller.getEditIssue = async (req,res) => {
             'AND t.module_id = m.module_id', { replacements: [issue[0].test_case_id], type: db.sequelize.QueryTypes.SELECT, raw: true}
         );
 
+        const status = await db.sequelize.query(
+            'SELECT status FROM issue_status', { type: db.sequelize.QueryTypes.SELECT, raw: true }
+        );
+
         console.log('testcase',testcase);
         console.log('issue',issue);
 
@@ -138,7 +142,8 @@ controller.getEditIssue = async (req,res) => {
         res.locals.testcase = testcase[0];
         res.locals.created_user = created_user[0];
         res.locals.assigned_user = assigned_user[0];
-
+        res.locals.status = status;
+        
         res.render('update-issue-view', {
             title: 'Update Issues'
         });    

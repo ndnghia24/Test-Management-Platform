@@ -58,7 +58,7 @@
         Priority :
       </div>
       <div
-        class="fw-medium fs-6 full-width-box p-2 mt-1 color-red gray-background"
+        class="fw-medium fs-6 full-width-box p-2 mt-1 {{priorityColor issue.priority}} gray-background"
       >
         {{issue.priority}}
       </div>
@@ -74,10 +74,12 @@
         class="fw-medium fs-6 p-2 mt-1 color-sea full-width-box white-background"
         aria-label=".dropdown-for-issue-status"
       >
-        <option class="fw-medium fs-6 color-sea" selected>
+        <option class="fw-medium fs-6 {{statusColor issue.status}}" selected>
           {{issue.status}}
         </option>
-        <option class="fw-medium fs-6 color-blue" value="Opened">Opened</option>
+        {{#each status}}
+        <option class="fw-medium fs-6 {{statusColor status}}" value={{status}}>{{status}}</option>
+        {{/each}}
         <option class="fw-medium fs-6 color-green" value="In Progress">In
           Progress</option>
         <option class="fw-medium fs-6 color-black" value="Fixed">Fixed</option>
