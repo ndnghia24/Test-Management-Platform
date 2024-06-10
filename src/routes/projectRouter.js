@@ -31,8 +31,8 @@ router.post("/:id/requirement/addRequirement", controller.requirementController.
 router.put("/:id/requirement/editRequirement", controller.requirementController.editRequirement);
 router.delete("/:id/requirement/deleteRequirement", controller.requirementController.deleteRequirement);
 
-router.get("/:id/getRequirementType", controller.requirementController.getRequirementType);
-router.post("/:id/addRequirementType", controller.requirementController.addRequirementType);
+router.get("/:id/requirement/getRequirementType", controller.requirementController.getRequirementType);
+router.post("/:id/requirement/addRequirementType", controller.requirementController.addRequirementType);
 
 //RELEASE
 router.get("/:id/release", controller.releaseController.getRelease);

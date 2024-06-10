@@ -13,7 +13,7 @@ controller.getRelease = async (req,res) => {
         ]);
         res.locals.releases = releases;
         res.render('release-view', {
-            title: 'Tetto',
+            title: 'Releases',
             cssFile: 'release-view.css',
             projectId: req.params.id,
         });

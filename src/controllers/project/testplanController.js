@@ -49,7 +49,7 @@ controller.getTestPlan = async (req, res) => {
         res.locals.releases = releases;
 
         res.render('test-plan-view', {
-            title: 'Tetto',
+            title: 'Test Plans',
             cssFile: 'test-plan-view.css',
             projectId: project_id,
             pagination: {

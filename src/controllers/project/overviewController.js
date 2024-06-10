@@ -65,7 +65,7 @@ controller.getOverview = async (req,res) => {
         res.locals.testcasesList = testcases.slice(0, 3);
 
         res.render('overview-view', {
-            title: 'Tetto',
+            title: 'Overview',
             cssFile: 'overview-view.css',
             projectId: req.params.id,
         });

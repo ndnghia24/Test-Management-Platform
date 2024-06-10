@@ -27,7 +27,7 @@ controller.getTestRun = async (req, res) => {
 
         console.log(testruns);
         res.render('test-run-view', {
-            title: 'Tetto',
+            title: 'Test Runs',
             cssFile: 'test-run-view.css',
             projectId: projectId,
             testRuns: testruns

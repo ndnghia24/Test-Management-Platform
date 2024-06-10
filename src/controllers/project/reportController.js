@@ -4,7 +4,7 @@ const db = require('../../models/index');
 controller.getReport = async (req,res) => {
     try {
         res.render('report-view', {
-            title: 'Tetto',
+            title: 'Report',
             cssFile: 'report-view.css',
             projectId: req.params.id,
         });

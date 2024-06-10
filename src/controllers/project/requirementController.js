@@ -19,7 +19,7 @@ controller.getRequirement = async (req,res) => {
         res.locals.requirement_types = requirementTypes;
         res.locals.requirements = requirements;
         res.render('requirement-view', {
-            title: 'Tetto',
+            title: 'Requirements',
             cssFile: 'requirement-view.css',
             projectId: projectId,
         });
@@ -101,39 +101,58 @@ controller.getRequirementByTypeFilter = async (req,res) => {
 }
 
 controller.addRequirement = async (req,res) => {
+    const t = await db.sequelize.transaction();
     try {
         const projectId = req.params.id;
-        const requirement = req.body;
-        requirement.project_id = projectId;
+        const { name, requirement_type_id, description } = req.body;
 
-        await db.requirements.create(requirement);
-        res.status(200).send({ success: true });
+        console.log(req.body);
+
+        const requirements = await db.requirements.create({
+            name : name,
+            requirement_type_id : requirement_type_id,
+            description : description,
+            project_id : projectId
+        }, { transaction: t });
+
+        await t.commit();
+        res.status(200).send({ success: true});
     } catch (error) {
+        await t.rollback();
         console.error('Error adding requirement:', error);
         res.status(500).send({ success: false, error });
     }
 }
 
 controller.editRequirement = async (req,res) => {
+    const t = await db.sequelize.transaction();
     try {
         const projectId = req.params.id;
-        const requirement = req.body;
+        const { name, requirement_type_id, description } = req.body;
 
-        await db.requirements.update(requirement, {
+        const requirementUpdate = await db.requirements.update({
+            name: name,
+            requirement_type_id: requirement_type_id,
+            description: description
+        }, {
             where: {
                 project_id: projectId,
-                requirement_id: requirement.requirement_id
-            }
+                requirement_id: req.query.requirementId
+            },
+            transaction: t
         });
+
+        await t.commit();
         res.status(200).send({ success: true });
     } catch (error) {
+        await t.rollback();
         console.error('Error editing requirement:', error);
         res.status(500).send({ success: false, error });
     }
 }
 
-
 controller.deleteRequirement = async (req,res) => {
+    const t = await db.sequelize.transaction();
     try {
         const projectId = req.params.id;
         const requirementId = req.query.requirementId;
@@ -142,15 +161,18 @@ controller.deleteRequirement = async (req,res) => {
             where: {
                 project_id: projectId,
                 requirement_id: requirementId
-            }
+            },
+            transaction: t
         });
+
+        await t.commit();
         res.status(200).send({ success: true });
     } catch (error) {
+        await t.rollback();
         console.error('Error deleting requirement:', error);
         res.status(500).send({ success: false, error });
     }
 }
-
 
 controller.getRequirementType = async (req,res) => {
     try {
@@ -170,14 +192,22 @@ controller.getRequirementType = async (req,res) => {
 
 
 controller.addRequirementType = async (req,res) => {
+    const t = await db.sequelize.transaction();
     try {
         const projectId = req.params.id;
-        const requirementType = req.body;
-        requirementType.project_id = projectId;
+        const { releases_id, requirement_type_name, description } = req.body;
 
-        await db.requirement_types.create(requirementType);
+        const requirementType = await db.requirement_types.create({
+            name: requirement_type_name,
+            description: description,
+            release_id: releases_id,
+            project_id: projectId
+        }, { transaction: t });
+
+        await t.commit();
         res.status(200).send({ success: true });
     } catch (error) {
+        await t.rollback();
         console.error('Error adding requirement type:', error);
         res.status(500).send({ success: false, error });
     }

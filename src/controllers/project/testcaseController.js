@@ -90,7 +90,7 @@ controller.getTestCase = async (req,res) => {
         res.locals.testcases = testCases;
         res.locals.modules = modules;
         res.render('test-case-view', {
-            title: 'Tetto',
+            title: 'Test Cases',
             cssFile: 'test-case-view.css',
             projectId: projectId,
             pagination: {
