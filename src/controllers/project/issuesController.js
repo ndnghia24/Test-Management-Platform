@@ -6,7 +6,7 @@ const { raw } = require('express');
 controller.getIssues = async (req,res) => {
     try {
         const projectId = req.params.id;
-        const { status, priority, createdBy, assignedTo } = req.query;
+        let { status, priority, createdBy, assignedTo } = req.query;
 
         //get all issues of this project
         const all_issues = await db.sequelize.query(
@@ -62,6 +62,18 @@ controller.getIssues = async (req,res) => {
             assignedToMap[assignedTo.name] = assignedTo.user_id;
         });
 
+        if (!(status in statusMap)){
+            status = undefined;
+        }
+        if (!(priority in priorityMap)){
+            priority = undefined;
+        }
+        if (!(createdBy in createdByMap)){
+            createdBy = undefined;
+        }
+        if (!(assignedTo in assignedToMap)){
+            assignedTo = undefined;
+        }
 
         let query = `
         SELECT 
@@ -74,22 +86,22 @@ controller.getIssues = async (req,res) => {
 
         const replacements = [projectId];
 
-        if (status && status in statusMap) {
+        if (status) {
             query += ' AND status_id = ?';
             replacements.push(statusMap[status]);
         }
 
-        if (priority && priority in priorityMap) {
+        if (priority) {
             query += ' AND priority_id = ?';
             replacements.push(priorityMap[priority]);
         }
 
-        if (createdBy && createdBy in createdByMap) {
+        if (createdBy) {
             query += ' AND created_by = ?';
             replacements.push(createdByMap[createdBy]);
         }
 
-        if (assignedTo && assignedTo in assignedToMap) {
+        if (assignedTo) {
             query += ' AND assigned_to = ?';
             replacements.push(assignedToMap[assignedTo]);
         }
@@ -142,6 +154,15 @@ controller.getIssues = async (req,res) => {
         });
 
         res.locals.issue_details = detailedIssues;
+        res.locals.all_status = all_status;
+        res.locals.all_priority = all_priority;
+        res.locals.all_createdBy = all_createdBy;
+        res.locals.all_assignedTo = all_assignedTo;
+        res.locals.status = status;
+        res.locals.priority = priority;
+        res.locals.createdBy = createdBy;
+        res.locals.assignedTo = assignedTo;
+
         res.render('issue-view', {
             title: 'Issues',
             projectId: projectId,

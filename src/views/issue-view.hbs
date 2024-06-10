@@ -47,9 +47,19 @@
         <div>
             <div class="color-deep-violet fw-medium fs-6 mb-1">Status</div>
             <select class="form-select form-select-sm" aria-label=".dropdown-for-project-name">
-                <option selected></option>
-                <option value="1">Asc</option>
-                <option value="2">Decs</option>
+                {{#if status}}
+                    <option></option> 
+                {{else}}
+                    <option selected></option>
+                {{/if}}
+                {{#each all_status}}
+                <option 
+                    value={{status}} 
+                    {{#if (eq status ../status)}} selected {{/if}}
+                >
+                {{status}}
+                </option>
+                {{/each}}
             </select>
         </div>
     </div>
@@ -57,9 +67,17 @@
         <div>
             <div class="color-deep-violet fw-medium fs-6 mb-1">Priority</div>
             <select class="form-select form-select-sm" aria-label=".dropdown-for-created-date">
-                <option selected></option>
-                <option value="1">Asc</option>
-                <option value="2">Decs</option>
+                {{#if priority}}
+                    <option></option> 
+                {{else}}
+                    <option selected></option>
+                {{/if}}
+                {{#each all_priority}}
+                <option 
+                    value={{priority}}
+                    {{#if (eq priority ../priority)}} selected {{/if}}
+                >{{priority}}</option>
+                {{/each}}
             </select>
         </div>
     </div>
@@ -67,9 +85,16 @@
         <div>
             <div class="color-deep-violet fw-medium fs-6 mb-1">Created By</div>
             <select class="form-select form-select-sm" aria-label=".dropdown-for-project-name">
-                <option selected></option>
-                <option value="1">Asc</option>
-                <option value="2">Decs</option>
+                {{#if createdBy}}
+                    <option></option>    
+                {{else}}
+                    <option selected></option>
+                {{/if}}
+                {{#each all_createdBy}}
+                <option value={{name}}
+                    {{#if (eq name ../createdBy)}} selected {{/if}}
+                >{{name}}</option>
+                {{/each}}
             </select>
         </div>
     </div>
@@ -77,9 +102,16 @@
         <div>
             <div class="color-deep-violet fw-medium fs-6 mb-1">Assignee</div>
             <select class="form-select form-select-sm" aria-label=".dropdown-for-created-date">
-                <option selected></option>
-                <option value="1">Asc</option>
-                <option value="2">Decs</option>
+                {{#if assignedTo}}
+                    <option></option>
+                {{else}}
+                    <option selected></option>
+                {{/if}}
+                {{#each all_assignedTo}}
+                <option value={{name}}
+                    {{#if (eq name ../assignedTo)}} selected {{/if}}
+                >{{name}}</option>
+                {{/each}}
             </select>
         </div>
     </div>
