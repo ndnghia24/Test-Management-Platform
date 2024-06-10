@@ -70,6 +70,14 @@ app.engine(
                 return 'color-deep-violet';
         }
       },
+      //helper to convert object to json
+      json: function(context) {
+        return JSON.stringify(context);
+      },
+      //helper for compare
+      eq: function(a, b) {
+        return a === b;
+      },
     },
   })
 );

@@ -135,15 +135,31 @@ controller.getEditIssue = async (req,res) => {
             'SELECT status FROM issue_status', { type: db.sequelize.QueryTypes.SELECT, raw: true }
         );
 
-        console.log('testcase',testcase);
-        console.log('issue',issue);
+        const statusColorMap = {
+            'New': 'color-green',
+            'Open': 'color-green',
+            'Assigned': 'color-blue',
+            'Resolved': 'color-deep-sea',
+            'Retest': 'color-brown',
+            'Verified': 'color-sea',
+            'Reopened': 'color-orange',
+            'Closed': 'color-red',
+            'Deferred': 'color-brown',
+            'Rejected': 'color-red',
+            'Duplicate': 'color-brown'
+        };
+
+        // console.log('testcase',testcase);
+        // console.log('issue',issue);
 
         res.locals.issue = issue[0];
         res.locals.testcase = testcase[0];
         res.locals.created_user = created_user[0];
         res.locals.assigned_user = assigned_user[0];
         res.locals.status = status;
-        
+        res.locals.statusColorMap = statusColorMap;
+        console.log('statusColorMap',statusColorMap);
+
         res.render('update-issue-view', {
             title: 'Update Issues'
         });    

@@ -58,7 +58,9 @@
         Priority :
       </div>
       <div
-        class="fw-medium fs-6 full-width-box p-2 mt-1 {{priorityColor issue.priority}} gray-background"
+        class="fw-medium fs-6 full-width-box p-2 mt-1
+          {{priorityColor issue.priority}}
+          gray-background"
       >
         {{issue.priority}}
       </div>
@@ -71,14 +73,20 @@
       </div>
       <select
         id="status-dropdown"
-        class="fw-medium fs-6 p-2 mt-1 color-sea full-width-box white-background"
+        class="fw-medium fs-6 p-2 mt-1 full-width-box white-background"
         aria-label=".dropdown-for-issue-status"
+        data-color-map='{{{json statusColorMap}}}'
+        onchange="updateStatusColor(this)"
       >
-        <option class="fw-medium fs-6 {{statusColor issue.status}}" selected>
-          {{issue.status}}
-        </option>
+
         {{#each status}}
-        <option class="fw-medium fs-6 {{statusColor status}}" value={{status}}>{{status}}</option>
+          <option
+            class="fw-medium fs-6 {{statusColor status}}"
+            value={{status}}
+            {{#if (eq status ../issue.status)}} selected {{/if}}
+          >
+          {{status}}
+          </option>
         {{/each}}
       </select>
 
@@ -110,7 +118,8 @@
         Test case failed :
       </div>
       <div class="fw-medium fs-6 full-width-box p-2 mt-1 gray-background">
-        Testcase-{{testcase.testcase_id}}: {{testcase.testcase}}
+        Testcase-{{testcase.testcase_id}}:
+        {{testcase.testcase}}
       </div>
     </div>
 
@@ -238,26 +247,32 @@
   </div>
 </div>
 
-{{!-- Page's Functionality Button --}}
+{{! Page's Functionality Button }}
 
-{{#block "additional-button"}}
+{{#block "additional-button"}}{{/block}}
 
-{{/block}}
+{{! Additional Scripts + CSS }}
 
-{{!-- Additional Scripts + CSS --}}
 
 {{#block "script"}}
-<script src="https://kit.fontawesome.com/ca0d395c8b.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="/css/issue-view.css"/>
-<link rel="stylesheet" href="/css/font_size.css"/>
-<link rel="stylesheet" href="/css/hover_and_click.css"/>
-<link rel="stylesheet" href="/css/color.css"/>
+  <script
+    src="https://kit.fontawesome.com/ca0d395c8b.js"
+    crossorigin="anonymous"
+  ></script>
+  <link rel="stylesheet" href="/css/issue-view.css" />
+  <link rel="stylesheet" href="/css/font_size.css" />
+  <link rel="stylesheet" href="/css/hover_and_click.css" />
+  <link rel="stylesheet" href="/css/color.css" />
 
-<!-- CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css" />
-<!-- JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
+  <!-- CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css"
+  />
+  <!-- JavaScript -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"
+  ></script>
 
-<script src="/js/addIssueModal.js"></script>
-<script src="/js/updateIssue.js?v=1"></script>
+  <script src="/js/updateIssue.js?v=2.1"></script>
 {{/block}}

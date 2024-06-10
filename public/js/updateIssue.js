@@ -23,3 +23,26 @@ async function updateIssue(element) {
         console.error('Failed to update the issue');
     }
 }
+
+function updateStatusColor(element) {
+    // Get the selected status from the dropdown
+    const statusDropdown = document.getElementById('status-dropdown');
+    const status = statusDropdown.options[statusDropdown.selectedIndex].value;
+
+    // Get the color map
+    const statusColorMap = JSON.parse(statusDropdown.dataset.colorMap);
+    // console.log(statusColorMap);
+
+    // Remove all existing color classes
+    Object.values(statusColorMap).forEach(colorClass => {
+        statusDropdown.classList.remove(colorClass);
+        // console.log(colorClass);
+    });
+
+    // Add the new color class
+    const newColorClass = statusColorMap[status] || 'color-deep-violet';
+    statusDropdown.classList.add(newColorClass);
+    // console.log('newColorClass', newColorClass);
+}
+
+document.addEventListener('DOMContentLoaded', updateStatusColor);
