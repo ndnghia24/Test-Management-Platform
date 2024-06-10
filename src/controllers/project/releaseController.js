@@ -29,8 +29,16 @@ controller.addRelease = async (req,res) => {
         const projectId = req.params.id;
         const { releaseName, startDate, dueDate } = req.body;
 
+        // auto generate release_key by removing spaces and reverse to uppercase
+        const releaseKey = releaseName.replace(/\s/g, '').toUpperCase().split('').reverse().join('');
+        const releaseStatus = 'open';
+        const release_progress = 0;
+
         const release = await db.releases.create({
             name: releaseName,
+            release_key: releaseKey,
+            release_status: releaseStatus,
+            release_progress: release_progress,
             start_date: startDate,
             due_date: dueDate,
             project_id: projectId,
@@ -47,12 +55,13 @@ controller.addRelease = async (req,res) => {
 controller.editRelease = async (req,res) => {
     const t = await db.sequelize.transaction();
     try {
-        const { releaseId, releaseName, startDate, dueDate } = req.body;
+        const { releaseId, releaseName, startDate, dueDate, release_status } = req.body;
 
         await db.releases.update({
             name: releaseName,
             start_date: startDate,
             due_date: dueDate,
+            release_status: release_status
         }, {
             where: {
                 release_id: releaseId
