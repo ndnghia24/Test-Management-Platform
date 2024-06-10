@@ -46,7 +46,13 @@
     <div class="col">
         <div>
             <div class="color-deep-violet fw-medium fs-6 mb-1">Status</div>
-            <select class="form-select form-select-sm" aria-label=".dropdown-for-project-name">
+            <select 
+                id="status-filter"
+                class="form-select form-select-sm" 
+                aria-label=".dropdown-for-project-name"
+                data-project-id="{{projectId}}"
+                onchange="sendFilterRequest(this)"
+            >
                 {{#if status}}
                     <option></option> 
                 {{else}}
@@ -66,7 +72,13 @@
     <div class="col">
         <div>
             <div class="color-deep-violet fw-medium fs-6 mb-1">Priority</div>
-            <select class="form-select form-select-sm" aria-label=".dropdown-for-created-date">
+            <select 
+                id="priority-filter"
+                class="form-select form-select-sm" 
+                aria-label=".dropdown-for-created-date"
+                data-project-id="{{projectId}}"
+                onchange="sendFilterRequest(this)"
+                >
                 {{#if priority}}
                     <option></option> 
                 {{else}}
@@ -84,7 +96,13 @@
     <div class="col d-none d-lg-block">
         <div>
             <div class="color-deep-violet fw-medium fs-6 mb-1">Created By</div>
-            <select class="form-select form-select-sm" aria-label=".dropdown-for-project-name">
+            <select 
+                id="createdBy-filter"
+                class="form-select form-select-sm" 
+                aria-label=".dropdown-for-project-name"
+                data-project-id="{{projectId}}"
+                onchange="sendFilterRequest(this)"
+                >
                 {{#if createdBy}}
                     <option></option>    
                 {{else}}
@@ -101,7 +119,13 @@
     <div class="col d-none d-lg-block">
         <div>
             <div class="color-deep-violet fw-medium fs-6 mb-1">Assignee</div>
-            <select class="form-select form-select-sm" aria-label=".dropdown-for-created-date">
+            <select 
+                id="assignedTo-filter"
+                class="form-select form-select-sm" 
+                aria-label=".dropdown-for-created-date"
+                data-project-id="{{projectId}}"
+                onchange="sendFilterRequest(this)"
+                >
                 {{#if assignedTo}}
                     <option></option>
                 {{else}}
