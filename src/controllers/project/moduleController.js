@@ -37,7 +37,7 @@ controller.getModule = async (req,res) => {
         res.locals.modules = JSON.stringify(tree, null, 2);
 
         res.render('module-view', {
-            title: 'Tetto',
+            title: 'Modules',
             cssFile: 'module-view.css',
             projectId: req.params.id,
         });

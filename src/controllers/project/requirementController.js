@@ -19,7 +19,7 @@ controller.getRequirement = async (req,res) => {
         res.locals.requirement_types = requirementTypes;
         res.locals.requirements = requirements;
         res.render('requirement-view', {
-            title: 'Tetto',
+            title: 'Requirements',
             cssFile: 'requirement-view.css',
             projectId: projectId,
         });
