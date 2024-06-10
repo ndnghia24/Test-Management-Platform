@@ -6,10 +6,105 @@ const { raw } = require('express');
 controller.getIssues = async (req,res) => {
     try {
         const projectId = req.params.id;
-        const issues = await db.sequelize.query(
+        const { status, priority, createdBy, assignedTo } = req.query;
+
+        //get all issues of this project
+        const all_issues = await db.sequelize.query(
             'SELECT issue_id, title, description, priority_id, status_id, created_by, assigned_to FROM issues WHERE project_id = ? ORDER BY issue_id',
             { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
         );
+
+        // Extract unique IDs from issues for each type
+        const all_priorityIds = [...new Set(all_issues.map(issue => issue.priority_id))];
+        const all_statusIds = [...new Set(all_issues.map(issue => issue.status_id))];
+        const all_created_bys = [...new Set(all_issues.map(issue => issue.created_by))];
+        const all_assigned_tos = [...new Set(all_issues.map(issue => issue.assigned_to))];
+
+        // query all data can be used for filter
+        const all_priority = await db.sequelize.query(
+            'SELECT DISTINCT issue_priority_id, priority FROM issue_priority WHERE issue_priority_id IN (?)',
+            { replacements: [all_priorityIds], type: db.sequelize.QueryTypes.SELECT }
+        );
+        
+        const all_status = await db.sequelize.query(
+            'SELECT DISTINCT issue_status_id, status FROM issue_status WHERE issue_status_id IN (?)',
+            { replacements: [all_statusIds], type: db.sequelize.QueryTypes.SELECT }
+        );
+
+        const all_createdBy = await db.sequelize.query(
+            'SELECT DISTINCT user_id, name FROM users WHERE user_id IN (?)',
+            { replacements: [all_created_bys], type: db.sequelize.QueryTypes.SELECT }
+        );
+
+        const all_assignedTo = await db.sequelize.query(
+            'SELECT DISTINCT user_id, name FROM users WHERE user_id IN (?)',
+            { replacements: [all_assigned_tos], type: db.sequelize.QueryTypes.SELECT }
+        );
+
+        //created map for each type
+        const priorityMap = {};
+        all_priority.forEach(priority => {
+            priorityMap[priority.priority] = priority.issue_priority_id;
+        });
+
+        const statusMap = {};
+        all_status.forEach(status => {
+            statusMap[status.status] = status.issue_status_id;
+        });
+
+        const createdByMap = {};
+        all_createdBy.forEach(createdBy => {
+            createdByMap[createdBy.name] = createdBy.user_id;
+        });
+
+        const assignedToMap = {};
+        all_assignedTo.forEach(assignedTo => {
+            assignedToMap[assignedTo.name] = assignedTo.user_id;
+        });
+
+
+        let query = `
+        SELECT 
+            issue_id, title, description, priority_id, status_id, created_by, assigned_to 
+        FROM 
+            issues 
+        WHERE 
+            project_id = ?
+        `;
+
+        const replacements = [projectId];
+
+        if (status && status in statusMap) {
+            query += ' AND status_id = ?';
+            replacements.push(statusMap[status]);
+        }
+
+        if (priority && priority in priorityMap) {
+            query += ' AND priority_id = ?';
+            replacements.push(priorityMap[priority]);
+        }
+
+        if (createdBy && createdBy in createdByMap) {
+            query += ' AND created_by = ?';
+            replacements.push(createdByMap[createdBy]);
+        }
+
+        if (assignedTo && assignedTo in assignedToMap) {
+            query += ' AND assigned_to = ?';
+            replacements.push(assignedToMap[assignedTo]);
+        }
+
+        query += ' ORDER BY issue_id';
+
+        let issues = await db.sequelize.query(query, {
+            replacements,
+            type: db.sequelize.QueryTypes.SELECT
+        });
+
+        //check if there is any issue
+        if (issues.length === 0) {
+            issues = all_issues;
+        }
 
         // Extract unique IDs from issues for each type
         const priorityIds = [...new Set(issues.map(issue => issue.priority_id))];
