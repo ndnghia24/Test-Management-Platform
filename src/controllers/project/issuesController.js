@@ -164,6 +164,37 @@ controller.getIssues = async (req,res) => {
         res.locals.createdBy = createdBy;
         res.locals.assignedTo = assignedTo;
 
+        //get all priority
+        const existing_priority = await db.sequelize.query(
+            'SELECT priority FROM issue_priority', { type: db.sequelize.QueryTypes.SELECT }
+        );
+        //get all status
+        const existing_status = await db.sequelize.query(
+            'SELECT status FROM issue_status', { type: db.sequelize.QueryTypes.SELECT }
+        );
+        //get all user
+        const existing_user = await db.sequelize.query(
+            'SELECT name FROM users', { type: db.sequelize.QueryTypes.SELECT }
+        );
+        //get all module in project
+        const existing_module = await db.sequelize.query(
+            'SELECT name FROM modules WHERE project_id = ?', { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT }
+        );
+        //get all issue type
+        const existing_type = await db.sequelize.query(
+            'SELECT type FROM issue_type', { type: db.sequelize.QueryTypes.SELECT }
+        );
+        //get all test case in project
+        const existing_testcase = await db.sequelize.query(
+            'SELECT name FROM test_cases WHERE project_id = ?', { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT }
+        );
+
+        res.locals.existing_priority = existing_priority;
+        res.locals.existing_status = existing_status;
+        res.locals.existing_user = existing_user;
+        res.locals.existing_module = existing_module;
+        res.locals.existing_type = existing_type;
+        res.locals.existing_testcase = existing_testcase;
         res.render('issue-view', {
             title: 'Issues',
             projectId: projectId,
@@ -320,4 +351,77 @@ controller.editIssue = async (req, res) => {
     }
 }
 
+controller.addIssue = async (req, res) => {
+    const t = await db.sequelize.transaction();
+    try {
+        const projectId = parseInt(req.params.id);
+        const { data } = req.body;
+        const { title, priority, status, asign, description, testcase, type } = data;
+
+        //select the highest issue_id
+        let issue_id = await db.sequelize.query(
+            'SELECT MAX(issue_id) as issue_id FROM issues',
+            { type: db.sequelize.QueryTypes.SELECT }
+        );
+        let new_issue_id = issue_id[0].issue_id + 1;
+
+        const priority_id = await db.sequelize.query(
+            'SELECT issue_priority_id FROM issue_priority WHERE priority = ?',
+            { replacements: [priority], type: db.sequelize.QueryTypes.SELECT }
+        );
+
+        const status_id = await db.sequelize.query(
+            'SELECT issue_status_id FROM issue_status WHERE status = ?',
+            { replacements: [status], type: db.sequelize.QueryTypes.SELECT }
+        );
+
+        const issue_type_id = await db.sequelize.query(
+            'SELECT issue_type_id FROM issue_type WHERE type = ?',
+            { replacements: [type], type: db.sequelize.QueryTypes.SELECT }
+        );
+
+        const assigned_to = await db.sequelize.query(
+            'SELECT user_id FROM users WHERE name = ?',
+            { replacements: [asign], type: db.sequelize.QueryTypes.SELECT }
+        );
+
+        const test_case_id = await db.sequelize.query(
+            'SELECT testcase_id FROM test_cases WHERE name = ?',
+            { replacements: [testcase], type: db.sequelize.QueryTypes.SELECT }
+        );
+
+        console.log('priority_id',priority_id);
+        console.log('status_id',status_id);
+        console.log('issue_type_id',issue_type_id);
+        console.log('assigned_to',assigned_to[0].user_id);
+        console.log('test_case_id',test_case_id);
+        console.log('projectId',projectId);
+        console.log('new_issue_id',new_issue_id);
+        console.log('title',title);
+        console.log('description',description);
+
+        await db.issues.create({
+            issue_id: new_issue_id,
+            title: title,
+            priority_id: priority_id[0].issue_priority_id,
+            status_id: status_id[0].issue_status_id,
+            created_by: 1,
+            assigned_to: assigned_to[0].user_id,
+            description: description,
+            test_case_id: test_case_id[0].testcase_id,
+            issue_type_id: issue_type_id[0].issue_type_id,
+            test_run_id: null,
+            project_id: projectId,
+            created_date: new Date(),
+        }, { transaction: t });
+
+        await t.commit();
+
+        res.status(200).send({ success: true });
+    } catch (error) {
+        await t.rollback();
+        console.error('Error creating test case:', error);
+        res.status(500).send({ success: false, error: error });
+    }
+}
 module.exports = controller;

@@ -308,10 +308,14 @@
                         <select name="priority-input" class="form-select mt-2" aria-label="Default select example"
                             id="issue-priority-input" required>
                             <option value="" selected>Select priority</option>
-                            <option class="fw-medium fs-6 color-deep-green" value="Low">Low</option>
-                            <option class="fw-medium fs-6 color-sea" value="Medium">Medium</option>
-                            <option class="fw-medium fs-6 color-orange" value="High">High</option>
-                            <option class="fw-medium fs-6 color-red" value="Very High">Very High</option>
+                            {{#each existing_priority}}
+                            <option 
+                                class="fw-medium fs-6 {{priorityColor priority}}"
+                                value={{priority}}
+                            >
+                            {{priority}}
+                            </option>
+                            {{/each}}
                         </select>
                         <div id="issue-priority-error" class="text-danger fs-6 fw-normal" style="display: none;">Please
                             select issue's priority</div>
@@ -327,21 +331,14 @@
                         <select name="issue-status-input" class="form-select mt-2" aria-label="Default select example"
                             id="issue-status-input" required>
                             <option value="" selected>Select status</option>
-                            <option class="fw-medium fs-6 color-blue" value="Opened">Opened</option>
-                            <option class="fw-medium fs-6 color-sea" value="Assigned">Assigned</option>
-                            <option class="fw-medium fs-6 color-green" value="In Progress">In Progress</option>
-                            <option class="fw-medium fs-6 color-black" value="Fixed">Fixed</option>
-                            <option class="fw-medium fs-6 color-black" value="Closed">Closed</option>
-                            <option class="fw-medium fs-6 color-red" value="Reopened">Reopened</option>
-                            <option class="fw-medium fs-6 color-deep-green" value="Deferred">Deferred</option>
-                            <option class="fw-medium fs-6 color-deep-green" value="Duplicate">Duplicate</option>
-                            <option class="fw-medium fs-6 color-black" value="Cannot Reproduce">Cannot Reproduce
-                            </option>
-                            <option class="fw-medium fs-6 color-green" value="Pending Verification">Pending Verification
-                            </option>
-                            <option class="fw-medium fs-6 color-orange" value="Awaiting Feedback">Awaiting Feedback
-                            </option>
-                            <option class="fw-medium fs-6 color-red" value="Blocked">Blocked</option>
+                            {{#each existing_status}}
+                                <option 
+                                    class="fw-medium fs-6 {{statusColor status}}"
+                                    value={{status}} 
+                                >
+                                {{status}}
+                                </option>
+                            {{/each}}
                         </select>
                         <div id="issue-status-error" class="text-danger fs-6 fw-normal" style="display: none;">Please
                             select issue's status</div>
@@ -354,8 +351,17 @@
                         <label for="issue-assign-input">
                             Assign to:
                         </label>
-                        <input type="text" name="issue-assign-input" id="issue-assign-input" class="form-control mt-2"
-                            placeholder="">
+                        <select name="issue-assign-input" id="issue-assign-input" class="form-select mt-2" aria-label="Default select example">
+                            <option value="" selected></option>
+                            {{#each existing_user}}
+                                <option 
+                                    class="fw-medium fs-6 color-deep-violet"
+                                    value={{name}} 
+                                >
+                                {{name}}
+                                </option>
+                            {{/each}}
+                        </select>
                         <div id="issue-assign-error-1" class="text-danger fs-6 fw-normal" style="display: none;">Please
                             enter assignee when status is not opened</div>
                         <div id="issue-assign-error-2" class="text-danger fs-6 fw-normal" style="display: none;">Please
@@ -370,8 +376,17 @@
                         <label for="issue-type-input">
                             Issue Type :
                         </label>
-                        <input type="text" name="issue-type-input" id="issue-type-input" class="form-control mt-2"
-                            placeholder="">
+                        <select name="issue-type-input" id="issue-type-input" class="form-select mt-2" aria-label="Default select example">
+                            <option value="" selected></option>
+                            {{#each existing_type}}
+                                <option 
+                                    class="fw-medium fs-6 color-deep-violet"
+                                    value={{type}} 
+                                >
+                                {{type}}
+                                </option>
+                            {{/each}}
+                        </select>
                     </div>
                 </div>
 
@@ -380,8 +395,18 @@
                         <label for="issue-module-input">
                             Module :
                         </label>
-                        <input type="text" name="issue-module-input" id="issue-module-input" class="form-control mt-2"
-                            placeholder="">
+                        <select name="issue-module-input" id="issue-module-input" class="form-select mt-2" aria-label="Default select example">
+                            <option value="" selected></option>
+                            {{#each existing_module}}
+                                <option 
+                                    class="fw-medium fs-6 color-deep-violet"
+                                    value={{name}} 
+                                >
+                                {{name}}
+                                </option>
+                            {{/each}}
+                        </select>
+
                     </div>
                 </div>
 
@@ -390,8 +415,17 @@
                         <label for="issue-testcase-input">
                             Test case failed :
                         </label>
-                        <input type="text" name="issue-testcase-input" id="issue-testcase-input"
-                            class="form-control mt-2" placeholder="">
+                        <select name="issue-testcase-input" id="issue-testcase-input" class="form-select mt-2" aria-label="Default select example">
+                            <option value="" selected></option>
+                            {{#each existing_testcase}}
+                                <option 
+                                    class="fw-medium fs-6 color-deep-violet"
+                                    value={{name}} 
+                                >
+                                {{name}}
+                                </option>
+                            {{/each}}
+                        </select>
                     </div>
                 </div>
 
@@ -410,7 +444,7 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     Close
                 </button>
-                <button type="button" class="btn btn-primary" id="save-add-issue-button">Save</button>
+                <button type="button" class="btn btn-primary" data-project-id="{{projectId}}" id="save-add-issue-button">Save</button>
             </div>
         </div>
     </div>

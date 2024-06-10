@@ -62,6 +62,9 @@ router.get("/:id/issues/getIssue", controller.issuesController.getSpecifyIssue);
 router.get("/:id/issues/editIssue", controller.issuesController.getEditIssue);
 //update issue
 router.put("/:id/issues/editIssue", controller.issuesController.editIssue);
+//add issue
+router.put("/:id/issues/createIssue", controller.issuesController.addIssue);
+
 // router.post("/:id/issues/addTestCase", controller.issuesController.addTestCase);
 // router.delete("/:id/issues/deleteTestCase", controller.issuesController.deleteTestCase);
 
