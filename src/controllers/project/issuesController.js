@@ -176,6 +176,7 @@ controller.getIssues = async (req,res) => {
 
 controller.getSpecifyIssue = async (req,res) => {
     try {
+        const projectId = req.params.id;
         const issueId = req.query.issueId;
         const issue = await db.sequelize.query(
             'SELECT i.title, i.issue_id, i.description, i.test_case_id, ip.priority, iss.status, it.type, i.created_by, i.assigned_to ' +
@@ -211,6 +212,7 @@ controller.getSpecifyIssue = async (req,res) => {
         res.locals.assigned_user = assigned_user[0];
 
         res.render('detail-issue-view', {
+            projectId: projectId,
             title: 'Issues Detail'
         });
 

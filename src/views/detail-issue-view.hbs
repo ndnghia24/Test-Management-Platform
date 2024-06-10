@@ -20,14 +20,14 @@
   <div class="col-lg-4 col-sm-6 col-xs-12 align-end p-0 mt-2">
     <span
       class="button-blue p-md-2 p-1 hover-to-bg-light-violet clickable gray-background"
-      onclick="location.href='../../HTML/Dev/issues.html';"
+      onclick="location.href='/project/{{projectId}}/issues';"
     >
       <span class="color-deep-violet fw-medium fs-5 ps-1 pe-1">Go Back</span>
     </span>
 
     <span
       class="button-blue p-md-2 p--1 hover-to-bg-darken-blue ms-3 clickable"
-      onclick="location.href='/project/1/issues/editIssue?issueId={{issue.issue_id}}';"
+      onclick="location.href='/project/{{projectId}}/issues/editIssue?issueId={{issue.issue_id}}';"
     >
       <span class="color-deep-violet fw-medium fs-5 ps-1 pe-1">Update</span>
     </span>
