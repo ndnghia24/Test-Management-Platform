@@ -54,7 +54,7 @@ router.put("/:id/testcase/editTestCaseOverview", controller.test_caseController.
 router.get("/:id/testrun", controller.testrunController.getTestRun);
 
 //issue
-router.get("/:id/issues", controller.issuesController.getIssues);
+router.get("/:id/issue", controller.issuesController.getIssues);
 //issue-detail
 router.get("/:id/issues/getIssue", controller.issuesController.getSpecifyIssue);
 //update issue (navigate to edit issue page)
