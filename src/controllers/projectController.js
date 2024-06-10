@@ -11,6 +11,26 @@ controller.moduleController = require('../controllers/project/moduleController')
 controller.reportController = require('../controllers/project/reportController');
 controller.testrunController = require('../controllers/project/testrunController');
 
+//issue
+controller.issuesController = require('../controllers/project/issuesController');
+
+
+controller.getModule = async (req, res) => {
+    try {
+        const projectId = req.params.id;
+        const modules = await db.modules.findAll({
+            where: {
+                project_id: projectId
+            },
+            raw: true
+        },);
+        res.status(200).send({ modules });
+    } catch (error) {
+        console.error('Error getting modules:', error);
+        res.status(500).send({ success: false, error });
+    }
+}
+
 controller.getRequirement = async (req, res) => {
     try {
         const projectId = req.params.id;

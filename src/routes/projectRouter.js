@@ -53,12 +53,20 @@ router.put("/:id/testcase/editTestCaseOverview", controller.test_caseController.
 
 router.get("/:id/testrun", controller.testrunController.getTestRun);
 
-router.get("/:id/issue", (req,res) => {
-    res.render('issue-view', {
-        title: 'Tetto',
-        projectId: req.params.id,
-    });
-});
+//issue
+router.get("/:id/issues", controller.issuesController.getIssues);
+//issue-detail
+router.get("/:id/issues/getIssue", controller.issuesController.getSpecifyIssue);
+//update issue (navigate to edit issue page)
+router.get("/:id/issues/editIssue", controller.issuesController.getEditIssue);
+//update issue
+router.put("/:id/issues/editIssue", controller.issuesController.editIssue);
+//add issue
+router.put("/:id/issues/createIssue", controller.issuesController.addIssue);
+
+// router.post("/:id/issues/addTestCase", controller.issuesController.addTestCase);
+// router.delete("/:id/issues/deleteTestCase", controller.issuesController.deleteTestCase);
+
 
 // router.get("/",(req,res) => {
 //     res.redirect("/home");

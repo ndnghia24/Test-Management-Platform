@@ -38,7 +38,57 @@ app.engine(
       },
       formatClassName: function (name) {
         return name.replace(/ /g, "-").toLowerCase();
-      }
+      },
+      // Helper 'priority color'
+      priorityColor: function(priority) {
+        switch(priority) {
+            case 'High':
+                return 'color-red';
+            case 'Medium':
+                return 'color-deep-sea';
+            case 'Low':
+                return 'color-deep-green';
+            default:
+                return 'color-deep-violet';
+        }
+      },
+      // Helper 'status color'
+      statusColor: function(status) {
+        switch(status) {
+            case 'New':
+                return 'color-green';
+            case 'Open':
+                return 'color-green';
+            case 'Assigned':
+                return 'color-blue';
+            case 'Resolved':
+                return 'color-deep-sea';
+            case 'Retest':
+                return 'color-brown';
+            case 'Verified':
+                return 'color-sea';
+            case 'Reopened':
+                return 'color-orange';
+            case 'Closed':
+                return 'color-red';
+            case 'Deferred':
+                return 'color-brown';
+            case 'Rejected':
+                return 'color-red';
+            case 'Duplicate':
+                return 'color-brown';
+            default:
+                return 'color-deep-violet';
+        }
+      },
+      //helper to convert object to json
+      json: function(context) {
+        return JSON.stringify(context);
+      },
+      //helper for compare
+      eq: function(a, b) {
+        return a === b;
+      },
     },
   })
 );
