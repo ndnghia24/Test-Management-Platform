@@ -71,7 +71,10 @@ saveAddIssueButton.addEventListener('click', async function() {
     if (testcase !== '') {
         testcase = testcaseInput.options[testcaseInput.selectedIndex].textContent.trim();
     }
-    const type = typeInput.options[typeInput.selectedIndex].value;
+    let type = typeInput.options[typeInput.selectedIndex].value;
+    if (type !== '') {
+        type = typeInput.options[typeInput.selectedIndex].textContent.trim();
+    }
 
     // Check if the project name is empty
     if (title === '') {
@@ -155,8 +158,17 @@ saveAddIssueButton.addEventListener('click', async function() {
         priorityInput.value = '';
         statusInput.value = '';
         assignInput.value = '';
+        descriptionInput.value = '';
+        testcaseInput.value = '';
+        typeInput.value = '';
         // Show a success message
-        alert('Issue ' + title + ' created successfully');
+        alert('Issue : ' + title + ' created successfully');
+        // Reload the page
+        location.reload();
+    }
+    else {
+        // Show a success message
+        alert('Error occur when create issue!');
     }
 }
 );
