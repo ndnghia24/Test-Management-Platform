@@ -176,10 +176,7 @@ controller.getIssues = async (req,res) => {
         const existing_user = await db.sequelize.query(
             'SELECT name FROM users', { type: db.sequelize.QueryTypes.SELECT }
         );
-        //get all module in project
-        const existing_module = await db.sequelize.query(
-            'SELECT name FROM modules WHERE project_id = ?', { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT }
-        );
+
         //get all issue type
         const existing_type = await db.sequelize.query(
             'SELECT type FROM issue_type', { type: db.sequelize.QueryTypes.SELECT }
@@ -192,7 +189,6 @@ controller.getIssues = async (req,res) => {
         res.locals.existing_priority = existing_priority;
         res.locals.existing_status = existing_status;
         res.locals.existing_user = existing_user;
-        res.locals.existing_module = existing_module;
         res.locals.existing_type = existing_type;
         res.locals.existing_testcase = existing_testcase;
         res.render('issue-view', {
