@@ -29,10 +29,10 @@ async function sendFilterRequest(element){
     const priority = priorityDropdown.options[priorityDropdown.selectedIndex].value;
 
     const assignedToDropdown = document.getElementById('assignedTo-filter');
-    const assignedTo = assignedToDropdown.options[assignedToDropdown.selectedIndex].value;
+    const assignedTo = assignedToDropdown.options[assignedToDropdown.selectedIndex].textContent;;
 
     const createdByDropdown = document.getElementById('createdBy-filter');
-    const createdBy = createdByDropdown.options[createdByDropdown.selectedIndex].value;
+    const createdBy = createdByDropdown.options[createdByDropdown.selectedIndex].textContent;;
 
     let query = '';
     if(status){
@@ -58,7 +58,7 @@ async function sendFilterRequest(element){
 
     // Check if the request was successful
     if (response.ok) {
-        // Redirect to the issue page
+        // Redirect to the issue page with the query string
         window.location.href = `/project/${projectId}/issues?${query}`;
     } else {
         // Handle errors, if any

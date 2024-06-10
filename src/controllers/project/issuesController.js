@@ -113,46 +113,47 @@ controller.getIssues = async (req,res) => {
             type: db.sequelize.QueryTypes.SELECT
         });
 
+        let detailedIssues = [];
         //check if there is any issue
-        if (issues.length === 0) {
-            issues = all_issues;
+        if (issues.length != 0) {
+            // Extract unique IDs from issues for each type
+            const priorityIds = [...new Set(issues.map(issue => issue.priority_id))];
+            const statusIds = [...new Set(issues.map(issue => issue.status_id))];
+            const created_bys = [...new Set(issues.map(issue => issue.created_by))];
+            const assigned_tos = [...new Set(issues.map(issue => issue.assigned_to))];
+
+            // Query for additional data
+            const [priorityResults, statusResults, createdByResults, assignToResults] = await Promise.all([
+                db.sequelize.query(
+                    'SELECT issue_priority_id, priority FROM issue_priority WHERE issue_priority_id IN (?)',
+                    { replacements: [priorityIds], type: db.sequelize.QueryTypes.SELECT }
+                ),
+                db.sequelize.query(
+                    'SELECT issue_status_id, status FROM issue_status WHERE issue_status_id IN (?)',
+                    { replacements: [statusIds], type: db.sequelize.QueryTypes.SELECT }
+                ),
+                db.sequelize.query(
+                    'SELECT user_id, name FROM users WHERE user_id IN (?)',
+                    { replacements: [created_bys], type: db.sequelize.QueryTypes.SELECT }
+                ),
+                db.sequelize.query(
+                    'SELECT user_id, name FROM users WHERE user_id IN (?)',
+                    { replacements: [assigned_tos], type: db.sequelize.QueryTypes.SELECT }
+                )
+            ]);
+
+            // Map additional data to issues
+            detailedIssues = issues.map(issue => {
+                issue.priority = priorityResults.find(p => p.issue_priority_id === issue.priority_id).priority;
+                issue.status = statusResults.find(s => s.issue_status_id === issue.status_id).status;
+                issue.created_by = createdByResults.find(c => c.user_id === issue.created_by).name;
+                issue.assigned_to = assignToResults.find(a => a.user_id === issue.assigned_to).name;
+                return issue;
+            });
         }
-
-        // Extract unique IDs from issues for each type
-        const priorityIds = [...new Set(issues.map(issue => issue.priority_id))];
-        const statusIds = [...new Set(issues.map(issue => issue.status_id))];
-        const created_bys = [...new Set(issues.map(issue => issue.created_by))];
-        const assigned_tos = [...new Set(issues.map(issue => issue.assigned_to))];
-
-        // Query for additional data
-        const [priorityResults, statusResults, createdByResults, assignToResults] = await Promise.all([
-            db.sequelize.query(
-                'SELECT issue_priority_id, priority FROM issue_priority WHERE issue_priority_id IN (?)',
-                { replacements: [priorityIds], type: db.sequelize.QueryTypes.SELECT }
-            ),
-            db.sequelize.query(
-                'SELECT issue_status_id, status FROM issue_status WHERE issue_status_id IN (?)',
-                { replacements: [statusIds], type: db.sequelize.QueryTypes.SELECT }
-            ),
-            db.sequelize.query(
-                'SELECT user_id, name FROM users WHERE user_id IN (?)',
-                { replacements: [created_bys], type: db.sequelize.QueryTypes.SELECT }
-            ),
-            db.sequelize.query(
-                'SELECT user_id, name FROM users WHERE user_id IN (?)',
-                { replacements: [assigned_tos], type: db.sequelize.QueryTypes.SELECT }
-            )
-        ]);
-
-        // Map additional data to issues
-        const detailedIssues = issues.map(issue => {
-            issue.priority = priorityResults.find(p => p.issue_priority_id === issue.priority_id).priority;
-            issue.status = statusResults.find(s => s.issue_status_id === issue.status_id).status;
-            issue.created_by = createdByResults.find(c => c.user_id === issue.created_by).name;
-            issue.assigned_to = assignToResults.find(a => a.user_id === issue.assigned_to).name;
-            return issue;
-        });
-
+        else {
+            detailedIssues = [];
+        }
         res.locals.issue_details = detailedIssues;
         res.locals.all_status = all_status;
         res.locals.all_priority = all_priority;
