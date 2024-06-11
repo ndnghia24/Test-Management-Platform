@@ -264,14 +264,39 @@
 </div>
 {{/each}}
 
-<!-- next page -->
-<div class="container-fluid row align-items-center justify-content-center mt-4">
-    <div class="col-4 text-center">
-        <i class="bi bi-chevron-left color-black fs-4 fw-bold"></i>
-        <span class="color-black fs-4 fw-bold ps-5 pe-5">1</span>
-        <i class="bi bi-chevron-right color-black fs-4 fw-bold"></i>
-    </div>
-</div>
+<!-- pagination -->
+<nav style="margin: 20px auto;">
+    {{{paginate pagination
+                paginationClass="pagination justify-content-center p-1 fw-medium fs-4"
+                leftText = '<i class="bi bi-arrow-left fw-medium fs-4"></i>'
+                rightText = '<i class="bi bi-arrow-right fw-medium fs-4"></i>'
+    }}}
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get all pagination links
+        const paginationLinks = document.querySelectorAll('.pagination a');
+
+        paginationLinks.forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent the default action
+
+                // Get the clicked page number from the href
+                const url = new URL(link.href);
+                const page = url.searchParams.get('page');
+
+                // Get the current URL
+                const currentUrl = new URL(window.location.href);
+
+                // Update the 'page' parameter
+                currentUrl.searchParams.set('page', page);
+                // Redirect to the updated URL
+                window.location.href = currentUrl.toString();
+            });
+        });
+    });
+</script>
 
 {{!-- Create Module Modal --}}
 
@@ -441,7 +466,7 @@
 
 {{#block "script"}}
 <script src="https://kit.fontawesome.com/ca0d395c8b.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="/css/issue-view.css"/>
+<link rel="stylesheet" href="/css/issue-view.css?v=1"/>
 <link rel="stylesheet" href="/css/font_size.css"/>
 <link rel="stylesheet" href="/css/hover_and_click.css"/>
 <link rel="stylesheet" href="/css/color.css"/>

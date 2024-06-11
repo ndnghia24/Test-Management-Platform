@@ -250,6 +250,11 @@ main{
 .main-area {
     padding: 0 5px;
 }
+
+.pagination a{
+    color: #1EA7FF !important;
+    padding: 0 30px;
+}
 /*navigation bar*/
 /* .navigation-menu {
     display: flex;
