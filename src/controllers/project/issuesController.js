@@ -6,14 +6,21 @@ const { raw } = require('express');
 controller.getIssues = async (req,res) => {
     try {
         const projectId = req.params.id;
-        let { status, priority, createdBy, assignedTo } = req.query;
+        let { status, priority, createdBy, assignedTo, page } = req.query;
+        page = isNaN(page) ? 1 : Math.max(1,parseInt(page));
+        const limit = 5;
+        let offset = (page - 1) * limit;    
 
         //get all issues of this project
         const all_issues = await db.sequelize.query(
             'SELECT issue_id, title, description, priority_id, status_id, created_by, assigned_to FROM issues WHERE project_id = ? ORDER BY issue_id',
             { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
         );
-
+        
+        if (limit * (page - 1) > all_issues.length) {
+            page = 1;
+            offset = 0;
+        }
         // Extract unique IDs from issues for each type
         const all_priorityIds = [...new Set(all_issues.map(issue => issue.priority_id))];
         const all_statusIds = [...new Set(all_issues.map(issue => issue.status_id))];
@@ -85,7 +92,6 @@ controller.getIssues = async (req,res) => {
         `;
 
         const replacements = [projectId];
-
         if (status) {
             query += ' AND status_id = ?';
             replacements.push(statusMap[status]);
@@ -106,7 +112,16 @@ controller.getIssues = async (req,res) => {
             replacements.push(assignedToMap[assignedTo]);
         }
 
+        let count = await db.sequelize.query(query, {
+            replacements,
+            type: db.sequelize.QueryTypes.SELECT
+        });
+
         query += ' ORDER BY issue_id';
+        query += ' LIMIT ? OFFSET ?';
+
+        replacements.push(limit);
+        replacements.push(offset);
 
         let issues = await db.sequelize.query(query, {
             replacements,
@@ -191,9 +206,15 @@ controller.getIssues = async (req,res) => {
         res.locals.existing_user = existing_user;
         res.locals.existing_type = existing_type;
         res.locals.existing_testcase = existing_testcase;
+
         res.render('issue-view', {
             title: 'Issues',
             projectId: projectId,
+            pagination: {
+                page: page,
+                limit: limit,
+                totalRows: count.length
+            }
         });
     } catch (error) {
         console.error('Error fetching data:', error);
