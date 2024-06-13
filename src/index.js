@@ -1,11 +1,24 @@
 const express = require("express");
 const app = express();
+const dotenv = require("dotenv");
+const path = require("path");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const port = 3000;
 const expressHbs = require("express-handlebars");
 const { createPagination }  = require("express-handlebars-paginate");
-const path = require("path");
+const projectRouter = require("./routes/projectRouter");
+const authRouter = require("./routes/authRouter");
+const userRouter = require("./routes/userRouter");
 
+dotenv.config();
 app.use(express.static(path.dirname(__dirname) + "/public"));
+
+// Middleware
+app.use(cors());
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // Set up view engine
 app.engine(
@@ -95,18 +108,12 @@ app.engine(
 app.set("views", __dirname + "/views");
 app.set("view engine", "hbs");
 
-// Read JSON
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-// app.get("/", (req, res) => res.redirect("/users"));
 app.get("/", (req, res) => {
-  res.redirect('/project');
+  res.redirect('/dashboard');
 })
 
-app.use("/project", require("./routes/projectRouter"));
+app.use("/auth", authRouter);
+app.use("/user", userRouter);
+app.use("/project", projectRouter);
 
-
-// Start app
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
-
