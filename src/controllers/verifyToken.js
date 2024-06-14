@@ -21,7 +21,12 @@ const verifyToken = (req, res, next) => {
 const verifyTokenAndManager = (req, res, next) => {
   verifyToken(req, res, () => {
     const project_id = req.params.id;
-    const userProjects = req.user.projects;
+    const token = req.headers.token;
+
+    // decode the token and get projects from it
+    const accessToken = token.split(" ")[1];
+    const userJSON = jwt.decode(accessToken);
+    const userProjects = userJSON.projects;
     const project = userProjects.find((project) => project.project_id === parseInt(project_id));
 
     if (project && project.role === 1) {
@@ -35,7 +40,12 @@ const verifyTokenAndManager = (req, res, next) => {
 const verifyTokenAndDeveloper = (req, res, next) => {
   verifyToken(req, res, () => {
     const project_id = req.params.id;
-    const userProjects = req.user.projects;
+    const token = req.headers.token;
+
+    // decode the token and get projects from it
+    const accessToken = token.split(" ")[1];
+    const userJSON = jwt.decode(accessToken);
+    const userProjects = userJSON.projects;
     const project = userProjects.find((project) => project.project_id === parseInt(project_id));
 
     if (project && project.role === 2) {
@@ -49,7 +59,12 @@ const verifyTokenAndDeveloper = (req, res, next) => {
 const verifyTokenAndTester = (req, res, next) => {
   verifyToken(req, res, () => {
     const project_id = req.params.id;
-    const userProjects = req.user.projects;
+    const token = req.headers.token;
+
+    // decode the token and get projects from it
+    const accessToken = token.split(" ")[1];
+    const userJSON = jwt.decode(accessToken);
+    const userProjects = userJSON.projects;
     const project = userProjects.find((project) => project.project_id === parseInt(project_id));
 
     if (project && project.role === 3) {

@@ -56,7 +56,7 @@ const authController = {
         }
 
         // Generate access token
-        const accessToken = authController.generateAccessToken(user);
+        const accessToken = await authController.generateAccessToken(user);
         // Generate refresh token
         const refreshToken = authController.generateRefreshToken(user);
         refreshTokens.push(refreshToken);
@@ -86,21 +86,21 @@ const authController = {
 
   generateAccessToken: async (user) => {
     // Get user role of each project
-    const userRoles = await db.requirements.findAll({
+    const userRoles = await db.user_in_project.findAll({
       where: {
-        user_id: user.id,
+        user_id: user.user_id,
       },
       raw: true
     });
 
     const projects = userRoles.map(role => ({
       project_id: role.project_id,
-      role: role.role
+      role: role.role_id
     }));
 
     return jwt.sign(
       {
-        user_id: user.id,
+        user_id: user.user_id,
         username: user.email,
         projects: projects,
       },
@@ -112,7 +112,7 @@ const authController = {
   generateRefreshToken: (user) => {
     return jwt.sign(
       {
-        user_id: user.id,
+        user_id: user.user_id,
         username: user.email,
         name: user.name,
       },

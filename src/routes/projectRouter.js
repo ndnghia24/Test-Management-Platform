@@ -2,6 +2,13 @@ const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/projectController");
 
+// Authentification middlewares
+const { 
+    verifyTokenAndManager,
+    verifyTokenAndDeveloper,
+    verifyTokenAndTester
+ } = require("../controllers/verifyToken");
+
 //PROJECT SUPPORT ROUTES
 router.get("/:id/getAllRequirement", controller.getRequirement);
 router.get("/:id/getAllTestCase", controller.getAllTestCase);
@@ -43,8 +50,8 @@ router.delete("/:id/release/deleteRelease", controller.releaseController.deleteR
 //OVERVIEW
 router.get("/:id/overview", controller.overviewController.getOverview);
 
-//REPORT
-router.get("/:id/report", controller.reportController.getReport);
+//REPORT (only for manager)
+router.get("/:id/report", verifyTokenAndManager, controller.reportController.getReport);
 
 // router.put("/:id/testcase/editTestCaseLinking", controller.test_caseController.editTestCase);
 // router.put("/:id/testcase/editTestCaseRequirement", controller.test_caseController.editTestCase);
