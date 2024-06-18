@@ -51,7 +51,7 @@ router.delete("/:id/release/deleteRelease", controller.releaseController.deleteR
 router.get("/:id/overview", controller.overviewController.getOverview);
 
 //REPORT (only for manager)
-router.get("/:id/report", verifyTokenAndManager, controller.reportController.getReport);
+router.get("/:id/report", controller.reportController.getReport);
 
 // router.put("/:id/testcase/editTestCaseLinking", controller.test_caseController.editTestCase);
 // router.put("/:id/testcase/editTestCaseRequirement", controller.test_caseController.editTestCase);
