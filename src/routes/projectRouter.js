@@ -55,7 +55,7 @@ router.delete("/:id/release/deleteRelease", controller.releaseController.deleteR
 router.get("/:id/overview", controller.overviewController.getOverview);
 
 //REPORT (only for manager)
-router.get("/:id/report", verifyTokenAndManager, controller.reportController.getReport);
+router.get("/:id/report", controller.reportController.getReport);
 
 router.get("/:id/testrun", controller.testrunController.getTestRun);
 
