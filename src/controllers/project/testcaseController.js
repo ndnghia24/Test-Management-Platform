@@ -284,4 +284,58 @@ controller.editTestCaseStep = async (req,res) => {
     }
 }
 
+controller.editTestCaseLinkingTestCase = async (req,res) => {
+    const t = await db.sequelize.transaction();
+    try {
+        const { linkingTestcases } = req.body;
+        const testcaseId = req.query.testcaseId;
+
+        console.log(req.body);
+        console.log('linkingTestcase',linkingTestcases);
+
+        await db.test_case_linking.destroy({ where: { testcase_id: testcaseId }}, { transaction: t});
+
+        for (let linking of linkingTestcases) {
+            await db.test_case_linking.create({
+                testcase_id: testcaseId,
+                linking_testcase_id: linking
+            }, { transaction: t});
+        }
+
+        await t.commit();
+        res.status(200).send({ success: true });
+    } catch (error) {
+        await t.rollback();
+        console.error('Error updating test case:', error);
+        res.status(500).send({ success: false, error: error });
+    }
+}
+
+controller.editTestCaseLinkingRequirement = async (req,res) => {
+    const t = await db.sequelize.transaction();
+    try {
+        const { linkingRequirements } = req.body;
+        const testcaseId = req.query.testcaseId;
+
+        console.log(req.body);
+        console.log('linkingRequirement',linkingRequirements);
+
+        await db.test_case_requirement.destroy({ where: { testcase_id: testcaseId }}, { transaction: t});
+
+        for (let linking of linkingRequirements) {
+            await db.test_case_requirement.create({
+                testcase_id: testcaseId,
+                requirement_id: linking
+            }, { transaction: t});
+        }
+
+        await t.commit();
+        res.status(200).send({ success: true });
+    } catch (error) {
+        await t.rollback();
+        console.error('Error updating test case:', error);
+        res.status(500).send({ success: false, error: error });
+    }
+}
+
 module.exports = controller;

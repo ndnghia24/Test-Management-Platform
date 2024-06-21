@@ -65,6 +65,8 @@ $('document').ready(function () {
         fetch(window.location.pathname + '/getTestCase?testcaseId=' + testcaseId)
             .then(response => response.json())
             .then(data => {
+                linkingTestCases = data.linkingTestcases;
+                linkingRequirements = data.linkingRequirements;
                 if (data.success) {
                     $('#edit-test-case')[0].dataset.testcaseId = testcaseId;
                     renderTestCaseDetailsForEdit(data);
@@ -164,8 +166,6 @@ $('document').ready(function () {
         });
     });
 });
-
-
 
 function renderTestCaseDetails(data) {
     let modal = $('#view-test-case');
@@ -270,6 +270,11 @@ function renderTestCaseDetailsForEdit(data) {
         </tr>`;
         modal.find('.test-case-linking-requirements-body-table').append(linkRow);
     });
+
+    $('#edit-testcase-linking-modal').find('.test-case-list').find('input').prop('checked', false);
+    $('#edit-testcase-linking-modal').find('.test-case-list').find('tr').show();
+    $('#edit-requirement-linking-modal').find('.requirement-list').find('input').prop('checked', false);
+    $('#edit-requirement-linking-modal').find('.requirement-list').find('trs').show();
     modal.modal('show');
 }
 
@@ -290,3 +295,155 @@ $('document').ready(function () {
         }
     });
 });
+
+
+//=============== Handle linking test case ===================================//
+// Add test case to linking list
+$('document').ready(function () {
+    $('.test-case-linking-add-testcase').click(function () {
+        const existedTestcase = $('.test-case-linking-testcases-body-table').find('tr');
+        const existedTestcaseCode = existedTestcase.map(function () {
+            return $(this).find('td').eq(0).text();
+        }).get();
+
+        const e = $('#edit-testcase-linking-modal').find('.test-case-list').find('tr').filter(function () {
+            return existedTestcaseCode.includes($(this).find('td').eq(1).text());
+        }).hide();
+
+        $('#edit-testcase-linking-modal').modal('show');
+    });
+});
+
+// Handle add test case to linking list modal 
+$('document').ready(function () {
+    $('#edit-testcase-linking-modal').find('.add-button').click(function () {
+        console.log('Add test case to linking list');
+        const selectedTestcase = $('#edit-testcase-linking-modal').find('.test-case-list').find('input:checked').map(function () {
+            return {
+                testcaseCode: $(this).closest('tr').find('td').eq(1).text(),
+                testcaseName: $(this).closest('tr').find('td').eq(2).text()
+            };
+        });
+
+        console.log(selectedTestcase);
+
+        selectedTestcase.each(function () {
+            $('.test-case-linking-testcases-body-table').append(`<tr>
+                <td>${this.testcaseCode}</td>
+                <td>${this.testcaseName}</td>
+                <td><i class ="bi bi-trash hover-icon text-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete test case"></i></td>
+            </tr>`);
+        });
+
+        $('#edit-testcase-linking-modal').modal('hide');
+    });
+});
+
+// Handle delete test case from linking list
+$('document').ready(function () {
+    $('.test-case-linking-testcases-body-table').on('click', '.bi-trash', function () {
+        $(this).closest('tr').remove();
+    });
+});
+
+// Send to server 
+$('document').ready(function () {
+    $('.test-case-linking-apply').click(function () {
+        const testcaseId = $('#edit-test-case')[0].dataset.testcaseId;
+        const linkingTestcases = $('#edit-test-case .test-case-linking-testcases-body-table').find('tr').map(function () {
+            return $(this).find('td').eq(0).text();
+        }).get();
+
+        console.log(linkingTestcases);
+
+        $.ajax({
+            url: window.location.pathname + '/editTestCaseLinking?testcaseId=' + testcaseId,
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({ linkingTestcases }),
+            success: function (data) {
+                if (data.success) {
+                    showRightBelowToast('Test Case updated successfully');
+                } else {
+                    showRightBelowToast('Error updating Test Case');
+                }
+            }
+        });
+    });
+});
+
+//==================Handle linking requirements================================//
+// Add requirement to linking list
+$('document').ready(function () {
+    $('.test-case-linking-add-requirement').click(function () {
+        const existedRequirement = $('.test-case-linking-requirements-body-table').find('tr');
+        const existedRequirementCode = existedRequirement.map(function () {
+            return $(this).find('td').eq(0).text();
+        }).get();
+
+        const e = $('#edit-requirement-linking-modal').find('.requirement-list').find('tr').filter(function () {
+            return existedRequirementCode.includes($(this).find('td').eq(1).text());
+        }).hide();
+
+        $('#edit-requirement-linking-modal').modal('show');
+    });
+});
+
+// Handle add requirement to linking list modal
+$('document').ready(function () {
+    $('#edit-requirement-linking-modal').find('.add-button').click(function () {
+        console.log('Add requirement to linking list');
+        const selectedRequirement = $('#edit-requirement-linking-modal').find('.requirement-list').find('input:checked').map(function () {
+            return {
+                requirementCode: $(this).closest('tr').find('td').eq(1).text(),
+                requirementName: $(this).closest('tr').find('td').eq(2).text()
+            };
+        });
+
+        $('.test-case-linking-requirements-body-table').append(selectedRequirement.map(function () {
+            return `<tr>
+                <td>${this.requirementCode}</td>
+                <td>${this.requirementName}</td>
+                <td><i class ="bi bi-trash hover-icon text-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete requirement"></i></td>
+            </tr>`;
+        }).get());
+
+        $('#edit-requirement-linking-modal').modal('hide');
+    });
+});
+
+// Handle delete requirement from linking list
+$('document').ready(function () {
+    $('.test-case-linking-requirements-body-table').on('click', '.bi-trash', function () {
+        $(this).closest('tr').remove();
+    });
+});
+
+// Send to server
+$('document').ready(function () {
+    $('.requirement-linking-apply').click(function () {
+        const testcaseId = $('#edit-test-case')[0].dataset.testcaseId;
+        const linkingRequirements = $('#edit-test-case .test-case-linking-requirements-body-table').find('tr').map(function () {
+            return $(this).find('td').eq(0).text();
+        }).get();
+
+        console.log(linkingRequirements);
+
+        $.ajax({
+            url: window.location.pathname + '/editTestCaseRequirementLinking?testcaseId=' + testcaseId,
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({ linkingRequirements }),
+            success: function (data) {
+                if (data.success) {
+                    showRightBelowToast('Test Case updated successfully');
+                } else {
+                    showRightBelowToast('Error updating Test Case');
+                }
+            }
+        });
+    });
+});
+
+
+

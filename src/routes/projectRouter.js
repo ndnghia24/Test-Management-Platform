@@ -24,6 +24,10 @@ router.get("/:id/testcase", controller.test_caseController.getTestCase);
 router.get("/:id/testcase/getTestCase", controller.test_caseController.getSpecifyTestCase);
 router.post("/:id/testcase/addTestCase", controller.test_caseController.addTestCase);
 router.delete("/:id/testcase/deleteTestCase", controller.test_caseController.deleteTestCase);
+router.put("/:id/testcase/editTestCaseStep", controller.test_caseController.editTestCaseStep);
+router.put("/:id/testcase/editTestCaseOverview", controller.test_caseController.editTestCaseOverview);
+router.put("/:id/testcase/editTestCaseLinking", controller.test_caseController.editTestCaseLinkingTestCase);
+router.put("/:id/testcase/editTestCaseRequirementLinking", controller.test_caseController.editTestCaseLinkingRequirement);
 
 //MODULE
 router.get("/:id/module", controller.moduleController.getModule);
@@ -52,11 +56,6 @@ router.get("/:id/overview", controller.overviewController.getOverview);
 
 //REPORT (only for manager)
 router.get("/:id/report", verifyTokenAndManager, controller.reportController.getReport);
-
-// router.put("/:id/testcase/editTestCaseLinking", controller.test_caseController.editTestCase);
-// router.put("/:id/testcase/editTestCaseRequirement", controller.test_caseController.editTestCase);
-router.put("/:id/testcase/editTestCaseStep", controller.test_caseController.editTestCaseStep);
-router.put("/:id/testcase/editTestCaseOverview", controller.test_caseController.editTestCaseOverview);
 
 router.get("/:id/testrun", controller.testrunController.getTestRun);
 
