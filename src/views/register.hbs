@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Đăng nhập</title>
+    <title>Đăng ký</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -17,7 +17,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 30rem;
-            height: 24rem;
+            height: 30rem;
         }
 
         body {
@@ -31,13 +31,18 @@
 
 <body>
     <header>
-        <!-- place navbar here -->
+        <!-- Navbar -->
+        <!-- You can add your navbar here if needed -->
     </header>
     <main>
         <div class="card centered-card container py-3">
-            <h5 class="text-center mb-3"><strong>Login to your account</strong></h5>
+            <h5 class="text-center mb-3"><strong>Register your account</strong></h5>
             
-            <form class="container ps-5 pe-5" id="loginForm">
+            <form class="container ps-5 pe-5" id="registerForm">
+                <div class="mb-3">
+                    <label for="input-name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="input-name" name="name" placeholder="Enter your name" required>
+                </div>
                 <div class="mb-3">
                     <label for="input-email" class="form-label">Email</label>
                     <input type="email" class="form-control" id="input-email" name="email" placeholder="email@gmail.com" required>
@@ -45,30 +50,26 @@
                 <div class="mb-3">
                     <div class="d-flex justify-content-between">
                         <label for="input-password" class="form-label">Password</label>
-                        <span class="form-text" style="color: #1570EF; cursor: pointer;">Forgot?</span>
                     </div>
                     <input type="password" class="form-control" id="input-password" name="password" placeholder="Enter your password" required>
                     <div id="issue-assign-error-1" class="text-danger fs-6" style="display: none;">
                         <i class="bi bi-exclamation-circle"></i>
                         <span>Password must have at least 8 characters</span>
                     </div>
-                    <div id="issue-assign-error-2" class="text-danger fs-6" style="display: none;">
-                        <i class="bi bi-exclamation-circle"></i>
-                        <span>Email or password incorrect</span>
-                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary w-100 mt-3">Login now</button>
+                <button type="submit" class="btn btn-primary w-100 mt-3">Register now</button>
             </form>
 
             <div class="text-center mt-3 mb-3">
-                <span>Don't have an account?</span>
-                <a href="/register" style="color: #1570EF; cursor: pointer;">Register now</a>
+                <span>Already have an account?</span>
+                <a href="/login" style="color: #1570EF; cursor: pointer;">Login now</a>
             </div>
         </div>
 
     </main>
     <footer>
-        <!-- place footer here -->
+        <!-- Footer -->
+        <!-- You can add your footer here if needed -->
     </footer>
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -80,7 +81,7 @@
         crossorigin="anonymous"></script>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+        document.getElementById('registerForm').addEventListener('submit', async function(event) {
             event.preventDefault(); // Prevent default form submission
 
             // Loading layer on submit button
@@ -90,13 +91,14 @@
 
             // Get form data
             const formData = {
+                name: document.getElementById('input-name').value,
                 email: document.getElementById('input-email').value,
                 password: document.getElementById('input-password').value
             };
 
             try {
                 // Send POST request to server
-                const response = await fetch('http://localhost:3000/auth/login', {
+                const response = await fetch('http://localhost:3000/auth/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -108,17 +110,18 @@
                     throw new Error('Network response was not ok');
                 }
 
-                const data = await response.json();
-
-                // Assuming data contains refreshToken
-                // Set refreshToken in cookie
-                document.cookie = `refreshToken=${data.refreshToken}; Secure; SameSite=None; Path=/`;
-
-                // Redirect user after successful login
-                window.location.href = '/dashboard';
+                // Redirect user after successful registration
+                window.location.href = '/login'; // Assuming this is your login page
             } catch (error) {
                 console.error('Error:', error);
                 // Handle errors (show error message to user, etc.)
+                // Example: Show error message to user
+                const errorMessageElement = document.getElementById('issue-assign-error-2');
+                errorMessageElement.style.display = 'block';
+            } finally {
+                // Reset submit button
+                submitButton.innerHTML = 'Register now';
+                submitButton.disabled = false;
             }
         });
 
