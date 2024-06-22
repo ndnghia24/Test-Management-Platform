@@ -9,7 +9,8 @@ const expressHbs = require("express-handlebars");
 const { createPagination }  = require("express-handlebars-paginate");
 const projectRouter = require("./routes/projectRouter");
 const authRouter = require("./routes/authRouter");
-const userRouter = require("./routes/userRouter");
+const authController = require("./controllers/authController");
+const jwt = require("jsonwebtoken");
 
 dotenv.config();
 app.use(express.static(path.dirname(__dirname) + "/public"));
@@ -108,18 +109,41 @@ app.engine(
 app.set("views", __dirname + "/views");
 app.set("view engine", "hbs");
 
+// Auth routes and personal account routes
+app.use("/auth", authRouter);
 
-app.get("/login", (req, res) => {
-  res.render("login", { layout: false });
+// Home route
+app.get("/", authController.refreshingTokens, (req, res) => {
+  req.isAuthenticated ? res.redirect("/dashboard") : res.render("login", { layout: false });
 });
 
-app.get("/", (req, res) => {
-  res.redirect('/dashboard');
-})
+// Account routes
+app.use("/login", (req, res) => {res.render("login", { layout: false });});
+app.use("/register", (req, res) => {res.render("register", { layout: false });});
 
+// Dashboard & projects routes
+app.use("/dashboard", authController.refreshingTokens, (req, res) => {
 
-app.use("/auth", authRouter);
-app.use("/user", userRouter);
+  // req.isAuthenticated = true;
+  // req.headers.token = "Bearer " + newAccessToken;
+
+  if (!req.isAuthenticated) { return res.redirect("/login"); }
+
+  const accessToken = req.headers.token.split(" ")[1];
+  const user = jwt.verify(accessToken, process.env.JWT_ACCESS_KEY);
+
+  /* Dùng data user để giới hạn dữ liệu trả về cho user 
+  User:  {
+    user_id: 1,
+    projects: [ { project_id: 1, role_id: 1 }, { project_id: 2, role_id: 2 } ],
+    iat: 1719042592,
+    exp: 1719042622
+  }
+  */
+  
+  res.send('<h1>Hello World</h1>');
+});
+
 app.use("/project", projectRouter);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
