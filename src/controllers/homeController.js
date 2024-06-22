@@ -106,4 +106,48 @@ controller.deleteProject = async (req, res) => {
     }
 }
 
+controller.addUser = async (req, res) => {
+    try {
+        const { email, role, projectId } = req.body;
+        const user = await db.users.findOne({
+            where: {
+                email: email
+            }
+        });
+        const role_id = await db.role.findOne({
+            where: {
+                role: role
+            }
+        });
+        if (user && role_id){
+            //if not record in user_in_project have same user_id and project_id
+            const userInProject = await db.user_in_project.findOne({
+                where: {
+                    user_id: user.user_id,
+                    project_id: projectId
+                }
+            });
+            if (userInProject){
+                res.status(400).send('User already in project');
+                return;
+            }
+            await db.user_in_project.create({
+                user_id: user.user_id,
+                project_id: projectId,
+                role_id: role_id.role_id,
+                is_delete: false
+            });
+        }
+        else{
+            res.status(400).send('User not found');
+            return;
+        }
+        res.status(200).send(user);
+        console.log(200);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Internal server error');
+    }
+}
+
 module.exports = controller;

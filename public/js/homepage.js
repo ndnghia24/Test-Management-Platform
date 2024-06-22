@@ -234,7 +234,7 @@ userRoleInput.addEventListener('input', function() {
 );
 
 // Add click event listener to the "Save" button
-saveAddUserButton.addEventListener('click', function() {
+saveAddUserButton.addEventListener('click', async function() {
     //array of existing project names
     const existingEmail = ['quocbao@gmail.com', 'ducnghia@gmail.com', 'thanhnghi@gmail.com'];
 
@@ -280,16 +280,48 @@ saveAddUserButton.addEventListener('click', function() {
         return; // Exit the function early if the project name is empty
     }
 
-    // If the project name is not empty, continue with creating the project
-    // Add your code to create the project here
-    // For example, you can submit a form, send an AJAX request, etc.
+    const role = userRoleInput.value.trim(); // Trim whitespace
+    const projectId = parseInt(saveAddUserButton.getAttribute('data-project-id'));
+    //send email of user to server
+    // Send a POST request to add the user
+    const response = await fetch(`/home`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, role, projectId}),
+    });
 
-    // Close the modal (if needed)
-    let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('modal-add-user'));
-    modal.hide();
-    userEmailInput.value = ''; // Clear the email input field
-    userRoleInput.value = ''; // Clear the role select form input field
-    alert('Add ' + email + ' to project successfully');
+    // Check if the request was successful
+    if (response.ok) {
+        // Close the modal (if needed)
+        let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('modal-add-user'));
+        modal.hide();
+        userEmailInput.value = ''; // Clear the email input field
+        userRoleInput.value = ''; // Clear the role select form input field
+        alert('Add ' + email + ' to project successfully');
+        // Redirect to the issue page
+        window.location.href = `/home`;
+    } else {
+        // Handle errors, if any
+        console.error('Failed to add the user');
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Select all elements with the class 'link' that have the data-bs-toggle attribute
+    document.querySelectorAll('.add-user').forEach(function(element) {
+        element.addEventListener('click', function() {
+            // Get the data-surface-id value from the clicked element
+            const projectId = parseInt(this.getAttribute('data-project-id'));
+            
+            // Find the modal and set its data-surface-id attribute
+            const saveButton = document.getElementById('save-add-user-button');
+            if (saveButton) {
+                saveButton.setAttribute('data-project-id', projectId);
+            }
+        });
+    });
 });
 
 document.addEventListener('DOMContentLoaded', function() {
