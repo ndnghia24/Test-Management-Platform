@@ -103,4 +103,75 @@ controller.addTestRun = async (req, res) => {
     }
 }
 
+controller.editTestRun = async (req, res) => {
+    const t = await db.sequelize.transaction();
+    try {
+        // const projectId = req.params.id;
+        const testRunId = req.params.testrunId;
+        const { testrun_title, release, description } = req.body;
+
+        await db.test_runs.update({
+            testrun_title: testrun_title,
+            release: release,
+            description: description
+        }, {
+            where: {
+                testrun_id: testRunId
+            },
+            transaction: t
+        });
+        await t.commit();
+        res.send({ success: true });
+    } catch (error) {
+        await t.rollback();
+        console.error('Error updating test run:', error);
+        res.status(500).send({ success: false, error });
+    }
+}
+
+controller.deleteTestRun = async (req, res) => {
+    const t = await db.sequelize.transaction();
+    try {
+        const testRunId = req.params.testrunId;
+        await db.test_runs.destroy({
+            where: {
+                testrun_id: testRunId
+            },
+            transaction: t
+        });
+        await t.commit();
+        res.send({ success: true });
+    } catch (error) {
+        await t.rollback();
+        console.error('Error deleting test run:', error);
+        res.status(500).send({ success: false, error });
+    }
+}
+
+controller.getDetailTestRun = async (req, res) => {
+    const testRunId = req.params.testrunId;
+
+    let promises = [];
+
+    promises.push(
+        db.test_runs.findOne({
+            where: {
+                testrun_id: testRunId
+            },
+            raw: true
+        }),
+        db.testcase_testrun.findAll({
+            where: {
+                testrun_id: testRunId
+            },
+            raw: true
+        }),
+    );
+
+    res.render('detail-test-run-view', {
+        title: 'Test Run Detail',
+        cssFile: 'test-run-view.css',
+        testRunId: testRunId
+    });
+};
 module.exports = controller;

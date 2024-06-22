@@ -259,6 +259,8 @@
 </div>
 
 {{> view-test-run-modal}}
+{{> edit-test-run-modal}}
+{{> delete-test-run-modal}}
 {{/block}}
 
 {{!-- Page's Functionality Button --}}
@@ -276,4 +278,14 @@
 {{#block "script"}}
 <script src="/js/addTestrunModal.js"></script>
 <script src="/js/testrunActionBtn.js"></script>
+<script>
+    $(document).ready(function () {
+        $('td.testrun-title').click(function () {
+            const testRun = JSON.parse($(this).closest('tr')[0].dataset.this);
+            console.log(testRun);
+            let curUrl = window.location.href;
+            window.location.href = curUrl + '/' + testRun.testrun_id;
+        });
+    });
+</script>
 {{/block}}

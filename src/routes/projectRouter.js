@@ -57,9 +57,12 @@ router.get("/:id/overview", controller.overviewController.getOverview);
 //REPORT (only for manager)
 router.get("/:id/report", controller.reportController.getReport);
 
+//TESTRUN
 router.get("/:id/testrun", controller.testrunController.getTestRun);
 router.post("/:id/testrun/addTestRun", controller.testrunController.addTestRun);
-
+router.put("/:id/testrun/:testrunId/editTestRun", controller.testrunController.editTestRun);
+router.delete("/:id/testrun/:testrunId/deleteTestRun", controller.testrunController.deleteTestRun);
+router.get("/:id/testrun/:testrunId",controller.testrunController.getDetailTestRun); 
 //issue
 router.get("/:id/issues", controller.issuesController.getIssues);
 //issue-detail

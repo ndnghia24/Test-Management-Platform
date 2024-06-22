@@ -1,10 +1,10 @@
-<div class="modal fade" id="view-test-run-modal" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+<div class="modal fade" id="edit-test-run-modal" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true" data-testrun-id="">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
         <div class="modal-content align-items-center"
             style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
             <div class="modal-header" style="border-bottom: none;">
                 <p class="modal-title fs-3" id="modalTitleId">
-                    View TestRun
+                    Edit TestRun
                 </p>
             </div>
             <div class="modal-body" style="border-bottom: none; width: 100%;">
@@ -14,7 +14,7 @@
                             Name <span style="color: #F0270C;">*</span> :
                         </label>
                         <input id="test-run-name" type="text" name="test-run-name" class="form-control"
-                            placeholder="Test Plan's Code" disabled>
+                            placeholder="Test Plan's Code">
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -22,7 +22,7 @@
                         <label for="release">
                             Release :
                         </label>
-                        <select name="release" id="release" disabled>
+                        <select name="release" id="release">
                             {{#each releases}}
                             <option value="{{this.release_id}}" data-release="{{json this}}">{{this.name}}</option>
                             {{/each}}
@@ -45,14 +45,14 @@
                             Description :
                         </label>
                         <textarea id="description" name="description" class="form-control" placeholder="Description"
-                            rows="4" disabled></textarea>
+                            rows="4"></textarea>
                     </div>
                 </div>
             </div>
             <div class="modal-footer" style="border-top: none;">
-                <button type="button" class="btn btn-secondary done-button" data-bs-dismiss="modal"
+                <button type="button" class="btn btn-secondary apply-button"
                     style="background-color: #41D37E; color: #23235F; border: none; border-radius: 10px; padding: 10px 40px; font-weight: 600;">
-                    Done
+                    Apply
                 </button>
             </div>
         </div>
