@@ -63,6 +63,9 @@ router.post("/:id/testrun/addTestRun", controller.testrunController.addTestRun);
 router.put("/:id/testrun/:testrunId/editTestRun", controller.testrunController.editTestRun);
 router.delete("/:id/testrun/:testrunId/deleteTestRun", controller.testrunController.deleteTestRun);
 router.get("/:id/testrun/:testrunId",controller.testrunController.getDetailTestRun); 
+router.post("/:id/testrun/:testrunId/addIssue",controller.testrunController.addIssue);
+
+
 //issue
 router.get("/:id/issues", controller.issuesController.getIssues);
 router.get("/:id/issues/getIssue", controller.issuesController.getSpecifyIssue);

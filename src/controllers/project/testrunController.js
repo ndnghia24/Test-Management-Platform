@@ -1,6 +1,13 @@
 const controller = {};
 const { where } = require('sequelize');
 const db = require('../../models/index');
+const { create } = require('express-handlebars');
+
+const status_id = {
+    1: 'New',
+    2: 'In Progress',
+    3: 'Done'
+}
 
 controller.getTestRun = async (req, res) => {
     try {
@@ -35,10 +42,10 @@ controller.getTestRun = async (req, res) => {
                 'SELECT u.* ' +
                 'FROM users AS u, user_in_project AS up ' +
                 'WHERE u.user_id = up.user_id AND up.project_id = ?', {
-                    replacements: [projectId],
-                    type: db.sequelize.QueryTypes.SELECT
-                }
-            ) 
+                replacements: [projectId],
+                type: db.sequelize.QueryTypes.SELECT
+            }
+            )
         );
 
         let [testruns, testcases, releases, modules, users] = await Promise.all(promises);
@@ -160,18 +167,68 @@ controller.getDetailTestRun = async (req, res) => {
             },
             raw: true
         }),
-        db.testcase_testrun.findAll({
+        db.sequelize.query(
+            'SELECT tc.name , tct.*' +
+            'FROM test_cases AS tc, testcase_testrun AS tct ' +
+            'WHERE tc.testcase_id = tct.testcase_id AND tct.testrun_id = ?', {
+            replacements: [testRunId],
+            type: db.sequelize.QueryTypes.SELECT
+        }
+        ),
+        db.modules.findAll({
             where: {
-                testrun_id: testRunId
+                project_id: req.params.id
             },
-            raw: true
         }),
+        db.issue_type.findAll({}),
     );
+
+    let [testRun, testcases, module, issue_type] = await Promise.all(promises);
 
     res.render('detail-test-run-view', {
         title: 'Test Run Detail',
-        cssFile: 'test-run-view.css',
-        testRunId: testRunId
+        cssFile: 'test-run-detail-view.css',
+        testRun: testRun,
+        testcases: testcases,
+        issueTypes: issue_type,
     });
 };
+
+controller.addIssue = async (req, res) => {
+    const t = await db.sequelize.transaction();
+    try {
+        const { issue_name, testcase_id, description, status, priority, issue_type } = req.body;
+        const testRunId = req.params.testrunId;
+        const projectId = req.params.id;
+
+        let issue_id = await db.sequelize.query(
+            'SELECT MAX(issue_id) as issue_id FROM issues',
+            { type: db.sequelize.QueryTypes.SELECT }
+        );
+        let new_issue_id = issue_id[0].issue_id + 1;
+
+        await db.issues.create({
+            issue_id: new_issue_id,
+            title: issue_name,
+            test_case_id: testcase_id,
+            description: description,
+            status_id: status,
+            priority_id: priority,
+            issue_type_id: issue_type,
+            test_run_id: testRunId,
+            project_id: projectId,
+            created_by: 1,
+            created_at: new Date()
+        }, {
+            transaction: t
+        });
+        await t.commit();
+        res.send({ success: true });
+    } catch (error) {
+        await t.rollback();
+        console.error('Error adding issue:', error);
+        res.status(500).send({ success: false, error });
+    }
+}
+
 module.exports = controller;
