@@ -1,0 +1,60 @@
+<div class="modal fade" id="view-test-run-modal" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content align-items-center"
+            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
+            <div class="modal-header" style="border-bottom: none;">
+                <p class="modal-title fs-3" id="modalTitleId">
+                    View TestRun
+                </p>
+            </div>
+            <div class="modal-body" style="border-bottom: none; width: 100%;">
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label for="test-run-name">
+                            Name <span style="color: #F0270C;">*</span> :
+                        </label>
+                        <input id="test-run-name" type="text" name="test-run-name" class="form-control"
+                            placeholder="Test Plan's Code" disabled>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="release">
+                            Release :
+                        </label>
+                        <select name="release" id="release" disabled>
+                            {{#each releases}}
+                            <option value="{{this.release_id}}" data-release="{{json this}}">{{this.name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="col-5 offset-1">
+                        <label for="assigned-to">
+                            Assigned to :
+                        </label>
+                        <select name="assigned-to" id="assigned-to" disabled>
+                            {{#each users}}
+                            <option value="{{this.user_id}}">{{this.name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label for="description">
+                            Description :
+                        </label>
+                        <textarea id="description" name="description" class="form-control" placeholder="Description"
+                            rows="4" disabled></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none;">
+                <button type="button" class="btn btn-secondary done-button" data-bs-dismiss="modal"
+                    style="background-color: #41D37E; color: #23235F; border: none; border-radius: 10px; padding: 10px 40px; font-weight: 600;">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
