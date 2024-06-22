@@ -1,24 +1,50 @@
 const controller = {};
+const { where } = require('sequelize');
 const db = require('../../models/index');
 
 controller.getTestRun = async (req, res) => {
     try {
         const projectId = req.params.id;
-        const testruns = await db.test_runs.findAll({
-            where: {
-                project_id: projectId
-            },
-            raw: true
-        });
+        let promises = [];
+        promises.push(
+            db.test_runs.findAll({
+                where: {
+                    project_id: projectId
+                },
+                raw: true
+            }),
+            db.test_cases.findAll({
+                where: {
+                    project_id: projectId
+                },
+                raw: true
+            }),
+            db.releases.findAll({
+                where: {
+                    project_id: projectId
+                },
+                raw: true
+            }),
+            db.modules.findAll({
+                where: {
+                    project_id: projectId
+                },
+                raw: true
+            }),
+            db.sequelize.query(
+                'SELECT u.* ' +
+                'FROM users AS u, user_in_project AS up ' +
+                'WHERE u.user_id = up.user_id AND up.project_id = ?', {
+                    replacements: [projectId],
+                    type: db.sequelize.QueryTypes.SELECT
+                }
+            ) 
+        );
 
-        const userId = [...new Set(testruns.flatMap(testrun => [testrun.created_by, testrun.assigned_to]))]
-        
-        const users = await db.users.findAll({
-            where: {
-                user_id: userId
-            },
-            raw: true
-        });
+        let [testruns, testcases, releases, modules, users] = await Promise.all(promises);
+
+        console.log(users);
+
         const userMap = users.reduce((acc, user) => { acc[user.user_id] = user.name; return acc; }, {});
         testruns.forEach(testrun => {
             testrun.created_by = userMap[testrun.created_by];
@@ -30,12 +56,51 @@ controller.getTestRun = async (req, res) => {
             title: 'Test Runs',
             cssFile: 'test-run-view.css',
             projectId: projectId,
-            testRuns: testruns
+            testRuns: testruns,
+            modules: modules,
+            releases: releases,
+            testcases: testcases,
+            users: users
         });
     } catch (error) {
         console.error('Error getting test runs:', error);
         res.status(500).send({ success: false, error });
     }
 };
+
+controller.addTestRun = async (req, res) => {
+    const t = await db.sequelize.transaction();
+    try {
+        const projectId = req.params.id;
+        const { test_run_name, release, assigned_to, description, testcases } = req.body;
+
+        const testRun = await db.test_runs.create({
+            project_id: projectId,
+            testrun_title: test_run_name,
+            release: release,
+            assigned_to: assigned_to,
+            description: description,
+            testcase_quantity: testcases.length,
+            created_by: 3
+        }, { transaction: t });
+
+        const testRunId = testRun.testrun_id;
+        const promises = testcases.map(testcase => {
+            return db.testcase_testrun.create({
+                testrun_id: testRunId,
+                testcase_id: testcase.testcase_id
+            }, { transaction: t });
+        });
+
+        await Promise.all(promises);
+        await t.commit();
+
+        res.send({ success: true });
+    } catch (error) {
+        await t.rollback();
+        console.error('Error adding test run:', error);
+        res.status(500).send({ success: false, error });
+    }
+}
 
 module.exports = controller;

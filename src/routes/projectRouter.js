@@ -58,6 +58,7 @@ router.get("/:id/overview", controller.overviewController.getOverview);
 router.get("/:id/report", controller.reportController.getReport);
 
 router.get("/:id/testrun", controller.testrunController.getTestRun);
+router.post("/:id/testrun/addTestRun", controller.testrunController.addTestRun);
 
 //issue
 router.get("/:id/issues", controller.issuesController.getIssues);
