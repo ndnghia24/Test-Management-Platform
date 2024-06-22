@@ -9,8 +9,10 @@ const expressHbs = require("express-handlebars");
 const { createPagination }  = require("express-handlebars-paginate");
 const projectRouter = require("./routes/projectRouter");
 const authRouter = require("./routes/authRouter");
+const userRouter = require("./routes/userRouter");
 const authController = require("./controllers/authController");
 const jwt = require("jsonwebtoken");
+const homeRouter = require("./routes/homeRouter");
 
 dotenv.config();
 app.use(express.static(path.dirname(__dirname) + "/public"));
@@ -103,6 +105,10 @@ app.engine(
       eq: function(a, b) {
         return a === b;
       },
+      //helper for format datetime to DD/MM/YYYY
+      formatDate: function(date) {
+        return date.toLocaleDateString();
+      },
     },
   })
 );
@@ -144,6 +150,15 @@ app.use("/dashboard", authController.refreshingTokens, (req, res) => {
   res.send('<h1>Hello World</h1>');
 });
 
+
+app.get("/", (req, res) => {
+  res.redirect('/dashboard');
+})
+
+
+app.use("/home", homeRouter);
+app.use("/auth", authRouter);
+app.use("/user", userRouter);
 app.use("/project", projectRouter);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
