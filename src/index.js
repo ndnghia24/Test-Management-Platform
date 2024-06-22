@@ -108,9 +108,15 @@ app.engine(
 app.set("views", __dirname + "/views");
 app.set("view engine", "hbs");
 
+
+app.get("/login", (req, res) => {
+  res.render("login", { layout: false });
+});
+
 app.get("/", (req, res) => {
   res.redirect('/dashboard');
 })
+
 
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
