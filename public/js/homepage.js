@@ -90,14 +90,6 @@ if (delete_projects){
     }
 }
 
-// click on view-detail
-
-const view_details = document.getElementsByClassName('view-detail');
-if (view_details){
-    for (let i = 0; i < view_details.length; i++){
-        view_details[i].setAttribute('onclick', "location.href='../../HTML/Dev/issues_detail.html';");
-    }
-}
 
 
 /* update issues onclick */

@@ -48,7 +48,7 @@ controller.getHome = async (req, res) => {
         //get all issues assign to me
         const userId = 1;
         const issues = await db.sequelize.query(
-            'SELECT issues.description, users.name as user_name, issue_status.status, issues.created_date, projects.name as project_name ' +
+            'SELECT issues.description, issues.issue_id, users.name as user_name, issue_status.status, issues.created_date, projects.name as project_name, projects.project_id as project_id ' +
             'FROM issues , users, issue_status, projects ' +
             'WHERE issues.assigned_to = ? AND projects.project_id = issues.project_id AND issues.status_id = issue_status.issue_status_id AND issues.created_by = users.user_id ' + 
             'ORDER BY issues.issue_id',

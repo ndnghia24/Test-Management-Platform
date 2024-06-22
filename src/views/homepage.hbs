@@ -341,7 +341,7 @@
                                 {{#each projects}}
                                 <div class="col-auto">
                                     <div class="container-fluid project-tag p-3 hover-shadow-box clickable"
-                                        onclick="location.href='/HTML/Dev/overview.html';">
+                                        onclick="location.href='/project/{{id}}/overview';">
                                         <div class="row align-items-center">
                                             <div class="col-2">
                                                 <div class="circle primary-background">
@@ -537,7 +537,7 @@
                                 <!-- view-detail -->
                                 <div class="col-3 col-sm-2 p-2 d-flex align-items-center" style="height: 100%;">
                                     <div class="view-detail hover-to-bg-light-violet clickable"
-                                        onclick="location.href='../../HTML/Dev/issues_detail.html';">
+                                        onclick="location.href='/project/{{project_id}}/issues/getIssue?issueId={{issue_id}}';">
                                         <i class="bi bi-box-arrow-right color-blue d-none d-md-block"
                                             style="font-size: 18pt;"></i>
                                         <span class="color-blue fs-6 fw-medium ps-2 text-center">View Detail</span>
