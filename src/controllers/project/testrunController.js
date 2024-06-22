@@ -47,8 +47,8 @@ controller.getTestRun = async (req, res) => {
 
         const userMap = users.reduce((acc, user) => { acc[user.user_id] = user.name; return acc; }, {});
         testruns.forEach(testrun => {
-            testrun.created_by = userMap[testrun.created_by];
-            testrun.assigned_to = userMap[testrun.assigned_to];
+            testrun.created_by_name = userMap[testrun.created_by];
+            testrun.assigned_to_name = userMap[testrun.assigned_to];
         });
 
         console.log(testruns);

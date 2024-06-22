@@ -51,7 +51,11 @@ module.exports = function(sequelize, DataTypes) {
         model: 'projects',
         key: 'project_id'
       }
-    }
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
   }, {
     sequelize,
     tableName: 'test_runs',

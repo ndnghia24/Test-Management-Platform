@@ -29,18 +29,18 @@
                 </thead>
                 <tbody class="fs-6">
                     {{#each testRuns}}
-                    <tr>
+                    <tr data-this = '{{json this}}'>
                         <td class="created-by">
                             <div style="text-align: center;">
                                 <i class="bi bi-person-circle fs-4" style="display: block;"></i>
-                                <span>{{this.created_by}}</span>
+                                <span>{{this.created_by_name}}</span>
                             </div>
                         </td>
                         <td class="testrun-title">{{this.testrun_title}}</td>
                         <td class="assigned-to">
                             <div style="text-align: center;">
                                 <i class="bi bi-person-circle fs-4" style="display: block;"></i>
-                                <span>{{this.assigned_to}}</span>
+                                <span>{{this.assigned_to_name}}</span>
                             </div>
                         </td>
                         <td class="testcase-quantity"> {{this.testcase_quantity}} </td>
@@ -257,6 +257,8 @@
         </div>
     </div>
 </div>
+
+{{> view-test-run-modal}}
 {{/block}}
 
 {{!-- Page's Functionality Button --}}
