@@ -61,13 +61,9 @@ router.get("/:id/testrun", controller.testrunController.getTestRun);
 
 //issue
 router.get("/:id/issues", controller.issuesController.getIssues);
-//issue-detail
 router.get("/:id/issues/getIssue", controller.issuesController.getSpecifyIssue);
-//update issue (navigate to edit issue page)
 router.get("/:id/issues/editIssue", controller.issuesController.getEditIssue);
-//update issue
 router.put("/:id/issues/editIssue", controller.issuesController.editIssue);
-//add issue
 router.put("/:id/issues/createIssue", controller.issuesController.addIssue);
 
 // router.post("/:id/issues/addTestCase", controller.issuesController.addTestCase);
