@@ -4,7 +4,7 @@ async function updateIssue(element) {
     const status = statusDropdown.options[statusDropdown.selectedIndex].value;
     const issueId = parseInt(element.dataset.issueId);
     const projectId = parseInt(element.dataset.projectId);
-
+    const comment = document.getElementById('comment-input').value.trim();
 
     // Send a PUT request to update the issue
     const response = await fetch(`/project/${projectId}/issues/editIssue?issueId=${issueId}`, {
@@ -12,7 +12,7 @@ async function updateIssue(element) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ status, comment}),
     });
 
     // Check if the request was successful
