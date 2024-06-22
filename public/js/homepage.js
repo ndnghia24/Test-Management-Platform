@@ -137,7 +137,7 @@ projectNameInput.addEventListener('input', function() {
 const createButton = document.getElementById('create-project-button');
 
 // Add click event listener to the "Create" button
-createButton.addEventListener('click', function() {
+createButton.addEventListener('click',async function() {
     //array of existing project names
     const existingProjects = ['Tiktok App', 'Facebook Lite', 'Instagram for Student', 'Tinder App', 'Alibaba App', 'Shoppe App'];
 
@@ -166,8 +166,23 @@ createButton.addEventListener('click', function() {
     }
 
     // If the project name is not empty, continue with creating the project
-    // Add your code to create the project here
-    // For example, you can submit a form, send an AJAX request, etc.
+    // Send a PUT request to update the issue
+    const response = await fetch(`/home`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ projectName}),
+    });
+
+    // Check if the request was successful
+    if (response.ok) {
+        // Redirect to the issue page
+        window.location.href = `/home`;
+    } else {
+        // Handle errors, if any
+        console.error('Failed to update the issue');
+    }
 
     // Close the modal (if needed)
     let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('modal-create-project'));
@@ -277,15 +292,48 @@ saveAddUserButton.addEventListener('click', function() {
     alert('Add ' + email + ' to project successfully');
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    // Select all elements with the class 'link' that have the data-bs-toggle attribute
+    document.querySelectorAll('.delete-project').forEach(function(element) {
+        element.addEventListener('click', function() {
+            // Get the data-surface-id value from the clicked element
+            const projectId = parseInt(this.getAttribute('data-project-id'));
+            
+            // Find the modal and set its data-surface-id attribute
+            const confirmButton = document.getElementById('confirmDeleteBtn');
+            if (confirmButton) {
+                confirmButton.setAttribute('data-project-id', projectId);
+            }
+        });
+    });
+});
+
+
 // click on delete project modal
 const deleteProjectButton = document.getElementById('confirmDeleteBtn');
 
-deleteProjectButton.addEventListener('click', function() {
+deleteProjectButton.addEventListener('click', async function() {
+    const projectId = parseInt(deleteProjectButton.getAttribute('data-project-id'));
     // Add your code to delete the project here
     // For example, you can submit a form, send an AJAX request, etc.
+    const response = await fetch(`/home`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ projectId}),
+    });
 
-    // Close the modal (if needed)
-    let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('modal-delete-project'));
-    modal.hide();
-    alert('Project deleted successfully');
+    // Check if the request was successful
+    if (response.ok) {
+        // Redirect to the issue page
+        window.location.href = `/home`;
+        // Close the modal (if needed)
+        let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('modal-delete-project'));
+        modal.hide();
+        alert('Project deleted successfully');
+    } else {
+        // Handle errors, if any
+        console.error('Failed to delete the project');
+    }
 });

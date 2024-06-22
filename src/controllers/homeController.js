@@ -56,8 +56,50 @@ controller.getHome = async (req, res) => {
         );
 
         res.locals.projects = projectsInfo;
+        console.log(projectsInfo);
         res.locals.issues = issues;
         res.render("homepage", { layout: false });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Internal server error');
+    }
+}
+
+controller.addProject = async (req, res) => {
+    try {
+        const { projectName } = req.body;
+        const userId = 1;
+
+        const description = req.body.description || '';
+        //get the highest project_id
+        // let project_id = await db.projects.max('project_id');
+
+        const project = await db.projects.create({
+            name: projectName,
+            description: description,
+            created_by: userId,
+            created_date: new Date()
+        });
+
+        res.status(201).send(project);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Internal server error');
+    }
+}
+
+controller.deleteProject = async (req, res) => {
+    console.log('deleteProject');
+    try {
+        const { projectId } = req.body;
+        console.log(projectId);
+        await db.projects.destroy({
+            where: {
+                project_id: projectId
+            }
+        });
+
+        res.status(204).send();
     } catch (error) {
         console.log(error);
         res.status(500).send('Internal server error');
