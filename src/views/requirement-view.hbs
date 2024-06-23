@@ -137,47 +137,11 @@
                                         <td class="d-none requirement-type-of-requirement ">{{this.requirement_type_id}}</td>
                                         <td>
                                             <i class="fa fa-eye clickable" data-requirement-code="{{this.requirement_code}}" style="margin-right: 20px; cursor: pointer" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Detail"></i>
-                                            <i class="fa fa-pencil clickable text-success" style="margin-right: 20px;"></i>
-                                            <i class="fa fa-trash clickable text-danger"></i>
+                                            <i class="fa fa-pencil clickable text-success" data-requirement-code="{{this.requirement_code}}" style="margin-right: 20px; cursor: pointer" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit"></i>
+                                            <i class="fa fa-trash clickable text-danger" data-requirement-code="{{this.requirement_code}}" style="cursor: pointer" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"></i>
                                         </td>
                                     </tr>
                                     {{/each}}
-                                    {{!-- <tr>
-                                        <td class="isSelected"><input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckDefault"></td>
-                                        <td class="requirement-code">R001</td>
-                                        <td class="requirement-title">Banner should be clickable</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="isSelected"><input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckDefault"></td>
-                                        <td class="requirement-code">R002</td>
-                                        <td class="requirement-title">Banner should be clickable</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="isSelected"><input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckDefault"></td>
-                                        <td class="requirement-code">R002</td>
-                                        <td class="requirement-title">Banner should be clickable</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="isSelected"><input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckDefault"></td>
-                                        <td class="requirement-code">R002</td>
-                                        <td class="requirement-title">Banner should be clickable</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="isSelected"><input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckDefault"></td>
-                                        <td class="requirement-code">R002</td>
-                                        <td class="requirement-title">Banner should be clickable</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="isSelected"><input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckDefault"></td>
-                                        <td class="requirement-code">R002</td>
-                                        <td class="requirement-title">Banner should be clickable</td>
-                                    </tr> --}}
                                 </tbody>
                             </table>
                         </div>
@@ -190,34 +154,7 @@
                             <button class="btn btn-link" id="nextPageBtn">
                                 <i class="fa fa-chevron-right" aria-hidden="true"></i>
                             </button>
-                        </div>
-
-
-                        {{!-- <script>
-                            function addIcon() {
-                                var viewIcon = document.createElement("i");
-                                viewIcon.classList.add("fa", "fa-eye", "clickable");
-                                viewIcon.style.marginRight = "20px";
-
-                                var editIcon = document.createElement("i");
-                                editIcon.classList.add("fa", "fa-pencil", "clickable");
-                                editIcon.style.marginRight = "20px";
-
-                                var deleteIcon = document.createElement("i");
-                                deleteIcon.classList.add("fa", "fa-trash", "clickable");
-
-                                var row = document.querySelectorAll("table tbody tr");
-
-                                for (var i = 0; i < row.length; i++) {
-                                    var cell = row[i].insertCell(-1);
-                                    cell.appendChild(viewIcon.cloneNode(true));
-                                    cell.appendChild(editIcon.cloneNode(true));
-                                    cell.appendChild(deleteIcon.cloneNode(true));
-                                }
-                            }
-
-                            addIcon();
-                        </script> --}}
+                        </div>        
                     </div>
                 </div>
             </div>
@@ -237,16 +174,6 @@
                 <p class="modal-title fs-3" id="modalTitleId">Add Requirement Type</p>
             </div>
             <div class="modal-body" style="border-bottom: none; width: 100%;">
-                <div class="row mb-3">
-                    <div>
-                        <lable for="description">Select Release:</lable>
-                        <select name="release-selection" class="form-select">
-                            <option value="release1">release1</option>
-                            <option value="release2">release2</option>
-                            <option value="release3">release3</option>
-                        </select>
-                    </div>
-                </div>
                 <div class="row mb-3">
                     <div>
                         <lable for="description">Requirement Type <span style="color: red">*</span>:</lable>
@@ -272,8 +199,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modalAddRequirement" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
-    aria-hidden="true">
+<div class="modal fade" id="modalAddRequirement" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
         <div class="modal-content align-items-center"
             style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
@@ -283,7 +209,7 @@
             <div class="modal-body" style="border-bottom: none; width: 100%;">
                 <div class="row mb-3">
                     <div>
-                        <lable for="description">Requirement Title <span style="color: red">*</span>:</lable>
+                        <label for="description">Requirement Title <span style="color: red">*</span>:</label>
                         <input type="text" class="form-control" name="requirement-title" id="requirement-title"
                             placeholder="Enter Requirement Title" required>
                         <div id="alertMessageRequirementTitle" style="display: none; color: red"></div>
@@ -291,17 +217,16 @@
                 </div>
                 <div class="row mb-3">
                     <div>
-                        <lable for="description">Requirement Type:</lable>
-                        <select name="requirement-type-selection" class="form-select">
-                            <option value="functionality">Functionality</option>
-                            <option value="validation">Validation</option>
+                        <label for="description">Requirement Type:</label>
+                        <select name="requirement-type-selection" id="requirement-type-selection" class="form-select">
+                            <!-- Options will be dynamically loaded here -->
                         </select>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div>
-                        <lable for="description">Requirement Description:</lable>
-                        <textarea name="description" id="description" class="form-control" rows="3"
+                        <label for="description">Requirement Description:</label>
+                        <textarea name="add-description" id="add-description" class="form-control" rows="3"
                             placeholder="Enter Requirement Description"></textarea>
                     </div>
                 </div>
@@ -317,7 +242,7 @@
                 </div>
             </div>
             <div class="modal-footer" style="border-top: none; align-items: center;">
-                <button type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-primary" id="saveRequirementBtn">Save</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
@@ -363,6 +288,48 @@
         </div>
     </div>
 </div>
+
+<!-- Edit Requirement Modal -->
+<div class="modal fade" id="modalEditRequirement" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content align-items-center"
+            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
+            <div class="modal-header" style="border-bottom: none;">
+                <p class="modal-title fs-3" id="modalTitleId">Edit Requirement</p>
+            </div>
+            <div class="modal-body" style="border-bottom: none; width: 100%;">
+                <form id="edit-requirement-form">
+                    <div class="row mb-3">
+                        <div>
+                            <label for="edit-requirement-title">Requirement Title <span style="color: red">*</span>:</label>
+                            <input type="text" class="form-control" name="edit-requirement-title" id="edit-requirement-title" required>
+                            <div id="alertMessageRequirementTitle" style="display: none; color: red"></div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div>
+                            <label for="edit-requirement-type">Requirement Type <span style="color: red">*</span>:</label>
+                            <input type="text" class="form-control" name="edit-requirement-type" id="edit-requirement-type" required>
+                            <div id="alertMessageRequirementType" style="display: none; color: red"></div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div>
+                            <label for="edit-description">Requirement Description:</label>
+                            <textarea name="edit-description" id="edit-description" class="form-control" rows="3" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border-top: none; align-items: center;">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 {{/block}}
 
 {{!-- Page's Functionality Button --}}

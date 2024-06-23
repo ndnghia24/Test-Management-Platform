@@ -130,6 +130,9 @@ app.use("/register", (req, res) => {res.render("register", { layout: false });})
 // Dashboard & projects routes
 app.use("/dashboard", authController.refreshingTokens, (req, res) => {
 
+  // temp redirect
+  res.redirect("/project/1/overview");
+
   // req.isAuthenticated = true;
   // req.headers.token = "Bearer " + newAccessToken;
 

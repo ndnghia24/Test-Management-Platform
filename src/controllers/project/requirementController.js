@@ -106,8 +106,6 @@ controller.addRequirement = async (req,res) => {
         const projectId = req.params.id;
         const { name, requirement_type_id, description } = req.body;
 
-        console.log(req.body);
-
         const requirements = await db.requirements.create({
             name : name,
             requirement_type_id : requirement_type_id,
@@ -128,11 +126,12 @@ controller.editRequirement = async (req,res) => {
     const t = await db.sequelize.transaction();
     try {
         const projectId = req.params.id;
-        const { name, requirement_type_id, description } = req.body;
+        const { description } = req.body;
+
+        console.log(req.body);
+        console.log(req.query.requirementId);
 
         const requirementUpdate = await db.requirements.update({
-            name: name,
-            requirement_type_id: requirement_type_id,
             description: description
         }, {
             where: {
@@ -195,12 +194,12 @@ controller.addRequirementType = async (req,res) => {
     const t = await db.sequelize.transaction();
     try {
         const projectId = req.params.id;
-        const { releases_id, requirement_type_name, description } = req.body;
+        const { requirement_type_name, description } = req.body;
 
         const requirementType = await db.requirement_types.create({
             name: requirement_type_name,
             description: description,
-            release_id: releases_id,
+            release_id: null,
             project_id: projectId
         }, { transaction: t });
 
