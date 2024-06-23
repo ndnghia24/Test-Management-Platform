@@ -10,9 +10,9 @@
                     <span style="padding-right: 30px;">Search by release</span>
                     <i class="bi bi-caret-down-fill" style="opacity: 100%;"></i>
                 </button>
-                <div class="dropdown-menu" aria-labelledby="triggerId">
+                <div class="dropdown-menu release-dropdown-menu" aria-labelledby="triggerId">
                     {{#each releases}}
-                    <button class="dropdown-item" href="#">{{name}}</button>
+                    <button class="dropdown-item release-item" data-name="{{name}}" href="#">{{name}}</button>
                     {{/each}}
                 </div>
             </div>

@@ -45,7 +45,7 @@ function onSaveButtonClick() {
             success: function (response) {
                 console.log(response);
                 showRightBelowToast("Test run added successfully");
-                location.reload();
+                window.location.href = window.location.pathname;
             },
             error: function (err) {
                 console.log(err);

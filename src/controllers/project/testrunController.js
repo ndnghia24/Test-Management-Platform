@@ -10,6 +10,7 @@ const status_id = {
 }
 
 controller.getTestRun = async (req, res) => {
+    const relesae = req.query.release || null;
     try {
         const projectId = req.params.id;
         let promises = [];
@@ -50,20 +51,25 @@ controller.getTestRun = async (req, res) => {
 
         let [testruns, testcases, releases, modules, users] = await Promise.all(promises);
 
-        console.log(users);
 
         const userMap = users.reduce((acc, user) => { acc[user.user_id] = user.name; return acc; }, {});
         testruns.forEach(testrun => {
             testrun.created_by_name = userMap[testrun.created_by];
             testrun.assigned_to_name = userMap[testrun.assigned_to];
         });
-
+        console.log(relesae);
         console.log(testruns);
         res.render('test-run-view', {
             title: 'Test Runs',
             cssFile: 'test-run-view.css',
             projectId: projectId,
-            testRuns: testruns,
+            testRuns: testruns.filter(testrun => {
+                if (relesae) {
+                    console.log(testrun.release, relesae);
+                    return testrun.release == relesae;
+                }
+                return true;
+            }),
             modules: modules,
             releases: releases,
             testcases: testcases,

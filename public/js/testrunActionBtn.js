@@ -90,4 +90,11 @@ $('document').ready(function() {
     });
 });
 
+$(document).ready(function() {
+    $('.release-dropdown-menu').on('click', '.release-item', function() {
+        var releaseName = $(this).data('name');
+        console.log('Selected release:', releaseName);
 
+        window.location.href = window.location.pathname + '?release=' + releaseName;
+    });
+});
