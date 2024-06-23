@@ -3,15 +3,18 @@ const db = require('../../models/index');
 
 controller.getTestPlan = async (req, res) => {
     // Set up pagination
-    const page = isNaN(req.query.page) ? 1 : Math.max(1,parseInt(req.query.page));
+    const page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
     const limit = 12;
     const offset = (page - 1) * limit;
+    let release = req.query.release || null;
+
+    console.log('Release:', release);
 
     try {
         // Fetch data
         const project_id = req.params.id;
 
-        const [testPlans, count ,releases] = await Promise.all([
+        const [testPlans, count, releases] = await Promise.all([
             db.sequelize.query(
                 'SELECT t.testplan_id AS code, t.name AS name, t.description, r.name AS release, r.release_id AS release_id ' +
                 'FROM test_plans AS t, releases AS r ' +
@@ -44,8 +47,16 @@ controller.getTestPlan = async (req, res) => {
                 }
             )
         ]);
+        
+        if (release)
+            release = release.trim();
 
-        res.locals.testPlans = testPlans;
+        res.locals.testPlans = testPlans.filter(testPlan => {
+            if (release) {
+                return testPlan.release.trim() == release;
+            }
+            return true;
+        });;
         res.locals.releases = releases;
 
         res.render('test-plan-view', {
@@ -81,7 +92,7 @@ controller.addTestPlan = async (req, res) => {
 
         await t.commit();
 
-        res.status(200).send({ success: true});
+        res.status(200).send({ success: true });
     } catch (error) {
         await t.rollback();
         console.error('Error creating test plan:', error);
@@ -92,7 +103,7 @@ controller.addTestPlan = async (req, res) => {
 controller.editTestPlan = async (req, res) => {
     try {
         const t = await db.sequelize.transaction();
-        const planCode  = req.query.planCode;
+        const planCode = req.query.planCode;
         const { name, release, description } = req.body;
 
         await db.test_plans.update({

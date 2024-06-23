@@ -272,3 +272,60 @@ h3 {
     }
 }
 
+/* css for homepage*/
+
+.task-status{
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    border: 0px solid #fff;
+    width: 270px;
+    height: 190px;
+}
+
+.circle {
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    position: relative;
+}
+
+.add-project {
+    display: flex;
+    flex-direction: column;
+    background-color: #EDECFE;
+    border-radius: 10px;
+    border: 0px solid #EDECFE;
+    width: 160px;
+    height: 160px;
+    align-items: center; /* Horizontal center alignment */
+    justify-content: center; /* Vertical center alignment */
+}
+
+.add-new-project{
+    display: inline-flex; /* Use inline-flex to make it only take the necessary width and height */
+    align-items: center; /* Horizontal center alignment */
+    justify-content: center; /* Vertical center alignment */
+    background-color: #50DF89;
+    border-radius: 5px;
+    border: 0px solid #50DF89;
+    padding: 0px 20px;
+}
+
+.project-tag{
+    margin-top: 5px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    border: 0px solid #fff;
+    width: 290px;
+    height: 290px;
+}
+
+.view-detail{
+    display: inline-flex; /* Use inline-flex to make it only take the necessary width and height */
+    align-items: center; /* Horizontal center alignment */
+    justify-content: center; /* Vertical center alignment */
+    background-color: #EDECFE;
+    border-radius: 0.5rem;
+    border: 0px solid #EDECFE;
+    padding: 0px 20px;
+}

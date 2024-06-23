@@ -10,10 +10,13 @@
                     <span style="padding-right: 30px;">Search by release</span>
                     <i class="bi bi-caret-down-fill" style="opacity: 100%;"></i>
                 </button>
-                <div class="dropdown-menu" aria-labelledby="triggerId">
-                    <button class="dropdown-item" href="#">Release 1</button>
+                <div class="dropdown-menu release-dropdown-menu" aria-labelledby="triggerId">
+                    {{#each releases}}
+                    <button class="dropdown-item release-item" data-name="{{release_id}}" href="#">{{name}}</button>
+                    {{/each}}
+                    {{!-- <button class="dropdown-item" href="#">Release 1</button>
                     <button class="dropdown-item" href="#">Release 2</button>
-                    <button class="dropdown-item" href="#">Release 3</button>
+                    <button class="dropdown-item" href="#">Release 3</button> --}}
                 </div>
             </div>
         </div>
@@ -29,18 +32,18 @@
                 </thead>
                 <tbody class="fs-6">
                     {{#each testRuns}}
-                    <tr>
+                    <tr data-this = '{{json this}}'>
                         <td class="created-by">
                             <div style="text-align: center;">
                                 <i class="bi bi-person-circle fs-4" style="display: block;"></i>
-                                <span>{{this.created_by}}</span>
+                                <span>{{this.created_by_name}}</span>
                             </div>
                         </td>
                         <td class="testrun-title">{{this.testrun_title}}</td>
                         <td class="assigned-to">
                             <div style="text-align: center;">
                                 <i class="bi bi-person-circle fs-4" style="display: block;"></i>
-                                <span>{{this.assigned_to}}</span>
+                                <span>{{this.assigned_to_name}}</span>
                             </div>
                         </td>
                         <td class="testcase-quantity"> {{this.testcase_quantity}} </td>
@@ -257,6 +260,10 @@
         </div>
     </div>
 </div>
+
+{{> view-test-run-modal}}
+{{> edit-test-run-modal}}
+{{> delete-test-run-modal}}
 {{/block}}
 
 {{!-- Page's Functionality Button --}}
@@ -274,4 +281,14 @@
 {{#block "script"}}
 <script src="/js/addTestrunModal.js"></script>
 <script src="/js/testrunActionBtn.js"></script>
+<script>
+    $(document).ready(function () {
+        $('td.testrun-title').click(function () {
+            const testRun = JSON.parse($(this).closest('tr')[0].dataset.this);
+            console.log(testRun);
+            let curUrl = window.location.pathname;
+            window.location.href = curUrl + '/' + testRun.testrun_id;
+        });
+    });
+</script>
 {{/block}}

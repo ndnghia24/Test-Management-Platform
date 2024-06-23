@@ -1,0 +1,252 @@
+.group-btn button {
+    margin-left: 20px;
+}
+
+#search-input::placeholder,#search-input-title::placeholder {
+    opacity: 25%;
+}
+
+.header-append{
+    margin-right: 20px;
+}
+
+.modules-list i{
+    margin-right: 10px;
+}
+
+.modules-list div {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 10px;
+    background-color: #F3F4F8;
+}
+
+p {
+    margin: 0;
+}
+
+select.number-of-row{
+    opacity: 50%;
+}
+
+div.top-right-testcase-list select{
+    opacity: 50%;
+}
+
+.table th,tr,td{
+    border: none;
+}
+
+table.table thead th{
+    font-weight: 700;
+    color: #9c9c9c;
+}
+
+table.table .testcase-code{
+    color: #232360;
+    font-weight: 700;
+}
+
+table.table .testcase-name{
+    color: #1EA7FF;
+    font-weight: 700;
+}
+
+.status-circle {
+    width: 160px;
+    height: 160px;
+    position: relative;
+}
+
+.inner-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 20px solid #FFFFFF;
+}
+
+.status-circle .circle {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.status-circle span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.status-circle circle {
+    stroke-width: 20px;
+    fill: none;
+    stroke-dasharray: 440;
+    stroke-dashoffset: 440;
+}
+
+.status-circle .project-status circle {
+    animation: anim1 2s linear forwards;
+}
+
+
+.status-circle .issue-status circle {
+    animation: anim2 2s linear forwards;
+}
+
+.info-detail p {
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.hover-icon:hover {
+    cursor: pointer;
+}
+
+.inner-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes anim1 {
+    0% {
+        stroke-dashoffset: 440;
+    }
+    100% {
+        stroke-dashoffset: 88;
+    }
+}
+
+@keyframes anim2 {
+    0% {
+        stroke-dashoffset: 440;
+    }
+    100% {
+        stroke-dashoffset: 154;
+    }
+}
+
+@media screen and (max-width: 1415px) {
+    .main-area .content {
+        padding: 10px !important;
+    }
+    
+}
+
+@media screen and (max-width: 1308px) {
+    .offset-col {
+        display: none;
+    }
+
+    .main-area .content {
+        gap: 20px;
+    }
+
+    .main-area .content .col-8 {
+        flex-grow: 1 !important;
+    }
+}
+
+@media screen and (max-width: 1208px) {
+    .sidebar {
+        display: none;
+    }
+
+    .logo {
+        margin-left: 10px !important;
+    }
+
+    .main-content{
+        flex-grow: 1;
+    }
+}
+
+@media screen and (max-width: 1180px) {
+    .main-content {
+        padding: 0 20px;
+    }
+    .table-responsive{
+        padding: 0 !important;
+    }
+}
+
+@media screen and (max-width: 1046px){
+    .btn-text {
+        display: none;
+    }
+
+    #search-input-title {
+        width: 50% !important;
+    }
+}
+
+@media screen and (max-width: 1022px) {
+    .menu-container {
+        margin-top: 20px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .table-responsive{
+        font-size: 1rem;
+    }
+}
+
+
+@media screen and (max-width: 880px) {
+    .search-bar {
+        width: 40%;
+    }
+    .project-info {
+        padding: 0;
+        margin: 0 !important;
+    }
+    .menu-container {
+        margin-left: 0 !important;
+    }
+}
+
+@media screen and (max-width: 668px){
+    .testcase-name {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 619px) {
+    .btn-text {
+        display: none !important;
+    }
+
+    .group-btn .btn{
+        margin-left: 5px !important;
+    }
+}
+
+@media screen and (max-width: 573px) {
+    .btn-text {
+        display: none !important;
+    }
+
+    .group-btn .btn{
+        margin-left: 0px !important;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .search-bar {
+        width: 50%;
+    }
+    .btn-text {
+        display: none !important;
+    }
+}

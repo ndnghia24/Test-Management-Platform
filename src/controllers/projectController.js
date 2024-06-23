@@ -2,6 +2,7 @@ const db = require('../models/index');
 
 controller = {}
 
+
 controller.test_planController = require('../controllers/project/testplanController');
 controller.test_caseController = require('../controllers/project/testcaseController');
 controller.requirementController = require('../controllers/project/requirementController');
@@ -14,6 +15,8 @@ controller.testrunController = require('../controllers/project/testrunController
 //issue
 controller.issuesController = require('../controllers/project/issuesController');
 
+//home
+controller.homeController = require('../controllers/project/homeController');
 
 controller.getModule = async (req, res) => {
     try {

@@ -1,0 +1,246 @@
+<div class="test-run-name" style="margin: 10px auto; font-size: 1.3rem; font-weight: 600; color: #232360;">
+    {{testRun.name}}
+</div>
+<div style="display: flex; justify-content: space-evenly; margin-bottom: 40px;">
+    <div class="info">
+        <div class="status-circle">
+            <div class="inner-circle">
+            </div>
+            <span>80%</span>
+            <svg class="project-status circle" height="160" width="160" xmlns="http://www.w3.org/2000/svg">
+                <circle r="70" cx="80" cy="80" fill="red" style="stroke: #1EA7FF;" />
+            </svg>
+        </div>
+        <div class="info-detail">
+            <p>Project status</p>
+        </div>
+    </div>
+    <div class="info">
+        <div class="status-circle">
+            <div class="inner-circle">
+            </div>
+            <span>65%</span>
+            <svg class="issue-status circle" height="160" width="160" xmlns="http://www.w3.org/2000/svg">
+                <circle r="70" cx="80" cy="80" fill="red" style="stroke: #FF1E1E;" />
+            </svg>
+        </div>
+        <div class="info-detail">
+            <p>Issue status</p>
+        </div>
+    </div>
+</div>
+<div class="main-area flex-grow-1" style="min-height: 600px;">
+    <div class="content row m-2" style="height: 100%; padding: 0 5%;">
+        <div class="col-3"
+            style="height: 100%; background-color: #FFFFFF; border-top-right-radius: 20px; border-top-left-radius: 20px;">
+            <div class="d-flex justify-content-between align-items-center p-3"
+                style="border-bottom: solid rgba(150,150,150,0.2) 1px; height: 80px;">
+                <p style="color:#232360; font-size: 1.2rem; padding: 0; margin: 0; font-weight: bold;">Modules</p>
+            </div>
+            <div class="d-flex flex-column gap-3 modules-list px-4 py-3"
+                style="color: #232360; font-weight: 700; font-size: 1.1rem;">
+                <div>
+                    <i class="bi bi-folder"></i>
+                    Modules 1
+                </div>
+                <div>
+                    <i class="bi bi-folder"></i>
+                    Modules 2
+                </div>
+            </div>
+        </div>
+        <div class="col-1 offset-col"></div>
+        <div class="col-8"
+            style="height: 100%; background-color: #FFFFFF; border-top-right-radius: 20px; border-top-left-radius: 20px;">
+            <div class="d-flex justify-content-between align-items-center p-3"
+                style="border-bottom: solid rgba(150,150,150,0.2) 1px; height: 80px;">
+                <p style="color:#232360; font-size: 1.2rem; padding: 0; margin: 0; font-weight: bold;">Testcases</p>
+                <input type="text" class="form-control" id="search-input-title" placeholder="Search by Title"
+                    style="color: #C4C4DA; font-weight: 600; width: 24%; background-color: #F1F1F1; border-radius: 5px; border:none; padding: 10px" />
+            </div>
+            <div class="d-flex align-items-center justify-content-between px-xl-5 py-xl-4" style="height: 10%;">
+                <div class="top-left-testcase-list d-flex justify-content-center align-items-center gap-3">
+                    <p style="font-size: 1rem; color: #9c9c9c; font-weight: 600;">Show</p>
+                    <select name="show" class="form-select number-of-row" aria-label="Default select example" required>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+                <div class="top-right-testcase-list d-flex justify-content-between align-items-center gap-3">
+                    <select name="show" class="form-select feature" aria-label="Default select example"
+                        style="width: max-content;" required>
+                        <option value="2">Testcase Code</option>
+                        <option value="3">Testcase Title</option>
+                    </select>
+                    <select name="show" style="width: max-content;" class="form-select sorting"
+                        aria-label="Default select example" required>
+                        <option value="1">ASC</option>
+                        <option value="2">DES</option>
+                    </select>
+                </div>
+            </div>
+            <div class="test-caselist">
+                <div class="table-responsive" style="overflow-y: auto; padding: 0 3rem;">
+                    <table class="table">
+                        <thead class="fs-xl-5">
+                            {{!-- <th class="col-xl-1 col-md-1" style="opacity: 0;"><input type="checkbox"></input></th>
+                            --}}
+                            <th class="col-xl-4 col-md-3 testcase-code">Testcase Code</th>
+                            <th class="col-xl-4 col-md-4 testcase-name">Testcase Title</th>
+                            <th class="col-xl-2 col-md-3 status">Status</th>
+                            <th class="col-xl-2 col-md-3">Action</th>
+                        </thead>
+                        <tbody class="fs-xl-5">
+                            {{#each testcases}}
+                            <tr>
+                                {{!-- <td><input type="checkbox"></input></td> --}}
+                                <td class="testcase-code">{{this.testcase_id}}</td>
+                                <td class="testcase-name">{{this.name}}</td>
+                                <td class="status" style="color: #41D37E; font-weight: 600;">Passed</td>
+                                <td>
+                                    <i class="bi bi-bug hover-icon bug-icon" style="margin-right: 10px;"></i>
+                                    <i class="bi bi-plus-circle hover-icon result-icon text-success"
+                                        style="margin-right: 10px;"></i>
+                                    <i class="bi bi-trash text-danger hover-icon delete-icon"></i>
+                                </td>
+                            </tr>
+                            {{/each}}
+                            {{!-- <tr>
+                                <td><input type="checkbox"></input></td>
+                                <td class="testcase-code">TC001</td>
+                                <td class="testcase-name">Testcase 1</td>
+                                <td class="status" style="color: #41D37E; font-weight: 600;">Passed</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></input></td>
+                                <td class="testcase-code">TC002</td>
+                                <td class="testcase-name">Testcase 2</td>
+                                <td class="status" style="color: #F0270C; font-weight: 600;">Blocked</td>
+                            </tr> --}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content align-items-center"
+            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
+            <div class="modal-header" style="border-bottom: none; flex-direction: column;">
+                <p class="modal-title fs-3" id="modalTitleId">
+                    Add Issue
+                </p>
+                <p class="modal-scd-title fs-4"></p>
+            </div>
+            <div class="modal-body" style="border-bottom: none; width: 100%;">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="issue-name">Issue's Name <span style="color: #F0270C" ;>*</span>:</label>
+                        <input name="issue-name" type="text" class="form-control" id="issue-name" />
+                    </div>
+                    <div class="col-6">
+                        <label for="issue-type">Issue's Type:</label>
+                        <select name="issue-type" class="form-control" aria-label="Default select example" id="issue-type">
+                            {{#each issueTypes}}
+                            <option value="{{this.issue_type_id}}">{{this.type}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3 align-items-center">
+                    <div class="col-6">
+                        <label for="status">Status:</label>
+                        <select name="status" class="form-control" aria-label="Default select example" id="status" disabled>
+                            <option value="1">New</option>
+                            <option value="2">Open</option>
+                            <option value="3">Assigned</option>
+                            <option value="4">Resolved</option>
+                            <option value="5">Retest</option>
+                            <option value="6">Verified</option>
+                            <option value="7">Reopened</option>
+                            <option value="8">Closed</option>
+                            <option value="9">Deferred</option>
+                            <option value="10">Rejected</option>
+                            <option value="11">Duplicate</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label for="priority">Priority:</label>
+                        <select name="priority" class="form-control" aria-label="Default select example" id="priority">
+                            <option value="1">High</option>
+                            <option value="2">Medium</option>
+                            <option value="3">Low</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div>
+                        <lable for="comment">
+                            Comment:
+                        </lable>
+                        <textarea id="comment" name="comment" class="form-control" placeholder="Description"
+                            rows="4"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none;">
+                <button type="button" class="btn btn-secondary next-button"
+                    style="background-color: #41D37E; color: #23235F; border: none; border-radius: 10px; padding: 10px 40px; font-weight: 600;"
+                    onclick="onSaveIssueClick()">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content align-items-center"
+            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
+            <div class="modal-header" style="border-bottom: none; flex-direction: column;">
+                <p class="modal-title fs-3" id="modalTitleId">
+                    Add Result
+                </p>
+                <p class="modal-scd-title fs-5"></p>
+            </div>
+            <div class="modal-body" style="border-bottom: none; width: 100%;">
+                <div class="row mb-3 align-items-center">
+                    <div class="col-6">
+                        <label for="status">Status:</label>
+                        <select name="status" class="form-control" aria-label="Default select example" id="status">
+                            <option value="1">Passed</option>
+                            <option value="2">Failed</option>
+                            <option value="3">Blocked</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div>
+                        <lable for="comment">
+                            Comment:
+                        </lable>
+                        <textarea id="comment" name="comment" class="form-control" placeholder="Description"
+                            rows="4"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none;">
+                <button type="button" class="btn btn-secondary next-button"
+                    style="background-color: #41D37E; color: #23235F; border: none; border-radius: 10px; padding: 10px 40px; font-weight: 600;"
+                    onclick="onSaveResultClick()">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{#block "script"}}
+<script src="/js/detailTestrunActionBtn.js"></script>
+{{/block}}
