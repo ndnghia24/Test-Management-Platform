@@ -47,8 +47,9 @@ controller.getTestPlan = async (req, res) => {
                 }
             )
         ]);
-
-        release = release.trim();
+        
+        if (release)
+            release = release.trim();
 
         res.locals.testPlans = testPlans.filter(testPlan => {
             if (release) {
