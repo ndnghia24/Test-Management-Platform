@@ -55,12 +55,12 @@ controller.addRelease = async (req,res) => {
 controller.editRelease = async (req,res) => {
     const t = await db.sequelize.transaction();
     try {
-        const { releaseId, releaseName, startDate, dueDate, release_status } = req.body;
+        const { releaseId, release_status } = req.body;
 
         await db.releases.update({
-            name: releaseName,
-            start_date: startDate,
-            due_date: dueDate,
+            //name: releaseName,
+            //start_date: startDate,
+            //due_date: dueDate,
             release_status: release_status
         }, {
             where: {
