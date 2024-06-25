@@ -73,7 +73,7 @@
                 <div class="row mb-3">
                     <div>
                         <label for="description">Select Root Module:</label>
-                        <select name="release-selection" class="form-select overflow-y">
+                        <select name="module-selection" class="form-select overflow-y">
                             <option value="0">Home Page</option>
                             <option value="00">Home Page/Header Section</option>
                             <option value="01">Home Page/Content</option>
@@ -191,4 +191,99 @@
     // Initialize root modules
     const rootModules = getSubModules(0);
     displayModules('Modules', rootModules, 'modulesLevel1', bindingSubModule);
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const addModuleUrl = `${window.location.href}/addModule`;
+
+    const modules = {{{modules}}}; // Use the provided modules data
+
+    populateRootModuleOptions(modules);
+
+    function populateRootModuleOptions(modules) {
+        const selectElement = document.querySelector('select[name="module-selection"]');
+        selectElement.innerHTML = ''; // Clear existing options
+
+        function createOption(module, prefix = '') {
+            const option = document.createElement('option');
+            option.value = module.module_id;
+            option.textContent = `${prefix}${module.name}`;
+            return option;
+        }
+
+        function addOptions(modules, prefix = '') {
+            modules.forEach(module => {
+                if (module.level !== 3) { // Exclude modules with level 3
+                    selectElement.appendChild(createOption(module, prefix));
+                    if (module.children && module.children.length > 0) {
+                        addOptions(module.children, `${prefix}${module.name}/`);
+                    }
+                }
+            });
+        }
+
+        addOptions(modules);
+    }
+
+    document.querySelector('#modalAddModules .btn-primary').addEventListener('click', () => {
+        const moduleName = document.querySelector('#modules-name').value;
+        const rootModuleId = document.querySelector('select[name="module-selection"]').value;
+
+        if (!moduleName.trim()) {
+            document.getElementById('alertMessage').textContent = 'Module name is required.';
+            document.getElementById('alertMessage').style.display = 'block';
+            return;
+        }
+
+        let parentLevel = 0;
+        if (rootModuleId) {
+            const parentModule = findModuleById(modules, parseInt(rootModuleId));
+            parentLevel = parentModule ? parentModule.level : 0;
+        }
+
+        const newModule = {
+            name: moduleName,
+            root_module_id: rootModuleId ? parseInt(rootModuleId) : null,
+            level: parentLevel + 1
+        };
+
+        fetch(addModuleUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newModule)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                document.getElementById('alertMessage').textContent = data.message;
+                document.getElementById('alertMessage').style.display = 'block';
+            }
+        })
+        .catch(error => {
+            document.getElementById('alertMessage').textContent = 'An error occurred. Please try again.';
+            document.getElementById('alertMessage').style.display = 'block';
+        });
+    });
+
+    function findModuleById(modules, id) {
+        let foundModule = null;
+
+        function searchModules(modules) {
+            for (const module of modules) {
+                if (module.module_id === id) {
+                    foundModule = module;
+                    return;
+                } else if (module.children && module.children.length > 0) {
+                    searchModules(module.children);
+                }
+            }
+        }
+
+        searchModules(modules);
+        return foundModule;
+    }
+});
 </script>
