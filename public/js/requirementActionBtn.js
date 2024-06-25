@@ -39,18 +39,27 @@ $('document').ready(function () {
 });
 
 function renderRequirementDetails(jsonData) {
-    var data = JSON.parse(jsonData);
+    try {
+        // Check if jsonData is already an object
+        var data = typeof jsonData === 'object' ? jsonData : JSON.parse(jsonData);
 
-    var requirementName = data.requirement[0][0].requirement_name;
-    var description = data.requirement[0][0].description;
-    var requirementTypeName = data.requirement[0][0].requirement_type_name;
+        var requirementName = data.requirement[0][0].requirement_name;
+        var description = data.requirement[0][0].description;
+        var requirementTypeName = data.requirement[0][0].requirement_type_name;
 
-    $('#modalDetailsRequirement').modal('show');
-    $('#modalDetailsRequirement .modal-title').text(requirementName + ' Details');
-    $('#modalDetailsRequirement #requirement-title').val(requirementName).prop('readonly', true);
-    $('#modalDetailsRequirement #requirement-type').val(requirementTypeName).prop('readonly', true);
-    $('#modalDetailsRequirement #description').val(description).prop('readonly', true);
+        $('#modalDetailsRequirement .modal-title').text(requirementName + ' Details');
+        $('#modalDetailsRequirement #requirement-title').val(requirementName).prop('readonly', true);
+        $('#modalDetailsRequirement #requirement-type').val(requirementTypeName).prop('readonly', true);
+        $('#modalDetailsRequirement #description').val(description).prop('readonly', true);
+        $('#modalDetailsRequirement').modal('show');
+    } catch (e) {
+        // Handle parsing error
+        console.error('Error parsing JSON:', e);
+        // Optionally, alert or log the error
+        alert('Error parsing JSON data.');
+    }
 }
+
 
 $('document').ready(function () {
     // Handle the click event on the edit button
