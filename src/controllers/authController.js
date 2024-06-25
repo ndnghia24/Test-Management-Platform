@@ -29,7 +29,7 @@ const authController = {
       // Update refresh token in client cookie
       res.cookie("refreshToken", newRefreshToken, {
         httpOnly: true,
-        secure: false, 
+        secure: true, // Use true in production with HTTPS
       });
 
       // Put access token in request header
@@ -169,7 +169,7 @@ const authController = {
       // STORE REFRESH TOKEN IN COOKIE
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: false, // Use true in production with HTTPS
+        secure: true, // Use true in production with HTTPS
         path: "/",
         sameSite: "strict",
       });
