@@ -96,7 +96,11 @@
 
             try {
                 // Send POST request to server
-                const response = await fetch('http://localhost:3000/auth/login', {
+                // Replace 'http://localhost:3000' with your server URL
+                // login url = current server url + /auth/login
+                const getCurrentUrl = window.location.href;
+                const serverUrl = getCurrentUrl.substring(0, getCurrentUrl.indexOf('/login'));
+                const response = await fetch(serverUrl + '/auth/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -111,8 +115,8 @@
                 const data = await response.json();
 
                 // Assuming data contains refreshToken
-                // Set refreshToken in cookie
-                document.cookie = `refreshToken=${data.refreshToken}; Secure; SameSite=None; Path=/`;
+                // Set refreshToken in cookie for https protocol
+                document.cookie = `refreshToken=${data.refreshToken}; Secure; SameSite=Strict`;
 
                 // Redirect user after successful login
                 window.location.href = '/dashboard';
