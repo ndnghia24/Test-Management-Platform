@@ -115,19 +115,26 @@ const authController = {
   registerUser: async (req, res) => {
     const t = await db.sequelize.transaction();
     try {
-      const salt = await bcrypt.genSalt(10);
-      const hashed = await bcrypt.hash(req.body.password, salt);
-
       // Get user info from request body
       const name = req.body.name;
       const email = req.body.email;
-      const password = hashed;
-   
-      //Save user to DB
+      const password = req.body.password;
+      
+      // Check if the email already exists
+      const existingUser = await db.users.findOne({ where: { email: email } });
+      if (existingUser) {
+        await t.rollback();
+        return res.status(404).json({ message: "Email already registered" });
+      }
+
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+
+      // Save user to DB
       const user = await db.users.create({
         name: name,
         email: email,
-        password: password,
+        password: hashedPassword,
       }, { transaction: t });
 
       await t.commit();
@@ -185,6 +192,7 @@ const authController = {
   logOut: async (req, res) => {
     //Clear cookies when user logs out
     refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
+    res.clearCookie("refreshToken");
     res.status(200).json("Logged out successfully!");
   },
 };

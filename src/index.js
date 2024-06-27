@@ -9,7 +9,6 @@ const expressHbs = require("express-handlebars");
 const { createPagination }  = require("express-handlebars-paginate");
 const projectRouter = require("./routes/projectRouter");
 const authRouter = require("./routes/authRouter");
-const userRouter = require("./routes/userRouter");
 const authController = require("./controllers/authController");
 const jwt = require("jsonwebtoken");
 const homeRouter = require("./routes/homeRouter");
@@ -161,7 +160,6 @@ app.get("/", (req, res) => {
 
 app.use("/home", homeRouter);
 app.use("/auth", authRouter);
-app.use("/user", userRouter);
 app.use("/project", projectRouter);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

@@ -26,6 +26,11 @@
             height: 100vh; /* Ensure full viewport height coverage */
             margin: 0; /* Remove default margin */
         }
+        .error-message {
+            display: none;
+            color: #dc3545;
+            font-size: 0.875rem;
+        }
     </style>
 </head>
 
@@ -46,13 +51,17 @@
                 <div class="mb-3">
                     <label for="input-email" class="form-label">Email</label>
                     <input type="email" class="form-control" id="input-email" name="email" placeholder="email@gmail.com" required>
+                    <div id="issue-assign-error-1" class="text-danger fs-6" style="display: none;">
+                        <i class="bi bi-exclamation-circle"></i>
+                        <span>Email already registered</span>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <div class="d-flex justify-content-between">
                         <label for="input-password" class="form-label">Password</label>
                     </div>
                     <input type="password" class="form-control" id="input-password" name="password" placeholder="Enter your password" required>
-                    <div id="issue-assign-error-1" class="text-danger fs-6" style="display: none;">
+                    <div id="issue-assign-error-2" class="error-message">
                         <i class="bi bi-exclamation-circle"></i>
                         <span>Password must have at least 8 characters</span>
                     </div>
@@ -109,15 +118,22 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    if (response.status === 404) {
+                        // Show error message to user (email already registered)
+                        const errorMessageElement = document.getElementById('issue-assign-error-1');
+                        errorMessageElement.style.display = 'block';
+                    } else {
+                        // Handle other types of errors
+                        const errorMessageElement = document.getElementById('issue-assign-error-2');
+                        errorMessageElement.style.display = 'block';
+                    }
+                } else {
+                    // Redirect user after successful registration
+                    window.location.href = '/login'; // Assuming this is your login page
                 }
-
-                // Redirect user after successful registration
-                window.location.href = '/login'; // Assuming this is your login page
             } catch (error) {
                 console.error('Error:', error);
                 // Handle errors (show error message to user, etc.)
-                // Example: Show error message to user
                 const errorMessageElement = document.getElementById('issue-assign-error-2');
                 errorMessageElement.style.display = 'block';
             } finally {
@@ -126,7 +142,6 @@
                 submitButton.disabled = false;
             }
         });
-
     </script>
 </body>
 </html>

@@ -56,6 +56,10 @@
                         <i class="bi bi-exclamation-circle"></i>
                         <span>Email or password incorrect</span>
                     </div>
+                    <div id="issue-assign-error" class="text-danger fs-6" style="display: none;">
+                        <i class="bi bi-exclamation-circle"></i>
+                        <span>Username or password incorrect</span>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100 mt-3">Login now</button>
             </form>
@@ -100,6 +104,7 @@
                 // login url = current server url + /auth/login
                 const getCurrentUrl = window.location.href;
                 const serverUrl = getCurrentUrl.substring(0, getCurrentUrl.indexOf('/login'));
+
                 const response = await fetch(serverUrl + '/auth/login', {
                     method: 'POST',
                     headers: {
@@ -109,7 +114,19 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    if (response.status === 401) {
+                        // set error message to login form
+                        document.getElementById('issue-assign-error-2').style.display = 'block';
+                        submitButton.innerHTML = 'Login now';
+                        submitButton.disabled = false;
+                        return;
+                    } 
+                    if (response.status === 404) {
+                        document.getElementById('issue-assign-error').style.display = 'block';
+                        submitButton.innerHTML = 'Login now';
+                        submitButton.disabled = false;
+                        return;
+                    }
                 }
 
                 const data = await response.json();
@@ -126,6 +143,13 @@
             }
         });
 
+        document.getElementById('input-email').addEventListener('input', function() {
+            document.getElementById('issue-assign-error').style.display = 'none';
+        });
+
+        document.getElementById('input-password').addEventListener('input', function() {
+            document.getElementById('issue-assign-error').style.display = 'none';
+        });
     </script>
 </body>
 </html>
