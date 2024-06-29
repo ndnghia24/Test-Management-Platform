@@ -130,7 +130,7 @@ app.use("/register", (req, res) => {res.render("register", { layout: false });})
 app.use("/dashboard", authController.refreshingTokens, (req, res) => {
 
   // temp redirect
-  res.redirect("/project/1/overview");
+  res.redirect("/home");
 
   // req.isAuthenticated = true;
   // req.headers.token = "Bearer " + newAccessToken;
