@@ -56,7 +56,7 @@ controller.getTestPlan = async (req, res) => {
                 return testPlan.release.trim() == release;
             }
             return true;
-        });;
+        });
         res.locals.releases = releases;
 
         res.render('test-plan-view', {

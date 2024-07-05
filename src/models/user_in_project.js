@@ -8,8 +8,7 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'users',
         key: 'user_id'
-      },
-      unique: "user_in_project_user_id_project_id_role_id_key"
+      }
     },
     project_id: {
       type: DataTypes.INTEGER,
@@ -18,8 +17,7 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'projects',
         key: 'project_id'
-      },
-      unique: "user_in_project_user_id_project_id_role_id_key"
+      }
     },
     role_id: {
       type: DataTypes.INTEGER,
@@ -27,8 +25,7 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'role',
         key: 'role_id'
-      },
-      unique: "user_in_project_user_id_project_id_role_id_key"
+      }
     },
     is_delete: {
       type: DataTypes.BOOLEAN,
@@ -41,20 +38,11 @@ module.exports = function(sequelize, DataTypes) {
     timestamps: false,
     indexes: [
       {
-        name: "user_in_project_pk",
+        name: "user_in_project_pkey",
         unique: true,
         fields: [
           { name: "user_id" },
           { name: "project_id" },
-        ]
-      },
-      {
-        name: "user_in_project_user_id_project_id_role_id_key",
-        unique: true,
-        fields: [
-          { name: "user_id" },
-          { name: "project_id" },
-          { name: "role_id" },
         ]
       },
     ]

@@ -212,6 +212,7 @@ controller.getDetailTestRun = async (req, res) => {
         testRun: testRun,
         testcases: testcases,
         issueTypes: issue_type,
+        projectId: req.params.id,
     });
 };
 

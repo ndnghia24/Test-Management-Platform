@@ -9,8 +9,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     name: {
       type: DataTypes.STRING(255),
-      allowNull: false,
-      unique: "projects_name_key"
+      allowNull: false
     },
     description: {
       type: DataTypes.TEXT,
@@ -34,13 +33,6 @@ module.exports = function(sequelize, DataTypes) {
     schema: 'public',
     timestamps: false,
     indexes: [
-      {
-        name: "projects_name_key",
-        unique: true,
-        fields: [
-          { name: "name" },
-        ]
-      },
       {
         name: "projects_pkey",
         unique: true,
