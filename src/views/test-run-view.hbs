@@ -1,6 +1,6 @@
 <div class="main-area">
     <div class="container py-3 my-3"
-        style="background-color: white; border-radius: 5px; height: 70vh; min-height: 500px; margin-top: 1%;">
+        style="background-color: white; border-radius: 5px; height: 70vh; min-height: 647px; margin-top: 1%;">
         <div class="d-flex justify-content-between align-items-center" style="padding: 0 12px;">
             <p class="" style="font-weight: 600; font-size: 1.2rem; color: #232360; margin-bottom: 0;">Test
                 run</p>
@@ -32,7 +32,7 @@
                 </thead>
                 <tbody class="fs-6">
                     {{#each testRuns}}
-                    <tr data-this = '{{json this}}'>
+                    <tr data-this='{{json this}}'>
                         <td class="created-by">
                             <div style="text-align: center;">
                                 <i class="bi bi-person-circle fs-4" style="display: block;"></i>
@@ -58,43 +58,16 @@
                         </td>
                     </tr>
                     {{/each}}
-                    {{!-- <tr>
-                        <td class="created-by">
-                            <div style="text-align: center;">
-                                <i class="bi bi-person-circle fs-4" style="display: block;"></i>
-                                <span>Bao Ninh</span>
-                            </div>
-                        </td>
-                        <td class="testrun-title">Sprint 1 - Release 1</td>
-                        <td class="assigned-to">
-                            <div style="text-align: center;">
-                                <i class="bi bi-person-circle fs-4" style="display: block;"></i>
-                                <span>Nghi Do</span>
-                            </div>
-                        </td>
-                        <td class="testcase-quantity"> 20 </td>
-                        <td class="status"> New </td>
-                    </tr>
-                    <tr>
-                        <td class="created-by">
-                            <div style="text-align: center;">
-                                <i class="bi bi-person-circle fs-4" style="display: block;"></i>
-                                <span>Nghia Ngo</span>
-                            </div>
-                        </td>
-                        <td class="testrun-title">Sprint 2 - Release 1</td>
-                        <td class="assigned-to">
-                            <div style="text-align: center;">
-                                <i class="bi bi-person-circle fs-4" style="display: block;"></i>
-                                <span>Bao Ninh</span>
-                            </div>
-                        </td>
-                        <td class="testcase-quantity"> 20 </td>
-                        <td class="status"> New </td>
-                    </tr> --}}
                 </tbody>
             </table>
         </div>
+        <nav style="margin: 0 auto;">
+            {{{paginate pagination
+            paginationClass="pagination justify-content-center p-1"
+            leftText = '<i class="bi bi-arrow-left"></i>'
+            rightText = '<i class="bi bi-arrow-right"></i>'
+            }}}
+        </nav>
     </div>
 </div>
 

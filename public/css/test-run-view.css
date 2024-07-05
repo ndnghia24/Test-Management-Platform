@@ -39,8 +39,17 @@
     color: #05A946!important;
 }
 
+.status.new {
+    color: #1EA7FF !important;
+}
+
 .status {
     font-weight: 600;
+}
+
+.pagination a{
+    color: #1EA7FF !important;
+    padding: 0 10px;
 }
 
 div.modal select {

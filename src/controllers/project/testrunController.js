@@ -11,15 +11,26 @@ const status_id = {
 
 controller.getTestRun = async (req, res) => {
     const relesae = req.query.release || null;
+    const page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+    const limit = 6;
+    const offset = (page - 1) * limit;
+
     try {
         const projectId = req.params.id;
         let promises = [];
         promises.push(
             db.test_runs.findAll({
                 where: {
-                    project_id: projectId
+                    project_id: projectId,
                 },
+                offset: offset,
+                limit: limit,
                 raw: true
+            }),
+            db.test_runs.count({
+                where: {
+                    project_id: projectId
+                }
             }),
             db.test_cases.findAll({
                 where: {
@@ -49,7 +60,7 @@ controller.getTestRun = async (req, res) => {
             )
         );
 
-        let [testruns, testcases, releases, modules, users] = await Promise.all(promises);
+        let [testruns, count ,testcases, releases, modules, users] = await Promise.all(promises);
 
 
         const userMap = users.reduce((acc, user) => { acc[user.user_id] = user.name; return acc; }, {});
@@ -57,8 +68,7 @@ controller.getTestRun = async (req, res) => {
             testrun.created_by_name = userMap[testrun.created_by];
             testrun.assigned_to_name = userMap[testrun.assigned_to];
         });
-        console.log(relesae);
-        console.log(testruns);
+        console.log(count);
         res.render('test-run-view', {
             title: 'Test Runs',
             cssFile: 'test-run-view.css',
@@ -73,7 +83,12 @@ controller.getTestRun = async (req, res) => {
             modules: modules,
             releases: releases,
             testcases: testcases,
-            users: users
+            users: users,
+            pagination: {
+                page: page,
+                limit: limit,
+                totalRows: count
+            }
         });
     } catch (error) {
         console.error('Error getting test runs:', error);

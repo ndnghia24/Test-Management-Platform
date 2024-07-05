@@ -53,6 +53,13 @@ $('document').ready(function() {
             description: $('#edit-test-run-modal').find('#description').val()
         };
 
+        // Test run name cannot be empty
+
+        if (testRun.testrun_title === '') {
+            showRightBelowToast('Test run name cannot be empty');
+            return;
+        }
+
         $.ajax({
             type: 'PUT',
             url: window.location.pathname + '/' + testRun.testrun_id + '/editTestRun',
