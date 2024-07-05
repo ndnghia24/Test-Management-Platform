@@ -89,6 +89,13 @@ $('document').ready(function () {
         var testcaseModule = $('#test-case-module').val();
         var testcaseDescription = $('#test-case-description').val();
 
+        // Testcae name cannot be empty
+
+        if (testcaseName === '') {
+            showRightBelowToast('Test Case name cannot be empty');
+            return;
+        }
+
         $.ajax({
             url: window.location.pathname + '/editTestCaseOverview?testcaseId=' + testcaseId,
             type: 'PUT',

@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "testmanagementsystem_user",
-    "password": "f9QVcXXRl8yOJ1Oj4laQOCdD48vW0vCr",
-    "database": "testmanagementsystem",
-    "host": "dpg-cpg2bu6ct0pc73d5imeg-a.singapore-postgres.render.com",
+    "username": "postgres.brbxlzahwqlysmruovxz",
+    "password": "7Nws0RGNWBQzjAfv",
+    "database": "postgres",
+    "host": "aws-0-ap-southeast-1.pooler.supabase.com",
     "dialect": "postgres",
     "dialectOptions": {
       "ssl": {
@@ -13,17 +13,17 @@
     }
   },
   "test": {
-    "username": "testmanagementsystem_user",
-    "password": "f9QVcXXRl8yOJ1Oj4laQOCdD48vW0vCr",
-    "database": "testmanagementsystem",
-    "host": "dpg-cpg2bu6ct0pc73d5imeg-a.singapore-postgres.render.com",
+    "username": "postgres.brbxlzahwqlysmruovxz",
+    "password": "7Nws0RGNWBQzjAfv",
+    "database": "postgres",
+    "host": "aws-0-ap-southeast-1.pooler.supabase.com",
     "dialect": "postgres"
   },
   "production": {
-    "username": "testmanagementsystem_user",
-    "password": "f9QVcXXRl8yOJ1Oj4laQOCdD48vW0vCr",
-    "database": "testmanagementsystem",
-    "host": "dpg-cpg2bu6ct0pc73d5imeg-a.singapore-postgres.render.com",
+    "username": "postgres.brbxlzahwqlysmruovxz",
+    "password": "7Nws0RGNWBQzjAfv",
+    "database": "postgres",
+    "host": "aws-0-ap-southeast-1.pooler.supabase.com",
     "dialect": "postgres",
     "dialectOptions": {
       "ssl": {

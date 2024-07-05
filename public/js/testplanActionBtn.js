@@ -27,6 +27,12 @@ $('document').ready(function () {
         let release = modal.find('#release').val();
         let planCode = modal[0].dataset.testplanCode;
 
+        // Test plan name cannot be empty
+        if (planName === '') {
+            showRightBelowToast('Test Plan name cannot be empty');
+            return;
+        }
+
         $.ajax({
             type: 'PUT',
             url: window.location.pathname + '/editTestPlan?planCode=' + planCode,

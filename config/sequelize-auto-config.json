@@ -1,9 +1,9 @@
 {
-    "database": "testmanagementsystem",
-    "username": "testmanagementsystem_user",
-    "password": "f9QVcXXRl8yOJ1Oj4laQOCdD48vW0vCr",
-    "host": "dpg-cpg2bu6ct0pc73d5imeg-a.singapore-postgres.render.com",
-    "port": 5432,
+    "database": "postgres",
+    "username": "postgres.brbxlzahwqlysmruovxz",
+    "password": "7Nws0RGNWBQzjAfv",
+    "host": "aws-0-ap-southeast-1.pooler.supabase.com",
+    "port": 6543,
     "dialect": "postgres",
     "dialectOptions": {
       "ssl": {
