@@ -246,7 +246,7 @@ module.exports = {
       }
     ];
 
-    issuePriorities.forEach((item) => {
+    testCases.forEach((item) => {
       item.createdAt = Sequelize.literal("NOW()");
       item.updatedAt = Sequelize.literal("NOW()");
     });
