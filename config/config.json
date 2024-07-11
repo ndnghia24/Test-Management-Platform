@@ -10,14 +10,18 @@
         "require": true,
         "rejectUnauthorized": false
       }
-    }
+    },
+    "seederStorage": "json",
+    "seederStoragePath": "src/seeders"
   },
   "test": {
     "username": "postgres.brbxlzahwqlysmruovxz",
     "password": "7Nws0RGNWBQzjAfv",
     "database": "postgres",
     "host": "aws-0-ap-southeast-1.pooler.supabase.com",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "seederStorage": "json",
+    "seederStoragePath": "src/seeders"
   },
   "production": {
     "username": "postgres.brbxlzahwqlysmruovxz",
@@ -30,6 +34,8 @@
         "require": true,
         "rejectUnauthorized": false
       }
-    }
+    },
+    "seederStorage": "json",
+    "seederStoragePath": "src/seeders"
   }
 }
