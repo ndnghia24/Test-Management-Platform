@@ -11,6 +11,8 @@
         "rejectUnauthorized": false
       },
       "connectTimeout": 60000 
-    }
+    },
+    "seederStorage": "json",
+    "seederStoragePath": "src/seeders"
 }
   
