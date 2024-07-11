@@ -121,7 +121,11 @@ const authController = {
       const password = req.body.password;
       
       // Check if the email already exists
-      const existingUser = await db.users.findOne({ where: { email: email } });
+      const [existingUser] = await db.sequelize.query(
+        'SELECT * FROM users WHERE email = ?',
+        { replacements: [email], type: db.sequelize.QueryTypes.SELECT }
+      );
+      
       if (existingUser) {
         await t.rollback();
         return res.status(404).json({ message: "Email already registered" });
@@ -131,11 +135,19 @@ const authController = {
       const hashedPassword = await bcrypt.hash(password, salt);
 
       // Save user to DB
-      const user = await db.users.create({
-        name: name,
-        email: email,
-        password: hashedPassword,
-      }, { transaction: t });
+      // Define SQL INSERT query
+      const sqlQuery = `
+      INSERT INTO users (name, email, password)
+      VALUES (?, ?, ?)
+      RETURNING *;
+      `;
+
+      // Execute the query with replacements and type
+      const [user] = await db.sequelize.query(sqlQuery, {
+      replacements: [name, email, hashedPassword],
+      type: db.sequelize.QueryTypes.INSERT,
+      transaction: t,
+      });
 
       await t.commit();
       res.status(200).json(user);
@@ -150,11 +162,10 @@ const authController = {
     try {
       console.log("Current refresh tokens: ", refreshTokens);
       // Find user in DB with sequelize
-      const user = await db.users.findOne({
-        where: {
-          email: req.body.email,
-        },
-      });
+      const [user] = await db.sequelize.query(
+        'SELECT * FROM users WHERE email = ?',
+        { replacements: [req.body.email], type: db.sequelize.QueryTypes.SELECT }
+      );      
 
       // Check if user exists
       if (!user) {
@@ -181,9 +192,8 @@ const authController = {
         sameSite: "strict",
       });
 
-      //const { password, ...others } = user.dataValues;
-      //return res.status(200).json({ ...others, accessToken, refreshToken });
-      return res.status(200).json({ accessToken, refreshToken });
+      const { password, ...others } = user;
+      return res.status(200).json({ ...others, accessToken, refreshToken });
     } catch (err) {
       console.error("Error logging in user:", err); // Log the error for debugging
       return res.status(500).json({ message: "Internal Server Error" });

@@ -2,61 +2,53 @@ const db = require('../models/index');
 
 controller = {}
 
+const { Op, QueryTypes } = require('sequelize');
+
 controller.getHome = async (req, res) => {
     try {
-        const projects = await db.projects.findAll();
+        // Lấy danh sách các projects và thông tin liên quan
+        const projectsInfo = await db.sequelize.query(`
+            SELECT 
+                projects.project_id AS id, 
+                projects.name AS name, 
+                users.name AS created_by, 
+                projects.created_date AS created_on, 
+                COUNT(test_cases.*) AS num_testcases, 
+                COUNT(test_runs.*) AS num_testruns, 
+                COUNT(issues.*) AS num_issues
+            FROM projects
+            LEFT JOIN users ON projects.created_by = users.user_id
+            LEFT JOIN test_cases ON projects.project_id = test_cases.project_id
+            LEFT JOIN test_runs ON projects.project_id = test_runs.project_id
+            LEFT JOIN issues ON projects.project_id = issues.project_id
+            GROUP BY projects.project_id, users.name;
+        `, {
+            type: QueryTypes.SELECT
+        });
 
-        //get information for each project
-        const projectsInfo = await Promise.all(projects.map(async (project) => {
-            const projectId = project.project_id;
-
-            const created_by = await db.users.findOne({
-                where: {
-                    user_id: project.created_by
-                }
-            });
-
-            const num_testcases = await db.test_cases.count({
-                where: {
-                    project_id: projectId
-                }
-            });
-
-            const num_testruns = await db.test_runs.count({
-                where: {
-                    project_id: projectId
-                }
-            });
-
-            const num_issues = await db.issues.count({
-                where: {
-                    project_id: projectId
-                }
-            });
-
-            return {
-                id: projectId,
-                name: project.name,
-                created_by: created_by.name,
-                created_on: project.created_date,
-                num_testcases: num_testcases,
-                num_testruns: num_testruns,
-                num_issues: num_issues
-            };
-        }));
-
-        //get all issues assign to me
-        const userId = 1;
-        const issues = await db.sequelize.query(
-            'SELECT issues.description, issues.issue_id, users.name as user_name, issue_status.status, issues.created_date, projects.name as project_name, projects.project_id as project_id ' +
-            'FROM issues , users, issue_status, projects ' +
-            'WHERE issues.assigned_to = ? AND projects.project_id = issues.project_id AND issues.status_id = issue_status.issue_status_id AND issues.created_by = users.user_id ' + 
-            'ORDER BY issues.issue_id',
-            { replacements: [userId], type: db.sequelize.QueryTypes.SELECT }
-        );
+        // Lấy tất cả các issues được giao cho user hiện tại
+        const userId = 1; // Thay userId bằng user hiện tại
+        const issues = await db.sequelize.query(`
+            SELECT 
+                issues.description, 
+                issues.issue_id, 
+                users.name AS user_name, 
+                issue_status.status, 
+                issues.created_date, 
+                projects.name AS project_name, 
+                projects.project_id AS project_id
+            FROM issues
+            LEFT JOIN users ON issues.assigned_to = users.user_id
+            LEFT JOIN issue_status ON issues.status_id = issue_status.issue_status_id
+            LEFT JOIN projects ON issues.project_id = projects.project_id
+            WHERE issues.assigned_to = :userId
+            ORDER BY issues.issue_id;
+        `, {
+            replacements: { userId: userId },
+            type: QueryTypes.SELECT
+        });
 
         res.locals.projects = projectsInfo;
-        console.log(projectsInfo);
         res.locals.issues = issues;
         res.render("homepage", { layout: false });
     } catch (error) {
@@ -64,6 +56,7 @@ controller.getHome = async (req, res) => {
         res.status(500).send('Internal server error');
     }
 }
+
 
 controller.addProject = async (req, res) => {
     try {
