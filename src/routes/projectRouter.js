@@ -3,6 +3,7 @@ const router = express.Router();
 const controller = require("../controllers/projectController");
 const authController = require("../controllers/authController");
 const jwt = require('jsonwebtoken');
+const db = require("../models");
 
 // Authentification middlewares
 const { 
@@ -19,7 +20,9 @@ const checkAuthentication = (req, res, next) => {
     next();
 };
 
-const checkPermissions = (req, res, next) => {
+const { QueryTypes } = require('sequelize');
+
+const checkPermissions = async (req, res, next) => {
     const { token } = req.headers;
     if (!token) {
         return res.status(403).send('Forbidden');
@@ -29,13 +32,22 @@ const checkPermissions = (req, res, next) => {
         const accessToken = token.split(" ")[1];
         const user = jwt.verify(accessToken, process.env.JWT_ACCESS_KEY);
         const projectId = req.params.id;
-        const project = user.projects.find(p => p.project_id == projectId);
 
-        if (!project) {
+        // Tìm dự án của người dùng dựa trên projectId
+        const project = await db.sequelize.query(
+            'SELECT * FROM user_in_project WHERE project_id = :projectId AND user_id = :userId',
+            {
+                replacements: { projectId: projectId, userId: user.user_id },
+                type: QueryTypes.SELECT
+            }
+        );
+
+        // Kiểm tra xem dự án có tồn tại không
+        if (project.length === 0) {
             return res.status(403).send('Forbidden');
         }
 
-        const role = project.role_id;
+        const role = project[0].role_id;
         res.locals.permissions = {
             canView: true,
             canAdd: role === 1,
@@ -51,6 +63,7 @@ const checkPermissions = (req, res, next) => {
         return res.status(403).send('Forbidden');
     }
 };
+
 
 //PROJECT SUPPORT ROUTES
 router.get("/:id/getAllRequirement", controller.getRequirement);
