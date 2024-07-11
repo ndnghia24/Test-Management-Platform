@@ -1,0 +1,25 @@
+sequelize seed:generate --name Comment 
+sequelize seed:generate --name IssuePriority 
+sequelize seed:generate --name IssueStatus 
+sequelize seed:generate --name IssueType 
+sequelize seed:generate --name Issues 
+sequelize seed:generate --name Modules 
+sequelize seed:generate --name Projects 
+sequelize seed:generate --name Releases 
+sequelize seed:generate --name RequirementType 
+sequelize seed:generate --name Requirement 
+sequelize seed:generate --name Role 
+sequelize seed:generate --name TestCaseLinking 
+sequelize seed:generate --name TestCaseRequirement 
+sequelize seed:generate --name TestCaseStep 
+sequelize seed:generate --name TestCases 
+sequelize seed:generate --name TestPlans 
+sequelize seed:generate --name TestRunTestCaseStatus 
+sequelize seed:generate --name TestRun 
+sequelize seed:generate --name TestCaseTestRun 
+sequelize seed:generate --name UserInProject 
+sequelize seed:generate --name Users 
+
+
+Chạy để tạo dữ liệu mẫu
+sequelize db:seed:all
