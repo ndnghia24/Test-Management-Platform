@@ -34,14 +34,6 @@
                                 </label>
                             </div>
                             {{/each}}
-                            {{!-- <div class="requirement-item">
-                                <i class="fa fa-plus-square" style="color: green"></i>
-                                Functionality
-                            </div>
-                            <div class="requirement-item">
-                                <i class="fa fa-minus-square"></i>
-                                Validation
-                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -56,35 +48,14 @@
                             <h3 class="card-title">Requirements</h3>
                         </div>
                         <div class="col d-flex justify-content-end">
-                            <ul class="list-unstyled d-flex flex-row">
+                            <ul class="actions-header list-unstyled d-flex flex-row">
                                 <li id="requirements-filter-box">
                                     <form name="search-requirement" role="search">
                                         <input type="text" class="form-control" id="search-input-requirement" placeholder="Search Title..."
                                             style="color: #C4C4DA; font-weight: 600; width: 100%; background-color: #F1F1F1; border-radius: 5px; border:none; padding: 10px" />
                                     </form>
                                 <li>
-                                    <button id="btn-bg-transparent" type="button" class="btn">
-                                        <i class="fas fa-download"></i>  
-                                        Import
-                                    </button>
-                                </li>
-                                <li>
-                                    <button id="btn-bg-transparent" type="button" class="btn">
-                                        <i class="fas fa-upload"></i>  
-                                        Export
-                                    </button>
-                                </li>
-                                <li>
-                                    <button id="btn btn btn-bg-transparent" type="button" class="btn"
-                                        data-bs-toggle="modal" data-bs-target="#modalAddRequirement">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button id="btn-bg-transparent" type="button" class="btn">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </li>
+                                <!-- Các nút chức năng sẽ được thêm vào đây -->
                             </ul>
                         </div>
                     </div>
@@ -135,10 +106,8 @@
                                         <td class="requirement-code">{{this.requirement_code}}</td>
                                         <td class="requirement-title">{{this.requirement_name}}</td>
                                         <td class="d-none requirement-type-of-requirement ">{{this.requirement_type_id}}</td>
-                                        <td>
-                                            <i class="fa fa-eye clickable" data-requirement-code="{{this.requirement_code}}" style="margin-right: 20px; cursor: pointer" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Detail"></i>
-                                            <i class="fa fa-pencil clickable text-success" data-requirement-code="{{this.requirement_code}}" style="margin-right: 20px; cursor: pointer" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit"></i>
-                                            <i class="fa fa-trash clickable text-danger" data-requirement-code="{{this.requirement_code}}" style="cursor: pointer" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"></i>
+                                        <td class="actions" data-requirement-code="{{this.requirement_code}}">
+                                            <!-- Các nút chức năng sẽ được thêm vào đây -->
                                         </td>
                                     </tr>
                                     {{/each}}
@@ -212,7 +181,7 @@
                         <label for="description">Requirement Title <span style="color: red">*</span>:</label>
                         <input type="text" class="form-control" name="requirement-title" id="requirement-title"
                             placeholder="Enter Requirement Title" required>
-                        <div id="alertMessageRequirementTitle" style="display: none; color: red"></div>
+                        <div id="alertMessageRequirementTitle" style="display: none; color: red">Please enter Requirement Title</div>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -335,13 +304,15 @@
 {{!-- Page's Functionality Button --}}
 
 {{#block "additional-button"}}
+{{#if permissions.canAdd}}
 <div class="text-right">
-    <button type="button" class="btn btn-light-green me-2" data-bs-toggle="modal"
+    <button type="button" class="btn btn-light-green btn-add me-2" data-bs-toggle="modal"
         data-bs-target="#modalAddRequirementType">
         <i class="fas fa-plus-square"></i>  
         Add Requirement Type
     </button>
 </div>
+{{/if}}
 {{/block}}
 
 {{!-- Additional Scripts + CSS --}}
@@ -356,7 +327,115 @@
 <script src="/js/requirementActionBtn.js"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    // Custom view by user permission
+    customViewByUserPermission();
+    function customViewByUserPermission() {
+        if ({{permissions.canImport}}) {
+            addImportButton();
+        }
+        if ({{permissions.canExport}}) {
+            addExportButton();
+        }
+        if ({{permissions.canView}}) {
+            addViewButton();
+        }
+        if ({{permissions.canEdit}}) {
+            addEditButton();
+        }
+        if ({{permissions.canDelete}}) {
+            addDeleteButton();
+        }
+        if ({{permissions.canAdd}}) {
+            addAddButton();
+        }
+    }
+
+    function addViewButton() {
+        document.querySelectorAll('.actions').forEach(actionContainer => {
+            // get data-requirement-code from actionContainer and bind to button
+            let requirementCode = actionContainer.getAttribute('data-requirement-code');
+
+            let button = document.createElement('i');
+            button.className = 'fa fa-eye clickable';
+            button.setAttribute('style', 'margin-right: 20px; cursor: pointer');
+            button.setAttribute('data-bs-toggle', 'tooltip');
+            button.setAttribute('data-bs-placement', 'top');
+            button.setAttribute('data-bs-title', 'Detail');
+            button.setAttribute('data-requirement-code', requirementCode);
+            actionContainer.appendChild(button);
+        });
+    }
+
+    function addEditButton() {
+        document.querySelectorAll('.actions').forEach(actionContainer => {
+            // get data-requirement-code from actionContainer and bind to button
+            let requirementCode = actionContainer.getAttribute('data-requirement-code');
+            
+            let button = document.createElement('i');
+            button.className = 'fa fa-pencil clickable text-success';
+            button.setAttribute('style', 'margin-right: 20px; cursor: pointer');
+            button.setAttribute('data-bs-toggle', 'tooltip');
+            button.setAttribute('data-bs-placement', 'top');
+            button.setAttribute('data-bs-title', 'Edit');
+            button.setAttribute('data-requirement-code', requirementCode);
+            actionContainer.appendChild(button);
+        });
+    }
+
+    function addDeleteButton() {
+        document.querySelectorAll('.actions').forEach(actionContainer => {
+            // get data-requirement-code from actionContainer and bind to button
+            let requirementCode = actionContainer.getAttribute('data-requirement-code');
+
+            let button = document.createElement('i');
+            button.className = 'fa fa-trash clickable text-danger';
+            button.setAttribute('style', 'cursor: pointer');
+            button.setAttribute('data-bs-toggle', 'tooltip');
+            button.setAttribute('data-bs-placement', 'top');
+            button.setAttribute('data-bs-title', 'Delete');
+            button.setAttribute('data-requirement-code', requirementCode);
+            actionContainer.appendChild(button);
+        });
+    }
+
+    function addAddButton() {
+        let button = document.createElement('button');
+        button.className = 'btn btn-add';
+        button.setAttribute('type', 'button');
+        button.setAttribute('data-bs-toggle', 'modal');
+        button.setAttribute('data-bs-target', '#modalAddRequirement');
+        button.innerHTML = '<i class="fas fa-plus"></i>';
+        document.querySelector('.actions-header').appendChild(button);
+
+        // Add delete button to the header
+        let buttonDelete = document.createElement('button');
+        buttonDelete.className = 'btn btn-delete';
+        buttonDelete.id = 'btn-bg-transparent';
+        buttonDelete.setAttribute('type', 'button');
+        buttonDelete.innerHTML = '<i class="fas fa-trash"></i>';
+        document.querySelector('.actions-header').appendChild(buttonDelete);
+    }
+
+    function addImportButton() {
+        let button = document.createElement('button');
+        button.className = 'btn btn-import';
+        button.setAttribute('type', 'button');
+        button.innerHTML = '<i class="fas fa-download"></i>   Import';
+        // Add button to the header
+        document.querySelector('.actions-header').appendChild(button);
+    }
+
+    function addExportButton() {
+        let button = document.createElement('button');
+        button.className = 'btn btn-export';
+        button.setAttribute('type', 'button');
+        button.innerHTML = '<i class="fas fa-upload"></i>   Export';
+        document.querySelector('.actions-header').appendChild(button);
+    }
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {      
         var currentPage = 1;
         var rowsPerPage = parseInt(document.querySelector(".number-of-row").value);
 

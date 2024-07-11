@@ -4,7 +4,7 @@ const db = require('../../models/index');
 controller.getRequirement = async (req,res) => {
     try {
         const projectId = req.params.id;
-        
+
         const [requirements, requirementTypes] = await Promise.all([
             db.sequelize.query(
                 'SELECT requirement_id AS requirement_code, name AS requirement_name, requirement_type_id FROM requirements WHERE project_id = ? ORDER BY requirement_id',
@@ -16,12 +16,13 @@ controller.getRequirement = async (req,res) => {
             )
         ]);
 
-        res.locals.requirement_types = requirementTypes;
-        res.locals.requirements = requirements;
         res.render('requirement-view', {
             title: 'Requirements',
             cssFile: 'requirement-view.css',
-            projectId: projectId,
+            projectId,
+            requirement_types: requirementTypes,
+            requirements,
+            permissions: res.locals.permissions
         });
     } catch (error) {
         console.error('Error fetching data:', error);

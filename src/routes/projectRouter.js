@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/projectController");
+const authController = require("../controllers/authController");
+const jwt = require('jsonwebtoken');
 
 // Authentification middlewares
 const { 
@@ -8,6 +10,47 @@ const {
     verifyTokenAndDeveloper,
     verifyTokenAndTester
  } = require("../controllers/verifyToken");
+
+// MIDDLWARES
+const checkAuthentication = (req, res, next) => {
+    if (!req.isAuthenticated) {
+        return res.redirect("/login");
+    }
+    next();
+};
+
+const checkPermissions = (req, res, next) => {
+    const { token } = req.headers;
+    if (!token) {
+        return res.status(403).send('Forbidden');
+    }
+
+    try {
+        const accessToken = token.split(" ")[1];
+        const user = jwt.verify(accessToken, process.env.JWT_ACCESS_KEY);
+        const projectId = req.params.id;
+        const project = user.projects.find(p => p.project_id == projectId);
+
+        if (!project) {
+            return res.status(403).send('Forbidden');
+        }
+
+        const role = project.role_id;
+        res.locals.permissions = {
+            canView: true,
+            canAdd: role === 1,
+            canEdit: role === 1,
+            canDelete: role === 1,
+            canImport: role === 1,
+            canExport: role === 1 || role === 2 || role === 3
+        };
+
+        next();
+    } catch (error) {
+        console.error('Error verifying JWT:', error);
+        return res.status(403).send('Forbidden');
+    }
+};
 
 //PROJECT SUPPORT ROUTES
 router.get("/:id/getAllRequirement", controller.getRequirement);
@@ -35,7 +78,7 @@ router.get("/:id/module/getModule", controller.moduleController.getAllModule);
 router.post("/:id/module/addModule", controller.moduleController.addModule);
 
 //REQUIREMENT & REQUIREMENT TYPE
-router.get("/:id/requirement", controller.requirementController.getRequirement);
+router.get("/:id/requirement", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.requirementController.getRequirement);
 router.get("/:id/requirement/getRequirement", controller.requirementController.getSpecifyRequirement);
 router.get("/:id/requirement/getRequirementByTypeFilter", controller.requirementController.getRequirementByTypeFilter);
 router.post("/:id/requirement/addRequirement", controller.requirementController.addRequirement);

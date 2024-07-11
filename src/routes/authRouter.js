@@ -8,6 +8,8 @@ router.post("/register", authController.registerUser);
 router.post("/refresh", authController.requestRefreshToken);
 //LOG IN
 router.post("/login", authController.loginUser);
+//GET INFO
+router.get("/info", authController.getUserInfo);
 //LOG OUT
 router.post("/logout", verifyToken, authController.logOut);
 

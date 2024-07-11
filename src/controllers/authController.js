@@ -181,17 +181,40 @@ const authController = {
         sameSite: "strict",
       });
 
-      const { password, ...others } = user.dataValues;
-      return res.status(200).json({ ...others, accessToken, refreshToken });
+      //const { password, ...others } = user.dataValues;
+      //return res.status(200).json({ ...others, accessToken, refreshToken });
+      return res.status(200).json({ accessToken, refreshToken });
     } catch (err) {
       console.error("Error logging in user:", err); // Log the error for debugging
       return res.status(500).json({ message: "Internal Server Error" });
     }
   },
 
+  getUserInfo: async (req, res) => {
+      // Lấy refreshToken từ cookie của client
+      const refreshToken = req.cookies.refreshToken;
+  
+      if (!refreshToken) {
+          return res.status(401).json({ message: "You're not authenticated" });
+      }
+  
+      try {
+          const decoded = jwt.decode(refreshToken);
+          if (!decoded) {
+              return res.status(401).json({ message: "Invalid refresh token" });
+          }
+          const name = decoded.name;
+          return res.status(200).json({ name: name });
+      } catch (error) {
+          console.error("Error decoding refresh token:", error);
+          return res.status(500).json({ message: "Internal server error" });
+      }
+  },
+  
   logOut: async (req, res) => {
     //Clear cookies when user logs out
-    refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
+    const refreshToken = req.cookies.refreshToken;
+    refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
     res.clearCookie("refreshToken");
     res.status(200).json("Logged out successfully!");
   },

@@ -44,6 +44,8 @@
                             <i class="bi bi-chevron-down" style="color: #5051F9;"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropDownMenu">
+                            <span id="profile-dropdown" class="dropdown-item" style="pointer-events: none; cursor: default;"></span>
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Profile</a>
                             <a class="dropdown-item" href="#">Settings</a>
                             <a class="dropdown-item" href="#" onclick="logout()">Logout</a>
@@ -173,16 +175,9 @@
     <script src="/js/showToast.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
-        }
-
+        // Function to handle logout
         function logout() {
-            axios.post('/auth/logout', {
-                token: getCookie("refreshToken")
-            }, {
+            axios.post('/auth/logout', {}, {
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -200,7 +195,37 @@
                 console.error("Error:", error);
             });
         }
+
+        // Function to update profile dropdown with Name and Role
+        function updateProfileDropdown() {
+            axios.get('/auth/info', {}, {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                withCredentials: true
+            })
+            .then((response) => {
+                if (response.status === 200) {
+                    const profileDropdown = document.getElementById('profile-dropdown');
+                    if (profileDropdown) {
+                        profileDropdown.innerHTML = `${response.data.name}`;
+                    }
+                } else {
+                    console.error("Error:", response.statusText);
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+        }
+
+        // Call updateProfileDropdown when dropdown is clicked
+        const dropdownMenu = document.getElementById('dropDownMenu');
+        if (dropdownMenu) {
+            dropdownMenu.addEventListener('click', updateProfileDropdown);
+        }
     </script>
+
 
     {{{content "script"}}}
 </body>

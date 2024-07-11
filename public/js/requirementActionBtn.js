@@ -149,6 +149,11 @@ $(document).ready(function () {
         console.log('Type ID:', typeId);
         console.log('Description:', description);
 
+        if (!title) {
+            $('#alertMessageRequirementTitle').text('Please enter Requirement Title').show();
+            return;
+        }
+
         // localhost:3000/project/1/requirement, i want to get the 1 by splitting the URL and get the second last element
         var urlParts = window.location.href.split('/');
         var projectId = urlParts[urlParts.length - 2];
