@@ -4,6 +4,7 @@ const controller = require("../controllers/projectController");
 const authController = require("../controllers/authController");
 const jwt = require('jsonwebtoken');
 const db = require("../models");
+const { QueryTypes } = require('sequelize');
 
 // Authentification middlewares
 const { 
@@ -19,8 +20,6 @@ const checkAuthentication = (req, res, next) => {
     }
     next();
 };
-
-const { QueryTypes } = require('sequelize');
 
 const checkPermissions = async (req, res, next) => {
     const { token } = req.headers;
@@ -47,22 +46,52 @@ const checkPermissions = async (req, res, next) => {
             return res.status(403).send('Forbidden');
         }
 
+        // Lấy role của người dùng trong dự án
         const role = project[0].role_id;
-        res.locals.permissions = {
-            canView: true,
-            canAdd: role === 1,
-            canEdit: role === 1,
-            canDelete: role === 1,
-            canImport: role === 1,
-            canExport: role === 1 || role === 2 || role === 3
-        };
+        // Lấy đường dẫn hiện tại
+        const currentPage = "/" + req.path.split("/").pop();
 
+        // Thiết lập permissions dựa trên đường dẫn hiện tại
+        switch (currentPage) {
+            case `/requirement`:
+                res.locals.permissions = {
+                    canView: true,
+                    canAdd: role === 1,
+                    canEdit: role === 1,
+                    canDelete: role === 1,
+                    canImport: role === 1,
+                    canExport: role === 1 || role === 2 || role === 3
+                };
+                break;
+            case `/module`:
+                res.locals.permissions = {
+                    canView: true,
+                    canAdd: role === 1,
+                    canEdit: role === 1,
+                    canDelete: role === 1,
+                    canImport: role === 1,
+                    canExport: role === 1,
+                };
+                break;
+            // Các trường hợp khác có thể được thêm vào cho các đường dẫn khác
+            default:
+                res.locals.permissions = {
+                    canView: true,
+                    canAdd: false,
+                    canEdit: false,
+                    canDelete: false,
+                    canImport: false,
+                    canExport: false
+                };
+                break;
+        }
         next();
     } catch (error) {
         console.error('Error verifying JWT:', error);
         return res.status(403).send('Forbidden');
     }
 };
+
 
 
 //PROJECT SUPPORT ROUTES
@@ -120,7 +149,6 @@ router.put("/:id/testrun/:testrunId/editTestRun", controller.testrunController.e
 router.delete("/:id/testrun/:testrunId/deleteTestRun", controller.testrunController.deleteTestRun);
 router.get("/:id/testrun/:testrunId",controller.testrunController.getDetailTestRun); 
 router.post("/:id/testrun/:testrunId/addIssue",controller.testrunController.addIssue);
-
 
 //issue
 router.get("/:id/issues", controller.issuesController.getIssues);
