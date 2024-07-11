@@ -99,8 +99,14 @@
     </div>
 </div>
 
+<!-- Toast Container -->
+<div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+</div>
+
+
 {{!-- Page's Functionality Button --}}
 {{#block "additional-button"}}
+{{#if permissions.canAdd}}
 <div class="text-right">
     <button type="button" class="btn btn-light-green me-2">
         <i class="fas fa-download"></i>  
@@ -111,6 +117,7 @@
         Add Modules
     </button>
 </div>
+{{/if}}
 {{/block}}
 
 {{!-- Additional Scripts + CSS --}}
@@ -193,97 +200,135 @@
     displayModules('Modules', rootModules, 'modulesLevel1', bindingSubModule);
 
     document.addEventListener('DOMContentLoaded', () => {
-    const addModuleUrl = `${window.location.href}/addModule`;
+        const addModuleUrl = `${window.location.href}/addModule`;
+        const modules = {{{modules}}}; // Use the provided modules data
 
-    const modules = {{{modules}}}; // Use the provided modules data
+        populateRootModuleOptions(modules);
 
-    populateRootModuleOptions(modules);
+        function populateRootModuleOptions(modules) {
+            const selectElement = document.querySelector('select[name="module-selection"]');
+            selectElement.innerHTML = ''; // Clear existing options
 
-    function populateRootModuleOptions(modules) {
-        const selectElement = document.querySelector('select[name="module-selection"]');
-        selectElement.innerHTML = ''; // Clear existing options
+            function createOption(module, prefix = '') {
+                const option = document.createElement('option');
+                option.value = module.module_id;
+                option.textContent = `${prefix}${module.name}`;
+                return option;
+            }
 
-        function createOption(module, prefix = '') {
-            const option = document.createElement('option');
-            option.value = module.module_id;
-            option.textContent = `${prefix}${module.name}`;
-            return option;
+            function addOptions(modules, prefix = '') {
+                modules.forEach(module => {
+                    if (module.level !== 3) { // Exclude modules with level 3
+                        selectElement.appendChild(createOption(module, prefix));
+                        if (module.children && module.children.length > 0) {
+                            addOptions(module.children, `${prefix}${module.name}/`);
+                        }
+                    }
+                });
+            }
+
+            selectElement.appendChild(createOption({ module_id: 0, name: '/' }));
+            addOptions(modules);
         }
 
-        function addOptions(modules, prefix = '') {
-            modules.forEach(module => {
-                if (module.level !== 3) { // Exclude modules with level 3
-                    selectElement.appendChild(createOption(module, prefix));
-                    if (module.children && module.children.length > 0) {
-                        addOptions(module.children, `${prefix}${module.name}/`);
+        document.querySelector('#modalAddModules .btn-primary').addEventListener('click', () => {
+            const moduleName = document.querySelector('#modules-name').value;
+            const rootModuleId = document.querySelector('select[name="module-selection"]').value;
+
+            if (!moduleName.trim()) {
+                document.getElementById('alertMessage').textContent = 'Module name is required.';
+                document.getElementById('alertMessage').style.display = 'block';
+                return;
+            }
+
+            let parentLevel = 0;
+            if (rootModuleId) {
+                const parentModule = findModuleById(modules, parseInt(rootModuleId));
+                parentLevel = parentModule ? parentModule.level : 0;
+            }
+
+            const newModule = {
+                name: moduleName,
+                root_module_id: rootModuleId ? parseInt(rootModuleId) : null,
+                level: parentLevel + 1
+            };
+
+            fetch(addModuleUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newModule)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    localStorage.setItem('toastMessage', JSON.stringify({
+                        title: 'Success',
+                        message: 'Module added successfully!',
+                        className: 'bg-success'
+                    }));
+                    location.reload();
+                } else {
+                    showToast('Error', data.error, 'bg-danger');
+                }
+            })
+            .catch(error => {
+                showToast('Error', 'An error occurred. Please try again.', 'bg-danger');
+            });
+        });
+
+        function findModuleById(modules, id) {
+            let foundModule = null;
+
+            function searchModules(modules) {
+                for (const module of modules) {
+                    if (module.module_id === id) {
+                        foundModule = module;
+                        return;
+                    } else if (module.children && module.children.length > 0) {
+                        searchModules(module.children);
                     }
                 }
+            }
+
+            searchModules(modules);
+            return foundModule;
+        }
+
+        function showToast(title, message, className) {
+            const toastContainer = document.getElementById('toastContainer');
+            const toastElement = document.createElement('div');
+            toastElement.className = `toast align-items-center text-white ${className} border-0`;
+            toastElement.role = 'alert';
+            toastElement.ariaLive = 'assertive';
+            toastElement.ariaAtomic = 'true';
+
+            toastElement.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <strong>${title}</strong>: ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            `;
+
+            toastContainer.appendChild(toastElement);
+
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+
+            toastElement.addEventListener('hidden.bs.toast', () => {
+                toastElement.remove();
             });
         }
 
-        addOptions(modules);
-    }
-
-    document.querySelector('#modalAddModules .btn-primary').addEventListener('click', () => {
-        const moduleName = document.querySelector('#modules-name').value;
-        const rootModuleId = document.querySelector('select[name="module-selection"]').value;
-
-        if (!moduleName.trim()) {
-            document.getElementById('alertMessage').textContent = 'Module name is required.';
-            document.getElementById('alertMessage').style.display = 'block';
-            return;
+        // Check if there is a toast message in localStorage
+        const toastMessage = localStorage.getItem('toastMessage');
+        if (toastMessage) {
+            const { title, message, className } = JSON.parse(toastMessage);
+            showToast(title, message, className);
+            localStorage.removeItem('toastMessage');
         }
-
-        let parentLevel = 0;
-        if (rootModuleId) {
-            const parentModule = findModuleById(modules, parseInt(rootModuleId));
-            parentLevel = parentModule ? parentModule.level : 0;
-        }
-
-        const newModule = {
-            name: moduleName,
-            root_module_id: rootModuleId ? parseInt(rootModuleId) : null,
-            level: parentLevel + 1
-        };
-
-        fetch(addModuleUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newModule)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            } else {
-                document.getElementById('alertMessage').textContent = data.message;
-                document.getElementById('alertMessage').style.display = 'block';
-            }
-        })
-        .catch(error => {
-            document.getElementById('alertMessage').textContent = 'An error occurred. Please try again.';
-            document.getElementById('alertMessage').style.display = 'block';
-        });
     });
-
-    function findModuleById(modules, id) {
-        let foundModule = null;
-
-        function searchModules(modules) {
-            for (const module of modules) {
-                if (module.module_id === id) {
-                    foundModule = module;
-                    return;
-                } else if (module.children && module.children.length > 0) {
-                    searchModules(module.children);
-                }
-            }
-        }
-
-        searchModules(modules);
-        return foundModule;
-    }
-});
 </script>

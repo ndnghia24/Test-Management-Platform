@@ -40,6 +40,7 @@ controller.getModule = async (req,res) => {
             title: 'Modules',
             cssFile: 'module-view.css',
             projectId: req.params.id,
+            permissions: res.locals.permissions,
         });
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -68,6 +69,11 @@ controller.addModule = async (req,res) => {
         const projectId = req.params.id;
         const module = req.body;
         module.project_id = projectId;
+
+        // check datatype of module
+        if (module.name.length > 100) {
+            return res.status(400).send({ success: false, error: 'Module name too long' });
+        }
 
         await db.modules.create(module);
         res.status(200).send({ success: true });

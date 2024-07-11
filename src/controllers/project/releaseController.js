@@ -16,6 +16,7 @@ controller.getRelease = async (req,res) => {
             title: 'Releases',
             cssFile: 'release-view.css',
             projectId: req.params.id,
+            permissions: res.locals.permissions,
         });
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -29,10 +30,37 @@ controller.addRelease = async (req,res) => {
         const projectId = req.params.id;
         const { releaseName, startDate, dueDate } = req.body;
 
-        // auto generate release_key by removing spaces and reverse to uppercase
-        const releaseKey = releaseName.replace(/\s/g, '').toUpperCase().split('').reverse().join('');
+        // auto generate release_key by removing spaces, uppercase all characters, and get 10 characters if possible
+        const releaseKey = releaseName.replace(/\s/g, '').toUpperCase().split('').join('').substring(0, 10);
         const releaseStatus = 'open';
         const release_progress = 0;
+
+        // if start date is greater than due date, return error
+        if (new Date(startDate) > new Date(dueDate)) {
+            return res.status(400).send({ success: false, error: 'Start date must be before due date' });
+        }
+
+        // Due date must be greater than or equal to created date
+        if (new Date(dueDate) < new Date()) {
+            return res.status(400).send({ success: false, error: 'Due date must be greater than or equal to current date' });
+        }
+
+        // if release name is empty or too long, return error
+        if (releaseName === '' || releaseName.length > 100) {
+            return res.status(400).send({ success: false, error: 'Release name must be between 1 and 255 characters' });
+        }
+
+        // if release name is duplicated, return error
+        const releaseChecking = await db.releases.findOne({
+            where: {
+                name: releaseName,
+                project_id: projectId
+            }
+        });
+
+        if (releaseChecking) {
+            return res.status(400).send({ success: false, error: 'Release name already exists' });
+        }
 
         const release = await db.releases.create({
             name: releaseName,

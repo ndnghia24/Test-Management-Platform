@@ -197,6 +197,18 @@ controller.addRequirementType = async (req,res) => {
         const projectId = req.params.id;
         const { requirement_type_name, description } = req.body;
 
+        // if requirement type name already exists, return error
+        const requirementTypeExists = await db.requirement_types.findOne({
+            where: {
+                name: requirement_type_name,
+                project_id: projectId
+            }
+        });
+
+        if (requirementTypeExists) {
+            return res.status(400).send({ success: false, error: 'Requirement type already exists' });
+        }
+
         const requirementType = await db.requirement_types.create({
             name: requirement_type_name,
             description: description,

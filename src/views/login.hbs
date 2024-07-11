@@ -50,7 +50,7 @@
                     <input type="password" class="form-control" id="input-password" name="password" placeholder="Enter your password" required>
                     <div id="issue-assign-error-1" class="text-danger fs-6" style="display: none;">
                         <i class="bi bi-exclamation-circle"></i>
-                        <span>Password must have at least 8 characters</span>
+                        <span>Password must have at least 6 characters</span>
                     </div>
                     <div id="issue-assign-error-2" class="text-danger fs-6" style="display: none;">
                         <i class="bi bi-exclamation-circle"></i>
@@ -98,6 +98,27 @@
                 password: document.getElementById('input-password').value
             };
 
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            // Check email format
+            if (!emailRegex.test(formData.email)) {
+                // set error message to login form
+                document.getElementById('issue-assign-error-2').style.display = 'block';
+                document.getElementById('issue-assign-error-2').innerHTML = 'Invalid email format';
+                submitButton.innerHTML = 'Login now';
+                submitButton.disabled = false;
+                return;
+            }
+
+            // Check password length (e.g., minimum 6 characters)
+            if (formData.password.length < 6) {
+                // set error message to login form
+                document.getElementById('issue-assign-error-1').style.display = 'block';
+                document.getElementById('issue-assign-error-1').innerHTML = 'Password must have at least 6 characters';
+                submitButton.innerHTML = 'Login now';
+                submitButton.disabled = false;
+                return;
+            }
+        
             try {
                 // Send POST request to server
                 // Replace 'http://localhost:3000' with your server URL
@@ -117,12 +138,14 @@
                     if (response.status === 401) {
                         // set error message to login form
                         document.getElementById('issue-assign-error-2').style.display = 'block';
+                        document.getElementById('issue-assign-error-2').innerHTML = 'Email or password incorrect';
                         submitButton.innerHTML = 'Login now';
                         submitButton.disabled = false;
                         return;
                     } 
                     if (response.status === 404) {
                         document.getElementById('issue-assign-error').style.display = 'block';
+                        document.getElementById('issue-assign-error').innerHTML = 'Username or password incorrect';
                         submitButton.innerHTML = 'Login now';
                         submitButton.disabled = false;
                         return;

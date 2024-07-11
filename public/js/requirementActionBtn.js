@@ -1,4 +1,79 @@
-$('document').ready(function () {
+function renderRequirementDetails(jsonData) {
+    try {
+        // Check if jsonData is already an object
+        var data = typeof jsonData === 'object' ? jsonData : JSON.parse(jsonData);
+
+        var requirementName = data.requirement[0][0].requirement_name;
+        var description = data.requirement[0][0].description;
+        var requirementTypeName = data.requirement[0][0].requirement_type_name;
+
+        $('#modalDetailsRequirement .modal-title').text(requirementName + ' Details');
+        $('#modalDetailsRequirement #requirement-title').val(requirementName).prop('readonly', true);
+        $('#modalDetailsRequirement #requirement-type').val(requirementTypeName).prop('readonly', true);
+        $('#modalDetailsRequirement #description').val(description).prop('readonly', true);
+        $('#modalDetailsRequirement').modal('show');
+    } catch (e) {
+        // Handle parsing error
+        console.error('Error parsing JSON:', e);
+        // Optionally, alert or log the error
+        alert('Error parsing JSON data.');
+    }
+}
+
+// Function to show toast
+function showToast(title, message, className) {
+    const toastContainer = document.getElementById('toastContainer');
+    const toastElement = document.createElement('div');
+    toastElement.className = `toast align-items-center text-white ${className} border-0`;
+    toastElement.role = 'alert';
+    toastElement.ariaLive = 'assertive';
+    toastElement.ariaAtomic = 'true';
+
+    toastElement.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">
+                <strong>${title}</strong>: ${message}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    `;
+
+    toastContainer.appendChild(toastElement);
+
+    const bsToast = new bootstrap.Toast(toastElement);
+    bsToast.show();
+
+    toastElement.addEventListener('hidden.bs.toast', () => {
+        toastElement.remove();
+    });
+}
+
+// Function to show success toast
+function showSuccessToast(message) {
+    showToast('Success', message, 'bg-success');
+}
+
+// Function to show error toast
+function showErrorToast(message) {
+    showToast('Error', message, 'bg-danger');
+}
+
+$(document).ready(function () {
+    // Function to check and show stored toast messages
+    function checkStoredToasts() {
+        if (localStorage.getItem('successToast')) {
+            showSuccessToast(localStorage.getItem('successToast'));
+            localStorage.removeItem('successToast');
+        }
+        if (localStorage.getItem('errorToast')) {
+            showErrorToast(localStorage.getItem('errorToast'));
+            localStorage.removeItem('errorToast');
+        }
+    }
+
+    // Check for stored toasts when page loads
+    checkStoredToasts();
+
     // Click event for 'eye' icon
     $('i.fa-eye').click(function () {
         var requirementCode = $(this).data('requirement-code');
@@ -24,44 +99,21 @@ $('document').ready(function () {
             method: 'DELETE',
             success: function (response) {
                 if (response.success) {
-                    console.log('Requirement deleted successfully');
+                    localStorage.setItem('successToast', 'Requirement deleted successfully');
+                    location.reload(); // Reload the page on success
                 } else {
-                    console.error('Error deleting requirement:', response.error);
+                    localStorage.setItem('errorToast', 'Error deleting requirement: ' + response.error);
+                    location.reload(); // Reload the page on error
                 }
-                // Reload the page
-                location.reload();
             },
             error: function (error) {
                 console.error('Error deleting requirement:', error);
+                localStorage.setItem('errorToast', 'Error deleting requirement: ' + error.responseText);
+                location.reload(); // Reload the page on error
             }
         });
     });
-});
 
-function renderRequirementDetails(jsonData) {
-    try {
-        // Check if jsonData is already an object
-        var data = typeof jsonData === 'object' ? jsonData : JSON.parse(jsonData);
-
-        var requirementName = data.requirement[0][0].requirement_name;
-        var description = data.requirement[0][0].description;
-        var requirementTypeName = data.requirement[0][0].requirement_type_name;
-
-        $('#modalDetailsRequirement .modal-title').text(requirementName + ' Details');
-        $('#modalDetailsRequirement #requirement-title').val(requirementName).prop('readonly', true);
-        $('#modalDetailsRequirement #requirement-type').val(requirementTypeName).prop('readonly', true);
-        $('#modalDetailsRequirement #description').val(description).prop('readonly', true);
-        $('#modalDetailsRequirement').modal('show');
-    } catch (e) {
-        // Handle parsing error
-        console.error('Error parsing JSON:', e);
-        // Optionally, alert or log the error
-        alert('Error parsing JSON data.');
-    }
-}
-
-
-$('document').ready(function () {
     // Handle the click event on the edit button
     let requirementCode = '';
 
@@ -100,17 +152,17 @@ $('document').ready(function () {
             data: JSON.stringify(requirementData),
             success: function (response) {
                 $('#modalEditRequirement').modal('hide');
-                location.reload()
+                localStorage.setItem('successToast', 'Requirement edited successfully');
+                location.reload(); // Reload the page on success
             },
             error: function (error) {
-                console.log(error);
+                console.error('Error editing requirement:', error);
+                localStorage.setItem('errorToast', 'Error editing requirement: ' + error.responseText);
+                location.reload(); // Reload the page on error
             }
         });
     });
-});
 
-
-$(document).ready(function () {
     // Function to load requirement types
     function loadRequirementTypes() {
         $.ajax({
@@ -145,16 +197,11 @@ $(document).ready(function () {
         var typeId = $('#requirement-type-selection').val();
         var description = $('#add-description').val();
 
-        console.log('Title:', title);
-        console.log('Type ID:', typeId);
-        console.log('Description:', description);
-
         if (!title) {
             $('#alertMessageRequirementTitle').text('Please enter Requirement Title').show();
             return;
         }
 
-        // localhost:3000/project/1/requirement, i want to get the 1 by splitting the URL and get the second last element
         var urlParts = window.location.href.split('/');
         var projectId = urlParts[urlParts.length - 2];
 
@@ -169,16 +216,17 @@ $(document).ready(function () {
             },
             success: function (response) {
                 $('#modalAddRequirement').modal('hide');
+                localStorage.setItem('successToast', 'Requirement added successfully');
+                location.reload(); // Reload the page on success
             },
             error: function (error) {
-                console.log('Error saving requirement:', error);
+                console.error('Error saving requirement:', error);
+                localStorage.setItem('errorToast', 'Error saving requirement: ' + error.responseText);
+                location.reload(); // Reload the page on error
             }
         });
     });
-});
 
-// Wait for the DOM to be fully loaded
-$(document).ready(function() {
     // When the 'Save' button inside the modal is clicked
     $('#modalAddRequirementType').on('click', '.btn-primary', function() {
         var requirementTypeName = $('#requirement-type').val().trim();
@@ -205,17 +253,18 @@ $(document).ready(function() {
                 if (response.success) {
                     // Close the modal
                     $('#modalAddRequirementType').modal('hide');
-                    // Reload the page
-                    location.reload();
+                    localStorage.setItem('successToast', 'Requirement type added successfully');
+                    location.reload(); // Reload the page on success
                 } else {
                     console.error('Error adding requirement type:', response.error);
+                    localStorage.setItem('errorToast', 'Error adding requirement type: ' + response.error);
                 }
             },
             error: function(xhr, status, error) {
                 console.error('Error adding requirement type:', error);
-                // Handle error (show error message, etc.)
+                localStorage.setItem('errorToast', 'Error adding requirement type: ' + error.responseText);
+                location.reload(); // Reload the page on error
             }
         });
     });
 });
-

@@ -73,6 +73,16 @@ const checkPermissions = async (req, res, next) => {
                     canExport: role === 1,
                 };
                 break;
+            case `/release`:
+                res.locals.permissions = {
+                    canView: true,
+                    canAdd: role === 1,
+                    canEdit: role === 1,
+                    canDelete: role === 1,
+                    canImport: role === 1,
+                    canExport: role === 1,
+                };
+                break;
             // Các trường hợp khác có thể được thêm vào cho các đường dẫn khác
             default:
                 res.locals.permissions = {
@@ -115,7 +125,7 @@ router.put("/:id/testcase/editTestCaseLinking", controller.test_caseController.e
 router.put("/:id/testcase/editTestCaseRequirementLinking", controller.test_caseController.editTestCaseLinkingRequirement);
 
 //MODULE
-router.get("/:id/module", controller.moduleController.getModule);
+router.get("/:id/module", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.moduleController.getModule);
 router.get("/:id/module/getModule", controller.moduleController.getAllModule);
 router.post("/:id/module/addModule", controller.moduleController.addModule);
 
@@ -131,7 +141,7 @@ router.get("/:id/requirement/getRequirementType", controller.requirementControll
 router.post("/:id/requirement/addRequirementType", controller.requirementController.addRequirementType);
 
 //RELEASE
-router.get("/:id/release", controller.releaseController.getRelease);
+router.get("/:id/release", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.releaseController.getRelease);
 router.post("/:id/release/addRelease", controller.releaseController.addRelease);
 router.put("/:id/release/editRelease", controller.releaseController.editRelease);
 router.delete("/:id/release/deleteRelease", controller.releaseController.deleteRelease);

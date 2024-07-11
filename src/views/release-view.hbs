@@ -18,8 +18,10 @@
             <!-- Header of card -->
             <div class="card-header bg-white border-0 align-items-center">
                 <div class="row">
-                    <div class="col-sm-4">
-                        <h3 class="card-title" id="releaseStatus">All releases</h3>
+                    <div class="col-sm-4">              
+                        <a onclick="addReleaseCards('all')" style="cursor: pointer;">
+                            <h3 class="card-title" id="releaseStatus">All Releases</h3>
+                        </a>
                     </div>
                     <div class="col-sm-8 d-flex justify-content-end">
                         <div class="releases">
@@ -159,15 +161,19 @@
 
     {{/block}}
 
+
     {{!-- Page's Functionality Button --}}
     {{#block "additional-button"}}
-    <div class="text-right">
-        <button type="button" class="btn btn-light-green me-2" data-bs-toggle="modal" data-bs-target="#modalAddRelease">
-            <i class="fas fa-plus-circle"></i>  
-            Add Release
-        </button>
-    </div>
+        {{#if res.locals.permissions.canAdd}}
+        <div class="text-right">
+            <button type="button" class="btn btn-light-green me-2" data-bs-toggle="modal" data-bs-target="#modalAddRelease">
+                <i class="fas fa-plus-circle"></i>  
+                Add Release
+            </button>
+        </div>
+        {{/if}}
     {{/block}}
+
 
     {{!-- Additional Scripts + CSS --}}
     {{#block "script"}}
@@ -210,6 +216,9 @@
                     break;
                 case "completed":
                     releasesClone = releases.filter(release => release.release_status === 'completed');
+                    break;
+                case "all":
+                    releasesClone = releases;
                     break;
                 default:
                     releasesClone = releases;
@@ -284,15 +293,21 @@
                         aria-valuemax="100"></div>
                 </div>
             </div>
-            <div class="col d-flex justify-content-end mt-2">
-                <button class="btn edit-release-btn" data-release-id="${release.release_id}" data-toggle="modal" data-target="#modalEditRelease">
-                    <i class="fas fa-edit"></i> Edit
-                </button>
-                <button class="btn delete-release-btn" data-release-id="${release.release_id}">
-                    <i class="fas fa-trash"></i> Delete
-                </button>
-            </div>
             `;
+
+            // if permissions.canEdit is true, show the edit button
+            if ({{permissions.canEdit}} && {{permissions.canDelete}}) {
+                cardText.innerHTML += `
+                <div class="col d-flex justify-content-end mt-2">
+                    <button class="btn edit-release-btn" data-release-id="${release.release_id}" data-toggle="modal" data-target="#modalEditRelease">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button class="btn delete-release-btn" data-release-id="${release.release_id}">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </div>
+                `;
+            }
 
             // Thêm các phần tử vào trong nhau theo cấu trúc của card
             cardBody.appendChild(cardTitle);
@@ -378,6 +393,7 @@
                     if (data.success) {
                         location.reload(); // Reload the page after successful addition (or update UI as needed)
                     } else {
+                        alert(data.error); // Display error message if addition fails
                         document.getElementById('alertMessageReleaseNameInput').textContent = data.message; // Display error message if failed
                         document.getElementById('alertMessageReleaseNameInput').style.display = 'block';
                     }
@@ -430,6 +446,7 @@
                 if (data.success) {
                     location.reload(); // Reload the page after successful update
                 } else {
+                    alert(data.error); // Display error message if update fails
                     document.getElementById('alertMessageReleaseNameInput').textContent = data.message; // Display error message if failed
                     document.getElementById('alertMessageReleaseNameInput').style.display = 'block';
                 }
@@ -473,7 +490,7 @@
                 if (data.success) {
                     location.reload(); // Reload the page after successful deletion
                 } else {
-                    alert(data.message); // Display error message if deletion fails
+                    alert(data.error); // Display error message if deletion fails
                 }
             })
             .catch(error => {

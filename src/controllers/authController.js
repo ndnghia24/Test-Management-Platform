@@ -119,6 +119,26 @@ const authController = {
       const name = req.body.name;
       const email = req.body.email;
       const password = req.body.password;
+
+      // Kiểm tra định dạng input
+      // Name không quá 100 ký tự
+      // Email phải có định dạng email
+      // Password phải có ít nhất 6 ký tự
+      if (name.length > 100) {
+        await t.rollback();
+        return res.status(400).json({ message: "Name is too long" });
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+          await t.rollback();
+          return res.status(400).json({ message: "Invalid email" });
+      }
+
+      if (password.length < 6) {
+        await t.rollback();
+        return res.status(400).json({ message: "Password is too short" });
+      }
       
       // Check if the email already exists
       const [existingUser] = await db.sequelize.query(
@@ -161,6 +181,7 @@ const authController = {
   loginUser: async (req, res) => {
     try {
       console.log("Current refresh tokens: ", refreshTokens);
+
       // Find user in DB with sequelize
       const [user] = await db.sequelize.query(
         'SELECT * FROM users WHERE email = ?',
