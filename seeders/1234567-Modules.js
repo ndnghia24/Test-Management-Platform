@@ -9,21 +9,27 @@ module.exports = {
         name: 'Homepage',
         root_module_id: null,
         level: 1,
-        project_id: 1
+        project_id: 1,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         module_id: 2,
         name: 'TestCasePage',
         root_module_id: 1,
         level: 1,
-        project_id: 1
+        project_id: 1,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         module_id: 3,
         name: 'IssuePage',
         root_module_id: 2,
         level: 1,
-        project_id: 1
+        project_id: 1,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ], {});
   },

@@ -201,6 +201,11 @@ module.exports = {
       }
     ];
 
+    issues.forEach((item) => {
+      item.createdAt = Sequelize.literal("NOW()");
+      item.updatedAt = Sequelize.literal("NOW()");
+    });
+
     await queryInterface.bulkInsert('issues', issues, {});
   },
 

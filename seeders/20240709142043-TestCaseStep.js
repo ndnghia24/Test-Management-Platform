@@ -96,6 +96,11 @@ module.exports = {
       { testcase_step_id: 90, testcase_id: 30, description: 'Complete password reset process', expected_result: 'Password is reset' }
     ];
 
+    testCaseSteps.forEach((item) => {
+      item.createdAt = Sequelize.literal("NOW()");
+      item.updatedAt = Sequelize.literal("NOW()");
+    });
+
     await queryInterface.bulkInsert('test_case_step', testCaseSteps, {});
   },
 
