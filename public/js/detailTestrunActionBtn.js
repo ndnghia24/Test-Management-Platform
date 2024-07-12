@@ -41,6 +41,10 @@ function onSaveIssueClick() {
             contentType: 'application/json',
             success: function (response) {
                 console.log(response);
+                setTimeout(() => {
+                    window.location.href = window.location.pathname;
+                });
+                showRightBelowToast('Issue added successfully');
             }
         });
         

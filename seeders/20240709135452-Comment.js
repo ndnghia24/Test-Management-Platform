@@ -36,6 +36,12 @@ module.exports = {
       { comment_id: 30, issue_id: 15, user_id: 1, content: 'Message delays are unacceptable.', created_date: '2024-05-16 08:55:00' }
     ];
 
+    comments.forEach((item) => {
+      item.createdAt = Sequelize.literal("NOW()");
+      item.updatedAt = Sequelize.literal("NOW()");
+    });
+
+
     await queryInterface.bulkInsert('comment', comments, {});
   },
 

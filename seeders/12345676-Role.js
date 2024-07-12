@@ -7,17 +7,23 @@ module.exports = {
       {
         role_id: 1,
         role: 'Manager',
-        description: 'Do all thing'
+        description: 'Do all thing',
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         role_id: 2,
         role: 'Tester',
-        description: 'Do some thing'
+        description: 'Do some thing',
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         role_id: 3,
         role: 'Developer',
-        description: 'Only view and comment'
+        description: 'Only view and comment',
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ], {});
   },

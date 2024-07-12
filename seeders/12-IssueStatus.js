@@ -17,6 +17,11 @@ module.exports = {
       { issue_status_id: 11, status: 'Duplicate' }
     ];
 
+    issueStatuses.forEach((item) => {
+      item.createdAt = Sequelize.literal("NOW()");
+      item.updatedAt = Sequelize.literal("NOW()");
+    });
+
     await queryInterface.bulkInsert('issue_status', issueStatuses, {});
   },
 

@@ -43,12 +43,17 @@ function onSaveButtonClick() {
             data: JSON.stringify(data),
             contentType: "application/json",
             success: function (response) {
-                console.log(response);
+                setTimeout(() => {
+                    window.location.href = window.location.pathname;
+                }, 1500);
                 showRightBelowToast("Test run added successfully");
-                window.location.href = window.location.pathname;
             },
             error: function (err) {
-                console.log(err);
+                if (err.responseJSON.error.name === "SequelizeUniqueConstraintError") {
+                    showRightBelowToast("Test run name already exists");
+                } else if (err.responseJSON.error.name === "SequelizeDatabaseError") {
+                    showRightBelowToast("Test run name too long (max 255 characters)");
+                }
             }
         }); 
 
@@ -57,7 +62,7 @@ function onSaveButtonClick() {
 }
 
 function onNextStepClick() {
-    if (document.getElementById("test-run-name").value === "") {
+    if (document.getElementById("test-run-name").value.trim() === "") {
         $('#test-run-name').focus();
         $('#test-run-name').closest('div').find('p').remove();
         $('#test-run-name').closest('div').append('<p style = "color:red;">Test run name is required</p>');

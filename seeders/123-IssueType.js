@@ -13,6 +13,11 @@ module.exports = {
       { issue_type_id: 7, type: 'Server Error' }
     ];
 
+    issueTypes.forEach((item) => {
+      item.createdAt = Sequelize.literal("NOW()");
+      item.updatedAt = Sequelize.literal("NOW()");
+    });
+
     await queryInterface.bulkInsert('issue_type', issueTypes, {});
   },
 

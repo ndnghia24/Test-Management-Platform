@@ -35,8 +35,12 @@ function onSaveButtonClick() {
                     showRightBelowToast("Test Plan added successfully");
                 }
             },
-            error: function (data) {
-                showRightBelowToast("Error adding Test Plan");
+            error: function (err) {
+                if (err.responseJSON.error.name === "SequelizeUniqueConstraintError") {
+                    showRightBelowToast("Test plan name already exists");
+                } else if (err.responseJSON.error.name === "SequelizeDatabaseError") {
+                    showRightBelowToast("Test plan name too long (max 255 characters)");
+                }
             },
         });
 

@@ -4,6 +4,7 @@ $('document').ready(function () {
     const showOption = searchParams.get('showOption');
     const sortOption = searchParams.get('sortOption');
 
+
     if (showOption) {
         $('select[name="show"]').val(showOption);
     }
@@ -91,7 +92,7 @@ $('document').ready(function () {
 
         // Testcae name cannot be empty
 
-        if (testcaseName === '') {
+        if (testcaseName.trim() === '') {
             showRightBelowToast('Test Case name cannot be empty');
             return;
         }
@@ -279,9 +280,13 @@ function renderTestCaseDetailsForEdit(data) {
     });
 
     $('#edit-testcase-linking-modal').find('.test-case-list').find('input').prop('checked', false);
-    $('#edit-testcase-linking-modal').find('.test-case-list').find('tr').show();
+    $('#edit-testcase-linking-modal').find('.test-case-list').find('tr').each(function () {
+        $(this).show();
+    });
     $('#edit-requirement-linking-modal').find('.requirement-list').find('input').prop('checked', false);
-    $('#edit-requirement-linking-modal').find('.requirement-list').find('trs').show();
+    $('#edit-requirement-linking-modal').find('.requirement-list').find('tr').each(function () {
+        $(this).show();
+    });
     modal.modal('show');
 }
 
@@ -308,10 +313,12 @@ $('document').ready(function () {
 // Add test case to linking list
 $('document').ready(function () {
     $('.test-case-linking-add-testcase').click(function () {
-        const existedTestcase = $('.test-case-linking-testcases-body-table').find('tr');
+        let existedTestcase = $('#edit-test-case .test-case-linking-testcases-body-table').find('tr');
+        console.log('existed: ',existedTestcase);
         const existedTestcaseCode = existedTestcase.map(function () {
             return $(this).find('td').eq(0).text();
         }).get();
+        existedTestcaseCode.push($('#edit-test-case')[0].dataset.testcaseId);
 
         const e = $('#edit-testcase-linking-modal').find('.test-case-list').find('tr').filter(function () {
             return existedTestcaseCode.includes($(this).find('td').eq(1).text());
@@ -383,7 +390,7 @@ $('document').ready(function () {
 // Add requirement to linking list
 $('document').ready(function () {
     $('.test-case-linking-add-requirement').click(function () {
-        const existedRequirement = $('.test-case-linking-requirements-body-table').find('tr');
+        const existedRequirement = $('#edit-test-case test-case-linking-requirements-body-table').find('tr');
         const existedRequirementCode = existedRequirement.map(function () {
             return $(this).find('td').eq(0).text();
         }).get();
