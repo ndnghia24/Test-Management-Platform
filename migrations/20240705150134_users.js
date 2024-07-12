@@ -688,6 +688,7 @@ const migrationCommands = (transaction) => [
           type: Sequelize.STRING(255),
           field: "testrun_title",
           allowNull: false,
+          unique: true,
         },
         testrun_status: {
           type: Sequelize.STRING(255),

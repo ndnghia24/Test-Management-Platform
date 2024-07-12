@@ -25,7 +25,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     testrun_title: {
       type: DataTypes.STRING(255),
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     testrun_status: {
       type: DataTypes.STRING(255),

@@ -55,7 +55,7 @@ $('document').ready(function() {
 
         // Test run name cannot be empty
 
-        if (testRun.testrun_title === '') {
+        if (testRun.testrun_title.trim() === '') {
             showRightBelowToast('Test run name cannot be empty');
             return;
         }

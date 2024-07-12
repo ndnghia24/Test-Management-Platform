@@ -14,25 +14,44 @@ controller.getTestPlan = async (req, res) => {
         // Fetch data
         const project_id = req.params.id;
 
+        const releaseCondition = release ? 'AND r.release_id = ?' : '';
+
+        const testPlansQuery =  
+        'SELECT t.testplan_id AS code, t.name AS name, t.description, r.name AS release, r.release_id AS release_id ' +
+        'FROM test_plans AS t, releases AS r ' +
+        'WHERE t.release = r.release_id ' +
+        'AND t.project_id = ? ' +
+        releaseCondition + ' ' +
+        'ORDER BY t.testplan_id ' +
+        'LIMIT ? OFFSET ?';
+
+        const countQuery =
+        'SELECT COUNT(*) AS count ' +
+        'FROM test_plans AS t, releases AS r ' +
+        'WHERE t.project_id = ? ' +
+        'AND t.release = r.release_id ' +
+        releaseCondition;
+
+        const replacements = [project_id];
+
+        if (release) {
+            replacements.push(release);
+        }
+
+        replacements.push(limit, offset);
+    
         const [testPlans, count, releases] = await Promise.all([
             db.sequelize.query(
-                'SELECT t.testplan_id AS code, t.name AS name, t.description, r.name AS release, r.release_id AS release_id ' +
-                'FROM test_plans AS t, releases AS r ' +
-                'WHERE t.release = r.release_id ' +
-                'AND t.project_id = ? ' +
-                'ORDER BY t.testplan_id ' +
-                'LIMIT ? OFFSET ?',
+                testPlansQuery,
                 {
-                    replacements: [project_id, limit, offset],
+                    replacements: replacements,
                     type: db.sequelize.QueryTypes.SELECT
                 }
             ),
             db.sequelize.query(
-                'SELECT COUNT(*) AS count ' +
-                'FROM test_plans ' +
-                'WHERE project_id = ?',
+                countQuery,
                 {
-                    replacements: [project_id],
+                    replacements: replacements.slice(0, -2),
                     type: db.sequelize.QueryTypes.SELECT
                 }
             ),
@@ -51,23 +70,31 @@ controller.getTestPlan = async (req, res) => {
         if (release)
             release = release.trim();
 
-        res.locals.testPlans = testPlans.filter(testPlan => {
-            if (release) {
-                return testPlan.release.trim() == release;
-            }
-            return true;
-        });
+        // res.locals.testPlans = testPlans.filter(testPlan => {
+        //     if (release) {
+        //         return testPlan.release.trim() == release;
+        //     }
+        //     return true;
+        // });
         res.locals.releases = releases;
+
+        console.log('Test Plans:', testPlans);
+        console.log('Releases:', releases);
+        console.log('Count:', count);
 
         res.render('test-plan-view', {
             title: 'Test Plans',
+            testPlans: testPlans,
             cssFile: 'test-plan-view.css',
             projectId: project_id,
             pagination: {
                 page: page,
                 limit: limit,
-                totalRows: count[0].count
-            }
+                totalRows: count[0].count,
+                queryParams: {
+                    release: release
+                }
+            },
         });
     } catch (error) {
         console.error('Error fetching data:', error);
