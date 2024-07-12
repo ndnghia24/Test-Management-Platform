@@ -103,7 +103,7 @@ controller.getTestRun = async (req, res) => {
             pagination: {
                 page: page,
                 limit: limit,
-                totalRows: count
+                totalRows: count[0].count,
             }
         });
     } catch (error) {
