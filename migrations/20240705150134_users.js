@@ -1169,328 +1169,328 @@ const migrationCommands = (transaction) => [
       { transaction },
     ],
   },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "comment",
-  //     [{ name: "comment_id" }],
-  //     {
-  //       indexName: "comment_pkey",
-  //       name: "comment_pkey",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "issue_priority",
-  //     [{ name: "issue_priority_id" }],
-  //     {
-  //       indexName: "issue_priority_pkey",
-  //       name: "issue_priority_pkey",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "issue_status",
-  //     [{ name: "issue_status_id" }],
-  //     {
-  //       indexName: "issue_status_pkey",
-  //       name: "issue_status_pkey",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "issue_type",
-  //     [{ name: "issue_type_id" }],
-  //     {
-  //       indexName: "issue_type_pkey",
-  //       name: "issue_type_pkey",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "issues",
-  //     [{ name: "issue_id" }],
-  //     {
-  //       indexName: "issues_pkey",
-  //       name: "issues_pkey",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "modules",
-  //     [{ name: "module_id" }],
-  //     {
-  //       indexName: "modules_pkey",
-  //       name: "modules_pkey",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "projects",
-  //     [{ name: "project_id" }],
-  //     {
-  //       indexName: "projects_pkey",
-  //       name: "projects_pkey",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "projects",
-  //     [{ name: "name" }],
-  //     {
-  //       indexName: "projects_name_key",
-  //       name: "projects_name_key",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "releases",
-  //     [{ name: "release_id" }],
-  //     {
-  //       indexName: "releases_pkey",
-  //       name: "releases_pkey",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "requirement_types",
-  //     [{ name: "requirement_type_id" }],
-  //     {
-  //       indexName: "requirement_types_pkey",
-  //       name: "requirement_types_pkey",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "requirements",
-  //     [{ name: "requirement_id" }],
-  //     {
-  //       indexName: "requirements_pkey",
-  //       name: "requirements_pkey",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "role",
-  //     [{ name: "role_id" }],
-  //     {
-  //       indexName: "role_pkey",
-  //       name: "role_pkey",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "test_case_linking",
-  //     [{ name: "testcase_id" }, { name: "linking_testcase_id" }],
-  //     {
-  //       indexName: "test_case_linking_pkey",
-  //       name: "test_case_linking_pkey",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "test_case_requirement",
-  //     [{ name: "testcase_id" }, { name: "requirement_id" }],
-  //     {
-  //       indexName: "test_case_requirement_pkey",
-  //       name: "test_case_requirement_pkey",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "test_case_step",
-  //     [{ name: "testcase_step_id" }],
-  //     {
-  //       indexName: "test_case_step_pkey",
-  //       name: "test_case_step_pkey",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "test_cases",
-  //     [{ name: "testcase_id" }],
-  //     {
-  //       indexName: "test_cases_pkey",
-  //       name: "test_cases_pkey",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "test_plans",
-  //     [{ name: "testplan_id" }],
-  //     {
-  //       indexName: "test_plans_pkey",
-  //       name: "test_plans_pkey",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "test_run_test_case_status",
-  //     [{ name: "status_id" }],
-  //     {
-  //       indexName: "test_run_status_pk",
-  //       name: "test_run_status_pk",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "test_runs",
-  //     [{ name: "testrun_id" }],
-  //     {
-  //       indexName: "test_runs_pkey",
-  //       name: "test_runs_pkey",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "testcase_testrun",
-  //     [{ name: "testcase_id" }, { name: "testrun_id" }],
-  //     {
-  //       indexName: "testcase_testrun_pkey",
-  //       name: "testcase_testrun_pkey",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "user_in_project",
-  //     [{ name: "user_id" }, { name: "project_id" }, { name: "role_id" }],
-  //     {
-  //       indexName: "user_in_project_user_id_project_id_role_id_key",
-  //       name: "user_in_project_user_id_project_id_role_id_key",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "user_in_project",
-  //     [{ name: "user_id" }, { name: "project_id" }],
-  //     {
-  //       indexName: "user_in_project_pk",
-  //       name: "user_in_project_pk",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
-  // {
-  //   fn: "addIndex",
-  //   params: [
-  //     "users",
-  //     [{ name: "user_id" }],
-  //     {
-  //       indexName: "users_pkey",
-  //       name: "users_pkey",
-  //       indicesType: "UNIQUE",
-  //       type: "UNIQUE",
-  //       transaction,
-  //     },
-  //   ],
-  // },
+  {
+    fn: "addIndex",
+    params: [
+      "comment",
+      [{ name: "comment_id" }],
+      {
+        indexName: "comment_pkey",
+        name: "comment_pkey",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "issue_priority",
+      [{ name: "issue_priority_id" }],
+      {
+        indexName: "issue_priority_pkey",
+        name: "issue_priority_pkey",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "issue_status",
+      [{ name: "issue_status_id" }],
+      {
+        indexName: "issue_status_pkey",
+        name: "issue_status_pkey",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "issue_type",
+      [{ name: "issue_type_id" }],
+      {
+        indexName: "issue_type_pkey",
+        name: "issue_type_pkey",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "issues",
+      [{ name: "issue_id" }],
+      {
+        indexName: "issues_pkey",
+        name: "issues_pkey",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "modules",
+      [{ name: "module_id" }],
+      {
+        indexName: "modules_pkey",
+        name: "modules_pkey",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "projects",
+      [{ name: "project_id" }],
+      {
+        indexName: "projects_pkey",
+        name: "projects_pkey",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "projects",
+      [{ name: "name" }],
+      {
+        indexName: "projects_name_key",
+        name: "projects_name_key",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "releases",
+      [{ name: "release_id" }],
+      {
+        indexName: "releases_pkey",
+        name: "releases_pkey",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "requirement_types",
+      [{ name: "requirement_type_id" }],
+      {
+        indexName: "requirement_types_pkey",
+        name: "requirement_types_pkey",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "requirements",
+      [{ name: "requirement_id" }],
+      {
+        indexName: "requirements_pkey",
+        name: "requirements_pkey",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "role",
+      [{ name: "role_id" }],
+      {
+        indexName: "role_pkey",
+        name: "role_pkey",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "test_case_linking",
+      [{ name: "testcase_id" }, { name: "linking_testcase_id" }],
+      {
+        indexName: "test_case_linking_pkey",
+        name: "test_case_linking_pkey",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "test_case_requirement",
+      [{ name: "testcase_id" }, { name: "requirement_id" }],
+      {
+        indexName: "test_case_requirement_pkey",
+        name: "test_case_requirement_pkey",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "test_case_step",
+      [{ name: "testcase_step_id" }],
+      {
+        indexName: "test_case_step_pkey",
+        name: "test_case_step_pkey",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "test_cases",
+      [{ name: "testcase_id" }],
+      {
+        indexName: "test_cases_pkey",
+        name: "test_cases_pkey",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "test_plans",
+      [{ name: "testplan_id" }],
+      {
+        indexName: "test_plans_pkey",
+        name: "test_plans_pkey",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "test_run_test_case_status",
+      [{ name: "status_id" }],
+      {
+        indexName: "test_run_status_pk",
+        name: "test_run_status_pk",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "test_runs",
+      [{ name: "testrun_id" }],
+      {
+        indexName: "test_runs_pkey",
+        name: "test_runs_pkey",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "testcase_testrun",
+      [{ name: "testcase_id" }, { name: "testrun_id" }],
+      {
+        indexName: "testcase_testrun_pkey",
+        name: "testcase_testrun_pkey",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "user_in_project",
+      [{ name: "user_id" }, { name: "project_id" }, { name: "role_id" }],
+      {
+        indexName: "user_in_project_user_id_project_id_role_id_key",
+        name: "user_in_project_user_id_project_id_role_id_key",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "user_in_project",
+      [{ name: "user_id" }, { name: "project_id" }],
+      {
+        indexName: "user_in_project_pk",
+        name: "user_in_project_pk",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
+  {
+    fn: "addIndex",
+    params: [
+      "users",
+      [{ name: "user_id" }],
+      {
+        indexName: "users_pkey",
+        name: "users_pkey",
+        indicesType: "UNIQUE",
+        type: "UNIQUE",
+        transaction,
+      },
+    ],
+  },
 ];
 
 const rollbackCommands = (transaction) => [
