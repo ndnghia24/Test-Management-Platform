@@ -124,8 +124,12 @@ function onModal4SaveClick() {
                 showRightBelowToast("Testcase added successfully");
             }
         },
-        error: function (data) {
-            showRightBelowToast("Error adding Testcase");
+        error: function (err) {
+            if (err.responseJSON.error.name === "SequelizeUniqueConstraintError") {
+                showRightBelowToast("Test case name already exists");
+            } else if (err.responseJSON.error.name === "SequelizeDatabaseError") {
+                showRightBelowToast("Test case name too long (max 255 characters)");
+            }
         },
     })
 

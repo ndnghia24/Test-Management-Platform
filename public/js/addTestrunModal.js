@@ -51,6 +51,8 @@ function onSaveButtonClick() {
             error: function (err) {
                 if (err.responseJSON.error.name === "SequelizeUniqueConstraintError") {
                     showRightBelowToast("Test run name already exists");
+                } else if (err.responseJSON.error.name === "SequelizeDatabaseError") {
+                    showRightBelowToast("Test run name too long (max 255 characters)");
                 }
             }
         }); 
