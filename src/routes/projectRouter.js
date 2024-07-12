@@ -49,7 +49,13 @@ const checkPermissions = async (req, res, next) => {
         // Lấy role của người dùng trong dự án
         const role = project[0].role_id;
         // Lấy đường dẫn hiện tại
-        const currentPage = "/" + req.path.split("/").pop();
+        const path = req.path.split('?')[0]; // Lấy đường dẫn hiện tại và loại bỏ phần query string nếu có
+        const pathParts = path.split('/'); // Tách đường dẫn thành các phần
+        const idIndex = pathParts.indexOf('project') + 3; // Tìm vị trí của phần 'project/:id' và bỏ qua
+        const remainingPath = pathParts.slice(idIndex).join('/'); // Ghép lại phần còn lại của đường dẫn
+        const currentPage = `/${remainingPath}`;
+        // console.log(currentPage);
+        // const currentPage = "/" + req.path.split("/").pop();
 
         // Thiết lập permissions dựa trên đường dẫn hiện tại
         switch (currentPage) {
@@ -83,6 +89,37 @@ const checkPermissions = async (req, res, next) => {
                     canExport: role === 1,
                 };
                 break;
+            case `/issues`:
+                res.locals.permissions = {
+                    canView: true,
+                    canAdd: role === 1 || role === 2,
+                    canEditPriority: role === 1 || role === 2,
+                    canEditDescription: role === 1 || role === 2,
+                    canDelete: role === 1 || role === 2,
+                    canExport: role === 1 || role === 2 || role === 3,
+                };
+                break;
+            case `/issues/editIssue`:
+                res.locals.permissions = {
+                    canView: true,
+                    canAdd: role === 1 || role === 2,
+                    canEditPriority: role === 1 || role === 2,
+                    canEditDescription: role === 1 || role === 2,
+                    canDelete: role === 1 || role === 2,
+                    canExport: role === 1 || role === 2 || role === 3,
+                };
+                break;
+            case `/issues/getIssue`:
+                res.locals.permissions = {
+                    canView: true,
+                    canAdd: role === 1 || role === 2,
+                    canEditPriority: role === 1 || role === 2,
+                    canEditDescription: role === 1 || role === 2,
+                    canDelete: role === 1 || role === 2,
+                    canExport: role === 1 || role === 2 || role === 3,
+                };
+                break;
+
             // Các trường hợp khác có thể được thêm vào cho các đường dẫn khác
             default:
                 res.locals.permissions = {
@@ -160,12 +197,12 @@ router.delete("/:id/testrun/:testrunId/deleteTestRun", controller.testrunControl
 router.get("/:id/testrun/:testrunId",controller.testrunController.getDetailTestRun); 
 router.post("/:id/testrun/:testrunId/addIssue",controller.testrunController.addIssue);
 
-//issue
-router.get("/:id/issues", controller.issuesController.getIssues);
-router.get("/:id/issues/getIssue", controller.issuesController.getSpecifyIssue);
-router.get("/:id/issues/editIssue", controller.issuesController.getEditIssue);
-router.put("/:id/issues/editIssue", controller.issuesController.editIssue);
-router.put("/:id/issues/createIssue", controller.issuesController.addIssue);
+//ISSUES
+router.get("/:id/issues", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.issuesController.getIssues);
+router.get("/:id/issues/getIssue", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.issuesController.getSpecifyIssue);
+router.get("/:id/issues/editIssue", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.issuesController.getEditIssue);
+router.put("/:id/issues/editIssue", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.issuesController.editIssue);
+router.put("/:id/issues/createIssue", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.issuesController.addIssue);
 
 // router.post("/:id/issues/addTestCase", controller.issuesController.addTestCase);
 // router.delete("/:id/issues/deleteTestCase", controller.issuesController.deleteTestCase);

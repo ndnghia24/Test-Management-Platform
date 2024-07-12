@@ -210,6 +210,7 @@ controller.getIssues = async (req, res) => {
         res.render('issue-view', {
             title: 'Issues',
             projectId: projectId,
+            permissions: res.locals.permissions,
             pagination: {
                 page: page,
                 limit: limit,
@@ -314,6 +315,15 @@ controller.getEditIssue = async (req, res) => {
             'SELECT status FROM issue_status', { type: db.sequelize.QueryTypes.SELECT, raw: true }
         );
 
+        let priority = [];
+        console.log('permissions', res.locals.permissions);
+        if (res.locals.permissions.canEditPriority){
+            priority = await db.sequelize.query(
+                'SELECT priority FROM issue_priority', { type: db.sequelize.QueryTypes.SELECT, raw: true }
+            );
+        }
+        
+
         //get comment of this issue
         const comments = await db.sequelize.query(
             'SELECT c.content as comment, c.created_date, u.name ' +
@@ -337,6 +347,12 @@ controller.getEditIssue = async (req, res) => {
             'Duplicate': 'color-brown'
         };
 
+        const priorityColorMap = {
+            'Low': 'color-deep-green',
+            'Medium': 'color-deep-sea',
+            'High': 'color-red',
+        };
+
         // console.log('testcase',testcase);
         // console.log('issue',issue);
 
@@ -346,12 +362,15 @@ controller.getEditIssue = async (req, res) => {
         res.locals.assigned_user = assigned_user[0];
         res.locals.status = status;
         res.locals.statusColorMap = statusColorMap;
+        res.locals.priority = priority;
+        res.locals.priorityColorMap = priorityColorMap;
         res.locals.comments = comments;
         // console.log('statusColorMap', statusColorMap);
 
 
         res.render('update-issue-view', {
             title: 'Update Issues',
+            permissions: res.locals.permissions,
             projectId: projectId
         });
     }
@@ -366,11 +385,37 @@ controller.editIssue = async (req, res) => {
 
     try {
         const issueId = req.query.issueId;
-        const { status, comment } = req.body;
+        const { status, comment , priority, description} = req.body;
         const status_id = await db.sequelize.query(
             'SELECT issue_status_id FROM issue_status WHERE status = ?',
             { replacements: [status], type: db.sequelize.QueryTypes.SELECT }
         );
+
+        if (res.locals.permissions.canEditPriority){
+            const priority_id = await db.sequelize.query(
+                'SELECT issue_priority_id FROM issue_priority WHERE priority = ?',
+                { replacements: [priority], type: db.sequelize.QueryTypes.SELECT }
+            );
+            await db.issues.update({
+                priority_id: priority_id[0].issue_priority_id
+            }, {
+                where: {
+                    issue_id: issueId,
+                    // project_id: project_id
+                }
+            }, { transaction: t });
+        }
+
+        if (res.locals.permissions.canEditDescription){
+            await db.issues.update({
+                description: description
+            }, {
+                where: {
+                    issue_id: issueId,
+                    // project_id: project_id
+                }
+            }, { transaction: t });
+        }
 
         await db.issues.update({
             status_id: status_id[0].issue_status_id
