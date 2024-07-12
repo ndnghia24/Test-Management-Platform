@@ -156,20 +156,11 @@
                 </div>
                 <div class="row mb-3 align-items-center">
                     <div class="col-6">
-                        <label for="status">Status:</label>
-                        <select name="status" class="form-control" aria-label="Default select example" id="status"
-                            disabled>
-                            <option value="1">New</option>
-                            <option value="2">Open</option>
-                            <option value="3">Assigned</option>
-                            <option value="4">Resolved</option>
-                            <option value="5">Retest</option>
-                            <option value="6">Verified</option>
-                            <option value="7">Reopened</option>
-                            <option value="8">Closed</option>
-                            <option value="9">Deferred</option>
-                            <option value="10">Rejected</option>
-                            <option value="11">Duplicate</option>
+                        <label for="status">Assign to:</label>
+                        <select name="assigned" class="form-control" aria-label="Default select example" id="assigned-to">
+                            {{#each users}}
+                            <option value="{{this.user_id}}">{{this.name}}</option>
+                            {{/each}}
                         </select>
                     </div>
                     <div class="col-6">
@@ -216,10 +207,10 @@
                 <div class="row mb-3 align-items-center">
                     <div class="col-6">
                         <label for="status">Status:</label>
-                        <select name="status" class="form-control" aria-label="Default select example" id="status">
-                            <option value="1">Passed</option>
-                            <option value="2">Failed</option>
-                            <option value="3">Blocked</option>
+                        <select name="status" class="form-control" aria-label="Default select example" id="result-status">
+                            <option value="3">Passed</option>
+                            <option value="4">Failed</option>
+                            <option value="2">Blocked</option>
                         </select>
                     </div>
                 </div>

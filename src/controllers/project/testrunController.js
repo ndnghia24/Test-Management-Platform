@@ -259,9 +259,16 @@ controller.getDetailTestRun = async (req, res) => {
             },
         }),
         db.issue_type.findAll({}),
+        db.sequelize.query(
+            'SELECT u.* ' +
+            'FROM users AS u, user_in_project AS up ' +
+            'WHERE u.user_id = up.user_id AND up.project_id = ?', {
+            replacements: [req.params.id],
+            type: db.sequelize.QueryTypes.SELECT
+        })
     );
 
-    let [testRun, allTestcase ,testcases, count, module, issue_type] = await Promise.all(promises);
+    let [testRun, allTestcase ,testcases, count, module, issue_type, users] = await Promise.all(promises);
 
     const newTestCase = allTestcase.filter(testcase => testcase.status_id == 1);
     const Blocked = allTestcase.filter(testcase => testcase.status_id == 2);
@@ -272,8 +279,8 @@ controller.getDetailTestRun = async (req, res) => {
         testcase.status = status_id[testcase.status_id];
     });
 
-    const testRunStatus = 1 - newTestCase.length / allTestcase.length;
-    const issues = (Blocked.length +  Fail.length) / allTestcase.length;
+    const testRunStatus = Math.round((1 - newTestCase.length / allTestcase.length) * 100);
+    const issues = Math.round((Blocked.length +  Fail.length) / allTestcase.length * 100);
 
     res.render('detail-test-run-view', {
         title: 'Test Run Detail',
@@ -285,6 +292,7 @@ controller.getDetailTestRun = async (req, res) => {
         modules: module,
         testRunStatus: testRunStatus,
         issueStatus: issues,
+        users: users,
         pagination: {
             page: isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page)),
             limit: limit,
@@ -297,7 +305,7 @@ controller.getDetailTestRun = async (req, res) => {
 controller.addIssue = async (req, res) => {
     const t = await db.sequelize.transaction();
     try {
-        const { issue_name, testcase_id, description, status, priority, issue_type } = req.body;
+        const { issue_name, testcase_id, description, status, priority, issue_type, assigned_to } = req.body;
         const testRunId = req.params.testrunId;
         const projectId = req.params.id;
 
@@ -306,6 +314,8 @@ controller.addIssue = async (req, res) => {
             { type: db.sequelize.QueryTypes.SELECT }
         );
         let new_issue_id = issue_id[0].issue_id + 1;
+
+        console.log(testRunId);
 
         await db.issues.create({
             issue_id: new_issue_id,
@@ -318,10 +328,23 @@ controller.addIssue = async (req, res) => {
             test_run_id: testRunId,
             project_id: projectId,
             created_by: 1,
+            assigned_to: assigned_to,
             created_at: new Date()
         }, {
             transaction: t
         });
+
+        await db.testcase_testrun.update({
+            status_id: 4
+        }, {
+            where: {
+                testrun_id: testRunId,
+                testcase_id: testcase_id
+            },
+            transaction: t
+        });
+
+
         await t.commit();
         res.send({ success: true });
     } catch (error) {
@@ -330,5 +353,31 @@ controller.addIssue = async (req, res) => {
         res.status(500).send({ success: false, error });
     }
 }
+
+controller.addResult = async (req, res) => {
+    const t = await db.sequelize.transaction();
+    try {
+        const { testcase_id, status } = req.body;
+        const testRunId = req.params.testrunId;
+
+        console.log(testcase_id, status);
+
+        await db.testcase_testrun.update({
+            status_id: status
+        }, {
+            where: {
+                testrun_id: testRunId,
+                testcase_id: testcase_id
+            },
+            transaction: t
+        });
+        await t.commit();
+        res.send({ success: true });
+    } catch (error) {
+        await t.rollback();
+        console.error('Error adding result:', error);
+        res.status(500).send({ success: false, error });
+    }
+};
 
 module.exports = controller;

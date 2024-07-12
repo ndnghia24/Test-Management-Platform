@@ -29,9 +29,10 @@ function onSaveIssueClick() {
             issue_name: $('#issue-name').val(),
             testcase_id: $('#modal1 .modal-scd-title').text().split(' - ')[1],
             description: $('#comment').val(),
-            status: $('#status').val(),
+            status: 1,
             priority: $('#priority').val(),
-            issue_type: $('#issue-type').val()
+            issue_type: $('#issue-type').val(),
+            assigned_to: $('#assigned-to').val(),
         };
 
         $.ajax({
@@ -43,7 +44,7 @@ function onSaveIssueClick() {
                 console.log(response);
                 setTimeout(() => {
                     window.location.href = window.location.pathname;
-                });
+                },1000);
                 showRightBelowToast('Issue added successfully');
             }
         });
@@ -58,29 +59,32 @@ function onSaveIssueClick() {
 }
 
 function onSaveResultClick() {
-    alert('Result is saved');
     const testcase_id = $('#modal2 .modal-scd-title').text().split(' - ')[1].trim();
+
+    console.log($('#result-status'));
 
     $.ajax({
         type: 'POST',
         url: window.location.pathname + '/addResult',
         data: JSON.stringify({
             testcase_id: testcase_id,
-            status: $('#status').val(),
+            status: $('#result-status').val(),
         }),
         contentType: 'application/json',
         success: function (response) {
-            if ($('#modal2 #status').val() === '2') {
-                alert('Please fill in the issue form to create a new issue');
+            if ($('#modal2 #result-status').val() === '4' || $('#modal2 #result-status').val() === '2'){
+                showRightBelowToast('Please fill in the issue form to create a new issue');
+                
+                $('#modal1').find('.modal-scd-title').text($('#modal2 .modal-scd-title').text());
+
                 $('#modal2').modal('hide');
                 $('#modal1').modal('show');
             } else {
-                $('#modal2').modal('hide');
+                setTimeout(() => {
+                    window.location.href = window.location.pathname;
+                });
+                showRightBelowToast('Result added successfully');
             }
-            setTimeout(() => {
-                window.location.href = window.location.pathname;
-            });
-            showRightBelowToast('Result added successfully');
         }
     });
 
