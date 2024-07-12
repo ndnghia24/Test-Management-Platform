@@ -180,6 +180,8 @@ router.delete("/:id/requirement/deleteRequirement", controller.requirementContro
 router.get("/:id/requirement/getRequirementType", controller.requirementController.getRequirementType);
 router.post("/:id/requirement/addRequirementType", controller.requirementController.addRequirementType);
 
+router.get("/:id/requirement/exportExcel", controller.requirementController.exportExcel);
+
 //RELEASE
 router.get("/:id/release", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.releaseController.getRelease);
 router.get("/:id/release/getRelease", controller.releaseController.getSpecifyRelease);

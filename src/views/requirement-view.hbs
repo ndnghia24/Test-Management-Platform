@@ -340,6 +340,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css" />
 <!-- JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 
 <script src="/js/addModuleModal.js"></script>
 <script src="/js/requirementActionBtn.js"></script>
@@ -448,7 +449,49 @@
         button.className = 'btn btn-export';
         button.setAttribute('type', 'button');
         button.innerHTML = '<i class="fas fa-upload"></i>   Export';
+        button.onclick = exportToExcel;
         document.querySelector('.actions-header').appendChild(button);
+    }
+
+    function exportToExcel() {
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    let jsonData = JSON.parse(xhr.responseText);
+                    jsonData = jsonData.requirements;
+                    
+                    // Tạo một Workbook mới
+                    const workbook = XLSX.utils.book_new();
+                    // Tạo một Worksheet mới từ dữ liệu JSON
+                    const worksheet = XLSX.utils.json_to_sheet(jsonData);
+                    // Thêm Worksheet vào Workbook
+                    XLSX.utils.book_append_sheet(workbook, worksheet, 'Exported Data');
+                    
+                    // Tạo file Excel (XLSX) từ Workbook
+                    const excelBuffer = XLSX.write(workbook, { type: 'array', bookType: 'xlsx' });
+                    const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                    const url = URL.createObjectURL(blob);
+
+                    // Tạo một thẻ <a> để tải xuống file
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'exported-data.xlsx';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+
+                    // Giải phóng bộ nhớ
+                    URL.revokeObjectURL(url);
+                } else {
+                    console.error('Error fetching data:', xhr.statusText);
+                }
+            }
+        };
+
+        xhr.open('GET', window.location.href + '/exportExcel', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send();
     }
 </script>
 
