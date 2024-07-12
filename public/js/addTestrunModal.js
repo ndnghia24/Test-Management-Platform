@@ -43,9 +43,10 @@ function onSaveButtonClick() {
             data: JSON.stringify(data),
             contentType: "application/json",
             success: function (response) {
-                console.log(response);
+                setTimeout(() => {
+                    window.location.href = window.location.pathname;
+                }, 1500);
                 showRightBelowToast("Test run added successfully");
-                window.location.href = window.location.pathname;
             },
             error: function (err) {
                 console.log(err);
