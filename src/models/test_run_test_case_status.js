@@ -9,6 +9,16 @@ module.exports = function(sequelize, DataTypes) {
     status_name: {
       type: DataTypes.STRING(255),
       allowNull: true
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.Sequelize.fn('now')
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.Sequelize.fn('now')
     }
   }, {
     sequelize,

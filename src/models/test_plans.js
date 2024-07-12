@@ -9,7 +9,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     name: {
       type: DataTypes.STRING(255),
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     description: {
       type: DataTypes.TEXT,
@@ -30,6 +31,16 @@ module.exports = function(sequelize, DataTypes) {
         model: 'projects',
         key: 'project_id'
       }
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.Sequelize.fn('now')
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.Sequelize.fn('now')
     }
   }, {
     sequelize,

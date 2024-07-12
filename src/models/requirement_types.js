@@ -26,6 +26,16 @@ module.exports = function(sequelize, DataTypes) {
         model: 'projects',
         key: 'project_id'
       }
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.Sequelize.fn('now')
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.Sequelize.fn('now')
     }
   }, {
     sequelize,

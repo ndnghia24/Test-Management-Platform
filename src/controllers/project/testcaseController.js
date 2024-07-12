@@ -13,19 +13,39 @@ controller.getTestCase = async (req,res) => {
     const showOption = isNaN(req.query.showOption) ? 1 : parseInt(req.query.showOption);
     const sortOption = isNaN(req.query.sortOption) ? 1 : parseInt(req.query.sortOption);
     const search = req.query.search;
+    const moduleId = req.query.moduleId;
     queryParameters = {};
 
     try {
         const projectId = req.params.id;
         const promises = [];
+        const replacements = [];
+        let whereCondition = 'project_id = ?';
+
+        replacements.push(projectId);
+
+        console.log(search);
+        console.log(moduleId);
+
+        queryParameters.showOption = showOption;
+        queryParameters.sortOption = sortOption; 
+
+        if (moduleId) {
+            whereCondition += ' AND module_id = ?';
+            replacements.push(moduleId);
+            queryParameters.moduleId = moduleId;
+        }
+
+        if (search) {
+            whereCondition += ' AND name LIKE ?';
+            replacements.push('%' + search + '%');
+            queryParameters.search = search;
+        }
 
         let order_by = 'testcase_id';
         switch (showOption) {
             case 2:
                 order_by = 'name';
-                break;
-            case 3:
-                order_by = 'module_id';
                 break;
             default:
         }
@@ -40,31 +60,21 @@ controller.getTestCase = async (req,res) => {
                 break;
         }
 
-        if (search) {
-            promises.push(
-                db.sequelize.query(
-                    'SELECT testcase_id, name FROM test_cases WHERE project_id = ? AND name LIKE ? ORDER BY ' + order_by + ' ' + order + ' LIMIT ? OFFSET ?',
-                    { replacements: [projectId, '%' + search + '%', limit, offset], type: db.sequelize.QueryTypes.SELECT}
-                ),
-                db.sequelize.query(
-                    'SELECT COUNT(*) AS count FROM test_cases WHERE project_id = ? AND name LIKE ?',
-                    { replacements: [projectId, '%' + search + '%'], type: db.sequelize.QueryTypes.SELECT}
-                ),
-            );
-            queryParameters = { showOption: showOption, sortOption: sortOption, search: search };
-        } else {
-            promises.push(
-                db.sequelize.query(
-                    'SELECT testcase_id, name FROM test_cases WHERE project_id = ? ORDER BY ' + order_by + ' ' + order + ' LIMIT ? OFFSET ?',
-                    { replacements: [projectId,limit,offset], type: db.sequelize.QueryTypes.SELECT}
-                ),
-                db.sequelize.query(
-                    'SELECT COUNT(*) AS count FROM test_cases WHERE project_id = ?',
-                    { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
-                ),
-            );
-            queryParameters = { showOption: showOption, sortOption: sortOption };
-        }
+        replacements.push(limit,offset);
+
+        const testcaseQuery = 'SELECT testcase_id, name FROM test_cases WHERE ' + whereCondition + ' ORDER BY ' + order_by + ' ' + order + ' LIMIT ? OFFSET ?';
+        const countTestcaseQuery = 'SELECT COUNT(*) AS count FROM test_cases WHERE ' + whereCondition;
+
+        promises.push(
+            db.sequelize.query(
+                testcaseQuery,
+                { replacements: replacements, type: db.sequelize.QueryTypes.SELECT}
+            ),
+            db.sequelize.query(
+                countTestcaseQuery,
+                { replacements: replacements.slice(0,-2), type: db.sequelize.QueryTypes.SELECT}
+            ),
+        );
 
         promises.push(
             db.sequelize.query(
@@ -78,12 +88,16 @@ controller.getTestCase = async (req,res) => {
             db.sequelize.query(
                 'SELECT name FROM requirement_types WHERE project_id = ?',
                 { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
+            ),
+            db.sequelize.query(
+                'SELECT * FROM test_cases WHERE project_id = ?',
+                { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
             )
         );
 
-        const [testCases, testcaseNum, modules, requirements, requirementTypes] = await Promise.all(promises);
+        const [testCases, testcaseNum, modules, requirements, requirementTypes, allTestCase] = await Promise.all(promises);
 
-        console.log('testCases',modules);
+        console.log('testCases',testCases);
 
         res.locals.requirements_type = requirementTypes;
         res.locals.requirements = requirements;
@@ -98,7 +112,8 @@ controller.getTestCase = async (req,res) => {
                 limit: limit,
                 totalRows: testcaseNum[0].count,
                 queryParams: queryParameters,
-            }
+            },
+            allTestcases: allTestCase,
         });
     } catch (error) {
         console.error('Error fetching data:', error);

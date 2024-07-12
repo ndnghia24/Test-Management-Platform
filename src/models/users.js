@@ -19,16 +19,25 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: false
     },
-    ava_link: {
+    avt_link: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.Sequelize.fn('now')
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.Sequelize.fn('now')
+    }
   }, {
     sequelize,
     tableName: 'users',
-    schema: 'auth',
-    timestamps: true,
-    paranoid: true,
+    schema: 'public',
+    timestamps: false,
     indexes: [
       {
         name: "users_pkey",

@@ -23,3 +23,5 @@ sequelize seed:generate --name Users
 
 Chạy để tạo dữ liệu mẫu
 sequelize db:seed:all
+
+ sequelize db:seed:undo:all

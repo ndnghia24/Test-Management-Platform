@@ -37,7 +37,7 @@ $(document).ready(function () {
 function onModal1NextClick() {
     var testcaseName = document.getElementById("testcase-name");
 
-    if (testcaseName.value === "") {
+    if (testcaseName.value.trim() === "") {
         $('#testcase-name').focus();
         $('#testcase-name').closest('div').find('p').remove();
         $("#testcase-name").closest("div").append('<p style="color: red;">Testcase Name is required</p>');
@@ -124,8 +124,12 @@ function onModal4SaveClick() {
                 showRightBelowToast("Testcase added successfully");
             }
         },
-        error: function (data) {
-            showRightBelowToast("Error adding Testcase");
+        error: function (err) {
+            if (err.responseJSON.error.name === "SequelizeUniqueConstraintError") {
+                showRightBelowToast("Test case name already exists");
+            } else if (err.responseJSON.error.name === "SequelizeDatabaseError") {
+                showRightBelowToast("Test case name too long (max 255 characters)");
+            }
         },
     })
 

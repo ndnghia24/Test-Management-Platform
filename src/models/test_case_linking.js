@@ -18,6 +18,16 @@ module.exports = function(sequelize, DataTypes) {
         model: 'test_cases',
         key: 'testcase_id'
       }
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.Sequelize.fn('now')
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.Sequelize.fn('now')
     }
   }, {
     sequelize,
