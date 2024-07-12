@@ -40,14 +40,6 @@
             </div>
             <div class="d-flex flex-column gap-3 modules-list px-4 py-3"
                 style="color: #232360; font-weight: 700; font-size: 1.1rem;">
-                {{!-- <div>
-                    <i class="bi bi-folder"></i>
-                    Modules 1
-                </div>
-                <div>
-                    <i class="bi bi-folder"></i>
-                    Modules 2
-                </div> --}}
                 {{#each modules}}
                 <div class="module" data-module-id="{{this.module_id}}">
                     <i class="bi bi-folder"></i>
@@ -62,6 +54,11 @@
             <div class="d-flex justify-content-between align-items-center p-3"
                 style="border-bottom: solid rgba(150,150,150,0.2) 1px; height: 80px;">
                 <p style="color:#232360; font-size: 1.2rem; padding: 0; margin: 0; font-weight: bold;">Testcases</p>
+                <button class="add-testcase-btn"
+                    style="background-color: #50DF89; padding: 10px; font-weight: 600; font-size: 1.2rem; border: none; border-radius: 10px;  color: #23235F;">
+                    <i class="bi bi-plus-circle"></i>
+                    <span class="btn-text"> Add Test Case </span>
+                </button>
                 <input type="text" class="form-control" id="search-input-title" placeholder="Search by Title"
                     style="color: #C4C4DA; font-weight: 600; width: 24%; background-color: #F1F1F1; border-radius: 5px; border:none; padding: 10px" />
             </div>
@@ -91,8 +88,6 @@
                 <div class="table-responsive" style="overflow-y: auto; padding: 0 3rem;">
                     <table class="table">
                         <thead class="fs-xl-5">
-                            {{!-- <th class="col-xl-1 col-md-1" style="opacity: 0;"><input type="checkbox"></input></th>
-                            --}}
                             <th class="col-xl-4 col-md-3 testcase-code">Testcase Code</th>
                             <th class="col-xl-4 col-md-4 testcase-name">Testcase Title</th>
                             <th class="col-xl-2 col-md-3 status">Status</th>
@@ -101,7 +96,6 @@
                         <tbody class="fs-xl-5">
                             {{#each testcases}}
                             <tr>
-                                {{!-- <td><input type="checkbox"></input></td> --}}
                                 <td class="testcase-code">{{this.testcase_id}}</td>
                                 <td class="testcase-name ellispe">{{this.name}}</td>
                                 <td class="status {{{formatClassName this.status}}}"> {{this.status}}</td>
@@ -157,7 +151,8 @@
                 <div class="row mb-3 align-items-center">
                     <div class="col-6">
                         <label for="status">Assign to:</label>
-                        <select name="assigned" class="form-control" aria-label="Default select example" id="assigned-to">
+                        <select name="assigned" class="form-control" aria-label="Default select example"
+                            id="assigned-to">
                             {{#each users}}
                             <option value="{{this.user_id}}">{{this.name}}</option>
                             {{/each}}
@@ -207,7 +202,8 @@
                 <div class="row mb-3 align-items-center">
                     <div class="col-6">
                         <label for="status">Status:</label>
-                        <select name="status" class="form-control" aria-label="Default select example" id="result-status">
+                        <select name="status" class="form-control" aria-label="Default select example"
+                            id="result-status">
                             <option value="3">Passed</option>
                             <option value="4">Failed</option>
                             <option value="2">Blocked</option>
@@ -234,6 +230,64 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="add-test-case" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content align-items-center"
+            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8; height: 60vh;">
+            <div class="modal-header" style="border-bottom: none; width: 100%;">
+                <p class="modal-title fs-3" id="modalTitleId" style="margin-left: auto; margin-right: auto;">
+                    Add New TestCase
+                </p>
+            </div>
+            <div class="modal-body d-flex flex-column" style="border-bottom: none; width: 100%; overflow-y: auto;">
+                <div class="row mb-3">
+                    <p style="color: #9C9C9C; font-weight: 600;">Add other testcases</p>
+                </div>
+                <div class="row mb-3 flex-grow-1">
+                    <div class="col-12"
+                        style="background-color: #FFFFFF; border-radius: 5%; position: relative;">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <th class="col-1" style="opacity: 0;"><input type="checkbox"></th>
+                                    <th class="col-2">Testcase Code</th>
+                                    <th class="col-9">Testcase Title</th>
+                                </thead>
+                                <tbody>
+                                    {{#each unAddedTestcases}}
+                                    <tr>
+                                        <td><input type="checkbox" class="testcase-checkbox"></td>
+                                        <td class="testcase-code">{{this.testcase_id}}</td>
+                                        <td class="testcase-name">{{this.name}}</td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="all-testcase-choose"
+                            style="position: absolute; top: 0; right: 0; transform: translateY(-100%);">
+                            <input type="checkbox" class="all-testcase-checkbox">
+                            <label for="all-testcase">Select all testcase</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer gap-4" style="border-top: none;">
+                <button type="button" class="btn btn-secondary close-button"
+                    style="background-color: #756f71; color: #FBE416; border: none; border-radius: 10px; padding: 10px 40px; font-weight: 600;">
+                    Close
+                </button>
+                <button type="button" class="btn btn-secondary save-button"
+                    style="background-color: #41D37E; color: #23235F; border: none; border-radius: 10px; padding: 10px 40px; font-weight: 600;">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{> delete-test-case-test-run-modal}}
 
 {{#block "script"}}
 <script src="/js/detailTestrunActionBtn.js"></script>

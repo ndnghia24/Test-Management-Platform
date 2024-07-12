@@ -16,6 +16,30 @@ $('document').ready(function () {
 
         $('#modal2').find('.modal-scd-title').text(testcaseName + ' - ' + testcaseCode);
     });
+
+    $('.delete-icon').click(function () {
+        $('#delete-test-case-modal').modal('show');
+        var testcase_id = $(this).closest('tr').find('.testcase-code').text();
+        var testrun_id = $(this).closest('tr').find('.testrun-id').text();
+
+        $('#delete-test-case-modal .delete-test-case-btn').click(function () {            
+            $.ajax({
+                type: 'DELETE',
+                url: window.location.pathname + '/deleteTestcase',
+                data: JSON.stringify({
+                    testcase_id: testcase_id,
+                    testrun_id: testrun_id,
+                }),
+                contentType: 'application/json',
+                success: function (response) {
+                    setTimeout(() => {
+                        window.location.href = window.location.pathname;
+                    }, 1000);
+                    showRightBelowToast('Testcase deleted successfully');
+                }
+            });
+        });
+    });
 });
 
 function onSaveIssueClick() {
@@ -122,5 +146,55 @@ $('document').ready(function () {
             curUrl.searchParams.set('search', $(this).val());
             window.location.href = curUrl.href;
         }
+    });
+});
+
+$('document').ready(function () {
+    $('.add-testcase-btn').on('click', function () {
+        $('#add-test-case').modal('show');
+    });
+
+    $('#add-test-case .close-button').on('click', function () {
+        $('#add-test-case').modal('hide');
+    });
+
+    $('.all-testcase-checkbox').change(function () {
+        if (this.checked) {
+            $('#add-test-case .testcase-checkbox').prop('checked', true);
+        } else {
+            $('#add-test-case .testcase-checkbox').prop('checked', false);
+        }
+    });
+
+    $('#add-test-case .save-button').on('click', function () {
+        let addTestCase = $('#add-test-case').find('.testcase-checkbox:checked');
+        
+        if (addTestCase.length === 0) {
+            showRightBelowToast('Please select at least 1 testcase');
+        }
+
+        console.log(addTestCase);
+
+        let data = [];
+
+        addTestCase.each(function (element) {
+            data.push($(this).closest('tr').find('.testcase-code').text());
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: window.location.pathname + '/addTestcase',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function (response) {
+                setTimeout(() => {
+                    window.location.href = window.location.pathname;
+                }, 1500);
+                showRightBelowToast('Testcases added successfully');
+            },
+            error: function (err) {
+                showRightBelowToast('Error adding testcases');
+            }
+        });
     });
 });

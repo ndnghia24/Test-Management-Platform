@@ -200,7 +200,7 @@ controller.getDetailTestRun = async (req, res) => {
     const order = req.query.order || 'ASC';
     const by = req.query.by || 'tc.testcase_id';
     const search = req.query.search;
-    const offset = limit * (isNaN(req.query.page) ? 0 : Math.max(1, parseInt(req.query.page) - 1));
+    const offset = limit * ((isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page))) - 1);
 
     let queryParams = {};
     let promises = [];
@@ -220,6 +220,9 @@ controller.getDetailTestRun = async (req, res) => {
         queryParams.search = search;
         countQuery += 'AND tc.name LIKE ? ';
     }
+
+    console.log(by, order);
+    console.log(limit, offset);
 
     testCaseQuery += `ORDER BY ${by} ${order} `;
 
@@ -270,6 +273,19 @@ controller.getDetailTestRun = async (req, res) => {
 
     let [testRun, allTestcase ,testcases, count, module, issue_type, users] = await Promise.all(promises);
 
+    const allProjectTestcase = await db.test_cases.findAll({
+        where: {
+            project_id: req.params.id
+        },
+        raw: true
+    });
+
+    const unAddedTestcase = allProjectTestcase.filter(testcase => {
+        return !allTestcase.find(t => t.testcase_id == testcase.testcase_id);
+    });
+
+    console.log(unAddedTestcase);
+
     const newTestCase = allTestcase.filter(testcase => testcase.status_id == 1);
     const Blocked = allTestcase.filter(testcase => testcase.status_id == 2);
     const Pass = allTestcase.filter(testcase => testcase.status_id == 3);
@@ -292,6 +308,7 @@ controller.getDetailTestRun = async (req, res) => {
         modules: module,
         testRunStatus: testRunStatus,
         issueStatus: issues,
+        unAddedTestcases: unAddedTestcase,
         users: users,
         pagination: {
             page: isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page)),
@@ -376,6 +393,48 @@ controller.addResult = async (req, res) => {
     } catch (error) {
         await t.rollback();
         console.error('Error adding result:', error);
+        res.status(500).send({ success: false, error });
+    }
+};
+
+controller.addTestcaseToTestRun = async (req, res) => {
+    const t = await db.sequelize.transaction();
+    try {
+        console.log(req.body);
+        const testcase_id  = req.body;
+        const testRunId = req.params.testrunId;
+
+        for (testcase of testcase_id) {
+            await db.testcase_testrun.create({
+                testrun_id: testRunId,
+                testcase_id: testcase
+            }, { transaction: t });
+        }
+
+        await t.commit();
+        res.send({ success: true });
+    } catch (error) {
+        await t.rollback();
+        console.error('Error adding testcase to test run:', error);
+        res.status(500).send({ success: false, error });
+    }
+};
+
+controller.deleteTestcaseFromTestRun = async (req, res) => {
+    try {
+        const testRunId = req.params.testrunId;
+        const testcaseId = req.body.testcase_id;
+
+        await db.testcase_testrun.destroy({
+            where: {
+                testrun_id: testRunId,
+                testcase_id: testcaseId
+            }
+        });
+
+        res.send({ success: true });
+    } catch (error) {
+        console.error('Error deleting testcase from test run:', error);
         res.status(500).send({ success: false, error });
     }
 };

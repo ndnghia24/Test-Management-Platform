@@ -199,6 +199,8 @@ router.delete("/:id/testrun/:testrunId/deleteTestRun", controller.testrunControl
 router.get("/:id/testrun/:testrunId",controller.testrunController.getDetailTestRun); 
 router.post("/:id/testrun/:testrunId/addIssue",controller.testrunController.addIssue);
 router.post("/:id/testrun/:testrunId/addResult",controller.testrunController.addResult);
+router.post("/:id/testrun/:testrunId/addTestcase",controller.testrunController.addTestcaseToTestRun);
+router.delete("/:id/testrun/:testrunId/deleteTestcase",controller.testrunController.deleteTestcaseFromTestRun);
 
 //ISSUES
 router.get("/:id/issues", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.issuesController.getIssues);
