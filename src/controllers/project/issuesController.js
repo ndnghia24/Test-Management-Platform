@@ -13,7 +13,7 @@ controller.getIssues = async (req, res) => {
 
         //get all issues of this project
         const all_issues = await db.sequelize.query(
-            'SELECT issue_id, title, description, priority_id, status_id, created_by, assigned_to FROM issues WHERE project_id = ? ORDER BY issue_id',
+            'SELECT issue_id, title, description, priority_id, status_id, created_date, created_by, assigned_to FROM issues WHERE project_id = ? ORDER BY issue_id',
             { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT }
         );
 
@@ -84,7 +84,7 @@ controller.getIssues = async (req, res) => {
 
         let query = `
         SELECT 
-            issue_id, title, description, priority_id, status_id, created_by, assigned_to 
+            issue_id, title, description, priority_id, status_id, created_date, created_by, assigned_to 
         FROM 
             issues 
         WHERE 
@@ -228,7 +228,7 @@ controller.getSpecifyIssue = async (req, res) => {
         const projectId = req.params.id;
         const issueId = req.query.issueId;
         const issue = await db.sequelize.query(
-            'SELECT i.title, i.issue_id, i.description, i.test_case_id, ip.priority, iss.status, it.type, i.created_by, i.assigned_to ' +
+            'SELECT i.title, i.issue_id, i.description, i.created_date, i.test_case_id, ip.priority, iss.status, it.type, i.created_by, i.assigned_to ' +
             'FROM issues AS i, issue_priority AS ip, issue_status AS iss, issue_type AS it ' +
             'WHERE issue_id = ? ' +
             'AND i.priority_id = ip.issue_priority_id AND i.status_id = iss.issue_status_id AND i.issue_type_id = it.issue_type_id',
@@ -271,6 +271,8 @@ controller.getSpecifyIssue = async (req, res) => {
         res.locals.assigned_user = assigned_user[0];
         res.locals.comments = comments;
 
+        console.log('issue', res.locals.issue);
+
         res.render('detail-issue-view', {
             projectId: projectId,
             title: 'Issues Detail'
@@ -287,7 +289,7 @@ controller.getEditIssue = async (req, res) => {
         const projectId = req.params.id;
         const issueId = req.query.issueId;
         const issue = await db.sequelize.query(
-            'SELECT i.title, i.issue_id, i.description, i.test_case_id, ip.priority, iss.status, it.type, i.created_by, i.assigned_to ' +
+            'SELECT i.title, i.issue_id, i.description, i.created_date, i.test_case_id, ip.priority, iss.status, it.type, i.created_by, i.assigned_to ' +
             'FROM issues AS i, issue_priority AS ip, issue_status AS iss, issue_type AS it ' +
             'WHERE issue_id = ? ' +
             'AND i.priority_id = ip.issue_priority_id AND i.status_id = iss.issue_status_id AND i.issue_type_id = it.issue_type_id',
