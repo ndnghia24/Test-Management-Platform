@@ -91,9 +91,7 @@ controller.getTestPlan = async (req, res) => {
                 page: page,
                 limit: limit,
                 totalRows: count[0].count,
-                queryParams: {
-                    release: release
-                }
+                queryParams: release ? { release: release } : {},
             },
         });
     } catch (error) {
