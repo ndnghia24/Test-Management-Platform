@@ -4,6 +4,7 @@ $('document').ready(function () {
     const showOption = searchParams.get('showOption');
     const sortOption = searchParams.get('sortOption');
 
+
     if (showOption) {
         $('select[name="show"]').val(showOption);
     }

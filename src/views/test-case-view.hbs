@@ -5,29 +5,38 @@
             style="border-bottom: solid rgba(150,150,150,0.2) 1px; height: 10%;  min-height: 65px;">
             <p style="color:#232360; font-size: 1.2rem; padding: 0; margin: 0; font-weight: bold;">
                 Modules</p>
-        </div>   
-     
-        <div class="d-flex flex-column gap-3 modules-list px-4 py-3" style="color: #232360; font-weight: 700; font-size: 1.1rem;">
-            {{#each modules}}
+        </div>
+
+        <script>
+            const modules = {{{ json modules }}};
+            console.log(modules);
+            const lv1_modules = modules.filter(module => module.level === 1);
+            const lv2_modules = modules.filter(module => module.level === 2);
+            const lv3_modules = modules.filter(module => module.level === 3);
+        </script>
+
+        <div class="d-flex flex-column gap-3 modules-list px-1 py-3"
+            style="color: #232360; font-weight: 700; font-size: 1.1rem;">
+            {{!-- {{#each modules}}
             {{#if (eq this.level 1)}}
-                <div>
-                    <i class="bi bi-folder"></i>
-                    {{this.name}}
-                </div>
+            <div>
+                <i class="bi bi-folder"></i>
+                {{this.name}}
+            </div>
             {{/if}}
             {{#if (eq this.level 2)}}
-                <div style="margin-left: 10px;">
-                    <i class="bi bi-folder"></i>
-                    {{this.name}}
-                </div>
+            <div style="margin-left: 10px;">
+                <i class="bi bi-folder"></i>
+                {{this.name}}
+            </div>
             {{/if}}
             {{#if (eq this.level 3)}}
-                <div style="margin-left: 20px;">
-                    <i class="bi bi-folder"></i>
-                    {{this.name}}
-                </div>
+            <div style="margin-left: 20px;">
+                <i class="bi bi-folder"></i>
+                {{this.name}}
+            </div>
             {{/if}}
-        {{/each}}
+            {{/each}} --}}
         </div>
     </div>
     <div class="col-1 offset-col"></div>
@@ -47,7 +56,6 @@
                 <select name="show" class="form-select feature" aria-label="Default select example">
                     <option value="1" selected>Testcase Code</option>
                     <option value="2">Testcase Title</option>
-                    <option value="3">Module</option>
                 </select>
             </div>
             <div class="top-right-testcase-list d-flex justify-content-between align-items-center gap-3">
@@ -136,4 +144,41 @@
 {{#block "script"}}
 <script src="/js/addTestcaseModal.js"></script>
 <script src="/js/testcaseActionBtn.js"></script>
+<script>
+    const modulesList = $(".modules-list");
+    
+    lv1_modules.forEach(module => {
+        const lv1_module_div = $(`<div class="module-choice hover-icon" data-module-id="${module.module_id}">
+            <i class="bi bi-folder"></i>
+            ${module.name}
+        </div>`);
+        modulesList.append(lv1_module_div);
+        const lv2_module = lv2_modules.filter(lv2_module => lv2_module.parent_id === module.id);
+        lv2_module.forEach(lv2_module => {
+            const lv2_module_div = $(`<div style="margin-left: 20px;" class="module-choice hover-icon" data-module-id="${lv2_module.module_id}">
+                <i class="bi bi-folder"></i>
+                ${lv2_module.name}
+            </div>`);
+            modulesList.append(lv2_module_div);
+            const lv3_module = lv3_modules.filter(lv3_module => lv3_module.parent_id === lv2_module.id);
+            lv3_module.forEach(lv3_module => {
+                const lv3_module_div = $(`<div style="margin-left: 40px;" class="module-choice hover-icon" data-module-id="${lv3_module.module_id}">
+                    <i class="bi bi-folder"></i>
+                    ${lv3_module.name}
+                </div>`);
+                modulesList.append(lv3_module_div);
+            });
+        });
+    });
+
+    $(".module-choice").click(function() {
+        const module_id = $(this).data("module-id");
+        console.log(module_id);
+        currentUrl = new URL(window.location);
+        currentUrl.searchParams.set("moduleId", module_id);
+        window.location.href = currentUrl.href;
+    });
+
+</script>
+
 {{/block}}
