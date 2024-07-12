@@ -296,7 +296,8 @@ saveAddUserButton.addEventListener('click', async function() {
         window.location.href = `/home`;
     } else {
         // Handle errors, if any
-        alert('You do not have permission to add user to this project');
+        alert('Failed to add the user');
+        let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('modal-add-user'));
         modal.hide();
         console.error('Failed to add the user');
     }
@@ -360,7 +361,10 @@ deleteProjectButton.addEventListener('click', async function() {
         alert('Project deleted successfully');
     } else {
         // Handle errors, if any
-        alert('You don not have permission to delete this project');
+        // get the error message from server
+
+        alert('Failed to delete the project');
+        let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('modal-delete-project'));
         modal.hide();
         console.error('Failed to delete the project');
     }

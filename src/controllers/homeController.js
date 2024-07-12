@@ -141,6 +141,23 @@ controller.deleteProject = async (req, res) => {
 controller.addUser = async (req, res) => {
   try {
     const { email, role, projectId } = req.body;
+    // Tìm dự án của người dùng dựa trên projectId
+    const project = await db.sequelize.query(
+        'SELECT * FROM user_in_project WHERE project_id = :projectId AND user_id = :userId',
+        {
+            replacements: { projectId: projectId, userId: res.locals.user_id},
+            type: QueryTypes.SELECT
+        }
+    );
+    //role của người dùng trong project này
+    const user_role = project[0].role_id;
+    //nếu role = 1 thì có quyền addUser (manager)
+    if (user_role != 1) {
+        res.status(403).send("Forbidden");
+        console.log("Forbidden");
+        return;
+    }
+
     const user = await db.users.findOne({
       where: {
         email: email,
