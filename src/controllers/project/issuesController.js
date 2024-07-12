@@ -254,11 +254,11 @@ controller.getSpecifyIssue = async (req, res) => {
 
         //get comment of this issue
         const comments = await db.sequelize.query(
-            'SELECT c.content as comment, c.created_date, u.name ' +
+            'SELECT c.content as comment, c."createdAt", u.name ' +
             'FROM comment as c, users as u ' +
             'WHERE c.issue_id = ? ' +
             'AND c.user_id = u.user_id ' +
-            'ORDER BY c.created_date DESC', { replacements: [issueId], type: db.sequelize.QueryTypes.SELECT, raw: true }
+            'ORDER BY c."createdAt"', { replacements: [issueId], type: db.sequelize.QueryTypes.SELECT, raw: true }
         );
         // console.log('comment', comments);
 
@@ -326,11 +326,11 @@ controller.getEditIssue = async (req, res) => {
 
         //get comment of this issue
         const comments = await db.sequelize.query(
-            'SELECT c.content as comment, c.created_date, u.name ' +
+            'SELECT c.content as comment, c."createdAt", u.name ' +
             'FROM comment as c, users as u ' +
             'WHERE c.issue_id = ? ' +
             'AND c.user_id = u.user_id ' +
-            'ORDER BY c.created_date DESC', { replacements: [issueId], type: db.sequelize.QueryTypes.SELECT, raw: true }
+            'ORDER BY c."createdAt"', { replacements: [issueId], type: db.sequelize.QueryTypes.SELECT, raw: true }
         );
 
         const statusColorMap = {
@@ -436,11 +436,12 @@ controller.editIssue = async (req, res) => {
                 );
 
                 const new_comment_id = comment_id[0].comment_id + 1;
-
+                console.log('user id ', res.locals.user_id);
+                
                 await db.comment.create({
                     comment_id: new_comment_id,
                     issue_id: issueId,
-                    user_id: 1,
+                    user_id: res.locals.user_id,
                     content: comment,
                     created_date: new Date()
                 }, { transaction: t1 });

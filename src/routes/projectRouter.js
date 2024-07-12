@@ -108,6 +108,7 @@ const checkPermissions = async (req, res, next) => {
                     canDelete: role === 1 || role === 2,
                     canExport: role === 1 || role === 2 || role === 3,
                 };
+                res.locals.user_id = user.user_id;
                 break;
             case `/issues/getIssue`:
                 res.locals.permissions = {
@@ -119,7 +120,7 @@ const checkPermissions = async (req, res, next) => {
                     canExport: role === 1 || role === 2 || role === 3,
                 };
                 break;
-
+                
             // Các trường hợp khác có thể được thêm vào cho các đường dẫn khác
             default:
                 res.locals.permissions = {
