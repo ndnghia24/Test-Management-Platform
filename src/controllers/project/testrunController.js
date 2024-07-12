@@ -16,21 +16,35 @@ controller.getTestRun = async (req, res) => {
     const offset = (page - 1) * limit;
 
     try {
+        let testRunQuery = 
+        'SELECT tr.* ' +
+        'FROM test_runs AS tr ' +
+        'WHERE tr.project_id = ? ';
+
+        let countQuery =
+        'SELECT COUNT(*) ' +
+        'FROM test_runs AS tr ' +
+        'WHERE tr.project_id = ? ';
+        
+        if (relesae) {
+            testRunQuery += 'AND tr.release = ? ';
+            countQuery += 'AND tr.release = ? ';
+        }
+
+        testRunQuery += 'LIMIT ? OFFSET ?';
+
         const projectId = req.params.id;
         let promises = [];
         promises.push(
-            db.test_runs.findAll({
-                where: {
-                    project_id: projectId,
-                },
-                offset: offset,
-                limit: limit,
-                raw: true
+            db.sequelize.query(
+                testRunQuery, {
+                replacements: relesae ? [projectId, relesae, limit, offset] : [projectId, limit, offset],
+                type: db.sequelize.QueryTypes.SELECT
             }),
-            db.test_runs.count({
-                where: {
-                    project_id: projectId
-                }
+            db.sequelize.query(
+                countQuery, {
+                replacements: relesae ? [projectId, relesae] : [projectId],
+                type: db.sequelize.QueryTypes.SELECT
             }),
             db.test_cases.findAll({
                 where: {
