@@ -49,8 +49,23 @@ controller.getSpecifyRequirement = async (req,res) => {
             )
         ]);
 
+        // query test cases by requirement in test_case_requirement table
+        const testCases = await db.sequelize.query(
+            'SELECT t.testcase_id, t.name ' +
+            'FROM test_cases AS t, test_case_requirement AS tr ' +
+            'WHERE t.project_id = :projectId ' +
+            'AND tr.requirement_id = :requirementId ' +
+            'AND t.testcase_id = tr.testcase_id',
+            { replacements: { projectId: projectId, requirementId: requirementId }, type: db.sequelize.QueryTypes.SELECT}
+        );
+
         // replace requirement_type_id with requirement_type_name in requirement object
         requirement[0][0].requirement_type_name = requirementType[0].find(type => type.requirement_type_id === requirement[0][0].requirement_type_id).name;
+
+        // add test cases to requirement object
+        requirement[0][0].test_cases = testCases;
+
+        console.log(requirement[0][0]);
 
         // send json response
         res.status(200).send({ requirement});
@@ -100,6 +115,7 @@ controller.getRequirementByTypeFilter = async (req,res) => {
         res.status(500).send('Internal Server Error');
     }
 }
+
 
 controller.addRequirement = async (req,res) => {
     const t = await db.sequelize.transaction();

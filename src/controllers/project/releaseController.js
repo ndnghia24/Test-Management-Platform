@@ -24,6 +24,70 @@ controller.getRelease = async (req,res) => {
     }
 }
 
+controller.getSpecifyRelease = async (req,res) => {
+    try {
+        const projectId = req.params.id;
+        const releaseId = req.query.releaseId;
+
+        const [releases] = await Promise.all([
+            db.sequelize.query(
+                'SELECT * FROM releases WHERE project_id = ? AND release_id = ? LIMIT 1',
+                { replacements: [projectId, releaseId], type: db.sequelize.QueryTypes.SELECT }
+            ),
+        ]);
+        const release = releases[0];
+        
+        // query all testplan (from test_plans table), testruns (from test_runs table) related to this release
+        const [testplans, testruns] = await Promise.all([
+            db.sequelize.query(
+                'SELECT * FROM test_plans WHERE project_id = ? AND release = ?',
+                { replacements: [projectId, releaseId], type: db.sequelize.QueryTypes.SELECT }
+            ),
+            db.sequelize.query(
+                'SELECT * FROM test_runs WHERE project_id = ? AND release = ?',
+                { replacements: [projectId, releaseId], type: db.sequelize.QueryTypes.SELECT }
+            ),
+        ]);
+
+        // Statistics for testplans (counting number of testplans)
+
+        // Statistics for testruns (counting number of testruns with status = 'Completed', 'In Progress', 'Not Started', 'New')
+        const testrunStats = {
+            completed: 0,
+            inProgress: 0,
+            notStarted: 0,
+            new: 0
+        };
+
+        testruns.forEach(testrun => {
+            switch (testrun.testrun_status) {
+                case 'Completed':
+                    testrunStats.completed++;
+                    break;
+                case 'In Progress':
+                    testrunStats.inProgress++;
+                    break;
+                case 'Not Started':
+                    testrunStats.notStarted++;
+                    break;
+                case 'New':
+                    testrunStats.new++;
+                    break;
+            }
+        });
+
+        release.testplans = testplans;
+        release.testrunStats = testrunStats;
+
+        console.log(release);
+        
+        res.status(200).send({ success: true, release });
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).send({ success: false, error });
+    }
+}
+
 controller.addRelease = async (req,res) => {
     const t = await db.sequelize.transaction();
     try {

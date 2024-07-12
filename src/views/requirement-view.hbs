@@ -224,12 +224,12 @@
         <div class="modal-content align-items-center"
             style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
             <div class="modal-header" style="border-bottom: none;">
-                <p class="modal-title fs-3" id="modalTitleId">Requirement name</p>
+                <p class="modal-title fs-3" id="modalTitleId">Requirement Details</p>
             </div>
             <div class="modal-body" style="border-bottom: none; width: 100%;">
                 <div class="row mb-3">
                     <div>
-                        <lable for="description">Requirement Title <span style="color: red"></span>:</lable>
+                        <label for="description">Requirement Title <span style="color: red">*</span>:</label>
                         <input type="text" class="form-control" name="requirement-title" id="requirement-title"
                             placeholder="Enter Requirement Title" required>
                         <div id="alertMessageRequirementTitle" style="display: none; color: red"></div>
@@ -237,17 +237,32 @@
                 </div>
                 <div class="row mb-3">
                     <div>
-                        <lable for="description">Requirement Type <span style="color: red"></span>:</lable>
+                        <label for="description">Requirement Type <span style="color: red">*</span>:</label>
                         <input type="text" class="form-control" name="requirement-type" id="requirement-type"
-                            placeholder="Enter Requirement Title" required>
-                        <div id="alertMessageRequirementTitle" style="display: none; color: red"></div>
+                            placeholder="Enter Requirement Type" required>
+                        <div id="alertMessageRequirementType" style="display: none; color: red"></div>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div>
-                        <lable for="description">Requirement Description:</lable>
+                        <label for="description">Requirement Description:</label>
                         <textarea name="description" id="description" class="form-control" rows="3"
                             placeholder="Enter Requirement Description"></textarea>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Linked Test Case ID</th>
+                                    <th scope="col">Name</th>
+                                </tr>
+                            </thead>
+                            <tbody id="testCaseTableBody">
+                                <!-- Test cases will be dynamically inserted here -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

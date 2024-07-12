@@ -8,9 +8,34 @@ function renderRequirementDetails(jsonData) {
         var requirementTypeName = data.requirement[0][0].requirement_type_name;
 
         $('#modalDetailsRequirement .modal-title').text(requirementName + ' Details');
-        $('#modalDetailsRequirement #requirement-title').val(requirementName).prop('readonly', true);
-        $('#modalDetailsRequirement #requirement-type').val(requirementTypeName).prop('readonly', true);
-        $('#modalDetailsRequirement #description').val(description).prop('readonly', true);
+        $('#modalDetailsRequirement #requirement-title').val(requirementName);
+        $('#modalDetailsRequirement #requirement-type').val(requirementTypeName);
+        $('#modalDetailsRequirement #description').val(description);
+
+        // Clear previous test cases
+        $('#testCaseTableBody').empty();
+
+        // Append test cases
+        var testCaseTableBody = $('#testCaseTableBody');
+        if (data.requirement[0][0].test_cases && data.requirement[0][0].test_cases.length > 0) {
+            var testCases = data.requirement[0][0].test_cases;
+            testCases.forEach((testCase, index) => {
+                var row = $('<tr>');
+                row.append($('<td>').text(testCase.testcase_id));
+                row.append($('<td>').text(testCase.name));
+                testCaseTableBody.append(row);
+
+                // Add overflow-y: auto after 5 rows
+                if (index === 4 && testCases.length > 5) {
+                    testCaseTableBody.css('max-height', '200px');
+                    testCaseTableBody.css('overflow-y', 'auto');
+                }
+            });
+        } else {
+            var row = $('<tr>').append($('<td colspan="2">').text('No test cases linked to this requirement.'));
+            testCaseTableBody.append(row);
+        }
+
         $('#modalDetailsRequirement').modal('show');
     } catch (e) {
         // Handle parsing error
@@ -19,6 +44,7 @@ function renderRequirementDetails(jsonData) {
         alert('Error parsing JSON data.');
     }
 }
+
 
 // Function to show toast
 function showToast(title, message, className) {
