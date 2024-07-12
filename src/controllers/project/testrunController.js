@@ -2,11 +2,13 @@ const controller = {};
 const { where } = require('sequelize');
 const db = require('../../models/index');
 const { create } = require('express-handlebars');
+const { query } = require('express');
 
 const status_id = {
     1: 'New',
-    2: 'In Progress',
-    3: 'Done'
+    2: 'Blocked',
+    3: 'Pass',
+    4: 'Fail',
 }
 
 controller.getTestRun = async (req, res) => {
@@ -194,8 +196,39 @@ controller.deleteTestRun = async (req, res) => {
 
 controller.getDetailTestRun = async (req, res) => {
     const testRunId = req.params.testrunId;
+    const limit = isNaN(req.query.limit) ? 10 : Math.max(10, parseInt(req.query.limit));
+    const order = req.query.order || 'ASC';
+    const by = req.query.by || 'tc.testcase_id';
+    const search = req.query.search;
+    const offset = limit * (isNaN(req.query.page) ? 0 : Math.max(1, parseInt(req.query.page) - 1));
 
+    let queryParams = {};
     let promises = [];
+
+    let testCaseQuery = 
+    'SELECT tc.name , tct.* ' +
+    'FROM test_cases AS tc, testcase_testrun AS tct ' +
+    'WHERE tc.testcase_id = tct.testcase_id AND tct.testrun_id = ? ';
+
+    let countQuery =
+    'SELECT COUNT(*) ' +
+    'FROM test_cases AS tc, testcase_testrun AS tct ' +
+    'WHERE tc.testcase_id = tct.testcase_id AND tct.testrun_id = ? ';
+
+    if (search) {
+        testCaseQuery += 'AND tc.name LIKE ? ';
+        queryParams.search = search;
+        countQuery += 'AND tc.name LIKE ? ';
+    }
+
+    testCaseQuery += `ORDER BY ${by} ${order} `;
+
+    queryParams.order = order;
+    queryParams.by = by;
+    queryParams.limit = limit;
+
+    testCaseQuery += 'LIMIT ' + limit;
+    testCaseQuery += ' OFFSET ' + offset;
 
     promises.push(
         db.test_runs.findOne({
@@ -204,14 +237,22 @@ controller.getDetailTestRun = async (req, res) => {
             },
             raw: true
         }),
+        db.testcase_testrun.findAll({
+            where: {
+                testrun_id: testRunId
+            },
+            raw: true
+        }),
         db.sequelize.query(
-            'SELECT tc.name , tct.*' +
-            'FROM test_cases AS tc, testcase_testrun AS tct ' +
-            'WHERE tc.testcase_id = tct.testcase_id AND tct.testrun_id = ?', {
-            replacements: [testRunId],
+            testCaseQuery, {
+            replacements: [testRunId, search ? `%${search}%` : null],
             type: db.sequelize.QueryTypes.SELECT
-        }
-        ),
+        }),
+        db.sequelize.query(
+            countQuery, {
+            replacements: [testRunId, search ? `%${search}%` : null],
+            type: db.sequelize.QueryTypes.SELECT
+        }),
         db.modules.findAll({
             where: {
                 project_id: req.params.id
@@ -220,7 +261,19 @@ controller.getDetailTestRun = async (req, res) => {
         db.issue_type.findAll({}),
     );
 
-    let [testRun, testcases, module, issue_type] = await Promise.all(promises);
+    let [testRun, allTestcase ,testcases, count, module, issue_type] = await Promise.all(promises);
+
+    const newTestCase = allTestcase.filter(testcase => testcase.status_id == 1);
+    const Blocked = allTestcase.filter(testcase => testcase.status_id == 2);
+    const Pass = allTestcase.filter(testcase => testcase.status_id == 3);
+    const Fail = allTestcase.filter(testcase => testcase.status_id == 4);
+
+    testcases.forEach(testcase => {
+        testcase.status = status_id[testcase.status_id];
+    });
+
+    const testRunStatus = 1 - newTestCase.length / allTestcase.length;
+    const issues = (Blocked.length +  Fail.length) / allTestcase.length;
 
     res.render('detail-test-run-view', {
         title: 'Test Run Detail',
@@ -229,6 +282,15 @@ controller.getDetailTestRun = async (req, res) => {
         testcases: testcases,
         issueTypes: issue_type,
         projectId: req.params.id,
+        modules: module,
+        testRunStatus: testRunStatus,
+        issueStatus: issues,
+        pagination: {
+            page: isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page)),
+            limit: limit,
+            totalRows: count[0].count,
+            queryParams: queryParams
+        }
     });
 };
 

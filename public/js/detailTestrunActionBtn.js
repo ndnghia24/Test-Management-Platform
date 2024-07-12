@@ -59,13 +59,64 @@ function onSaveIssueClick() {
 
 function onSaveResultClick() {
     alert('Result is saved');
-    if ($('#modal2 #status').val() === '2') {
-        alert('Please fill in the issue form to create a new issue');
-        $('#modal2').modal('hide');
-        $('#modal1').modal('show');
-    } else {
-        $('#modal2').modal('hide');
-    }
+    const testcase_id = $('#modal2 .modal-scd-title').text().split(' - ')[1].trim();
+
+    $.ajax({
+        type: 'POST',
+        url: window.location.pathname + '/addResult',
+        data: JSON.stringify({
+            testcase_id: testcase_id,
+            status: $('#status').val(),
+        }),
+        contentType: 'application/json',
+        success: function (response) {
+            if ($('#modal2 #status').val() === '2') {
+                alert('Please fill in the issue form to create a new issue');
+                $('#modal2').modal('hide');
+                $('#modal1').modal('show');
+            } else {
+                $('#modal2').modal('hide');
+            }
+            setTimeout(() => {
+                window.location.href = window.location.pathname;
+            });
+            showRightBelowToast('Result added successfully');
+        }
+    });
+
     document.getElementById('comment').value = '';
     document.getElementById('status').value = '1';
 }
+
+$('document').ready(function () {
+    let curUrl = new URL(window.location.href);
+    const number_of_row = curUrl.searchParams.get('limit') || 10;
+    const feature = curUrl.searchParams.get('by') || 'tc.testcase_id';
+    const sorting = curUrl.searchParams.get('order') || 'ASC';
+
+    $('select.number-of-row').val(number_of_row);
+    $('select.feature').val(feature);
+    $('select.sorting').val(sorting);
+
+    $('select.number-of-row').on('change',function () {
+        curUrl.searchParams.set('limit', $(this).val());
+        window.location.href = curUrl.href;
+    });
+
+    $('select.feature').on('change',function () {
+        curUrl.searchParams.set('by', $(this).val());
+        window.location.href = curUrl.href;
+    });
+
+    $('select.sorting').on('change',function () {
+        curUrl.searchParams.set('order', $(this).val());
+        window.location.href = curUrl.href;
+    });
+
+    $('#search-input-title').on('keydown', function (e) {
+        if (e.key === 'Enter') {
+            curUrl.searchParams.set('search', $(this).val());
+            window.location.href = curUrl.href;
+        }
+    });
+});

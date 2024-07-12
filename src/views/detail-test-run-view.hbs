@@ -6,9 +6,9 @@
         <div class="status-circle">
             <div class="inner-circle">
             </div>
-            <span>80%</span>
-            <svg class="project-status circle" height="160" width="160" xmlns="http://www.w3.org/2000/svg">
-                <circle r="70" cx="80" cy="80" fill="red" style="stroke: #1EA7FF;" />
+            <span>{{testRunStatus}}%</span>
+            <svg class="testrun-status circle" height="160" width="160" xmlns="http://www.w3.org/2000/svg">
+                <circle class="testrun-status-circle" r="70" cx="80" cy="80" fill="red" style="stroke: #1EA7FF;" />
             </svg>
         </div>
         <div class="info-detail">
@@ -19,9 +19,9 @@
         <div class="status-circle">
             <div class="inner-circle">
             </div>
-            <span>65%</span>
+            <span>{{issueStatus}}%</span>
             <svg class="issue-status circle" height="160" width="160" xmlns="http://www.w3.org/2000/svg">
-                <circle r="70" cx="80" cy="80" fill="red" style="stroke: #FF1E1E;" />
+                <circle class="issues-status-circle" r="70" cx="80" cy="80" fill="red" style="stroke: #FF1E1E;" />
             </svg>
         </div>
         <div class="info-detail">
@@ -29,6 +29,7 @@
         </div>
     </div>
 </div>
+
 <div class="main-area flex-grow-1" style="min-height: 600px;">
     <div class="content row m-2" style="height: 100%; padding: 0 5%;">
         <div class="col-3"
@@ -39,14 +40,20 @@
             </div>
             <div class="d-flex flex-column gap-3 modules-list px-4 py-3"
                 style="color: #232360; font-weight: 700; font-size: 1.1rem;">
-                <div>
+                {{!-- <div>
                     <i class="bi bi-folder"></i>
                     Modules 1
                 </div>
                 <div>
                     <i class="bi bi-folder"></i>
                     Modules 2
+                </div> --}}
+                {{#each modules}}
+                <div class="module" data-module-id="{{this.module_id}}">
+                    <i class="bi bi-folder"></i>
+                    {{this.name}}
                 </div>
+                {{/each}}
             </div>
         </div>
         <div class="col-1 offset-col"></div>
@@ -61,23 +68,22 @@
             <div class="d-flex align-items-center justify-content-between px-xl-5 py-xl-4" style="height: 10%;">
                 <div class="top-left-testcase-list d-flex justify-content-center align-items-center gap-3">
                     <p style="font-size: 1rem; color: #9c9c9c; font-weight: 600;">Show</p>
-                    <select name="show" class="form-select number-of-row" aria-label="Default select example" required>
+                    <select name="show" class="form-select number-of-row" aria-label="Default select example">
                         <option value="10">10</option>
+                        <option value="15">15</option>
                         <option value="20">20</option>
-                        <option value="30">30</option>
-                        <option value="50">50</option>
                     </select>
                 </div>
                 <div class="top-right-testcase-list d-flex justify-content-between align-items-center gap-3">
-                    <select name="show" class="form-select feature" aria-label="Default select example"
-                        style="width: max-content;" required>
-                        <option value="2">Testcase Code</option>
-                        <option value="3">Testcase Title</option>
+                    <select name="feature" class="form-select feature" aria-label="Default select example"
+                        style="width: max-content;">
+                        <option value="tc.testcase_id">Testcase Code</option>
+                        <option value="tc.name">Testcase Title</option>
                     </select>
-                    <select name="show" style="width: max-content;" class="form-select sorting"
-                        aria-label="Default select example" required>
-                        <option value="1">ASC</option>
-                        <option value="2">DES</option>
+                    <select name="sort" style="width: max-content;" class="form-select sorting"
+                        aria-label="Default select example">
+                        <option value="ASC">ASC</option>
+                        <option value="DESC">DES</option>
                     </select>
                 </div>
             </div>
@@ -97,8 +103,8 @@
                             <tr>
                                 {{!-- <td><input type="checkbox"></input></td> --}}
                                 <td class="testcase-code">{{this.testcase_id}}</td>
-                                <td class="testcase-name">{{this.name}}</td>
-                                <td class="status" style="color: #41D37E; font-weight: 600;">Passed</td>
+                                <td class="testcase-name ellispe">{{this.name}}</td>
+                                <td class="status {{{formatClassName this.status}}}"> {{this.status}}</td>
                                 <td>
                                     <i class="bi bi-bug hover-icon bug-icon" style="margin-right: 10px;"></i>
                                     <i class="bi bi-plus-circle hover-icon result-icon text-success"
@@ -107,22 +113,17 @@
                                 </td>
                             </tr>
                             {{/each}}
-                            {{!-- <tr>
-                                <td><input type="checkbox"></input></td>
-                                <td class="testcase-code">TC001</td>
-                                <td class="testcase-name">Testcase 1</td>
-                                <td class="status" style="color: #41D37E; font-weight: 600;">Passed</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox"></input></td>
-                                <td class="testcase-code">TC002</td>
-                                <td class="testcase-name">Testcase 2</td>
-                                <td class="status" style="color: #F0270C; font-weight: 600;">Blocked</td>
-                            </tr> --}}
                         </tbody>
                     </table>
                 </div>
             </div>
+            <nav style="margin: 0 auto;">
+                {{{paginate pagination
+                paginationClass="pagination justify-content-center p-1"
+                leftText = '<i class="bi bi-arrow-left"></i>'
+                rightText = '<i class="bi bi-arrow-right"></i>'
+                }}}
+            </nav>
         </div>
     </div>
 </div>
@@ -145,7 +146,8 @@
                     </div>
                     <div class="col-6">
                         <label for="issue-type">Issue's Type:</label>
-                        <select name="issue-type" class="form-control" aria-label="Default select example" id="issue-type">
+                        <select name="issue-type" class="form-control" aria-label="Default select example"
+                            id="issue-type">
                             {{#each issueTypes}}
                             <option value="{{this.issue_type_id}}">{{this.type}}</option>
                             {{/each}}
@@ -155,7 +157,8 @@
                 <div class="row mb-3 align-items-center">
                     <div class="col-6">
                         <label for="status">Status:</label>
-                        <select name="status" class="form-control" aria-label="Default select example" id="status" disabled>
+                        <select name="status" class="form-control" aria-label="Default select example" id="status"
+                            disabled>
                             <option value="1">New</option>
                             <option value="2">Open</option>
                             <option value="3">Assigned</option>
@@ -243,4 +246,15 @@
 
 {{#block "script"}}
 <script src="/js/detailTestrunActionBtn.js"></script>
+<script>
+    $('document').ready(function () {
+        const testrun_status = {{ testRunStatus }};
+    const issue_status = {{ issueStatus }};
+    const testrunOffset = 440 - (440 * testrun_status) / 100;
+    const issueOffset = 440 - (440 * issue_status) / 100;
+
+    $('.testrun-status-circle').css('stroke-dashoffset', testrunOffset);
+    $('.issues-status-circle').css('stroke-dashoffset', issueOffset);
+    });
+</script>
 {{/block}}

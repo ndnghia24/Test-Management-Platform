@@ -21,6 +21,31 @@
     background-color: #F3F4F8;
 }
 
+.pagination a{
+    color: #1EA7FF !important;
+    padding: 0 10px;
+}
+
+.status {
+    font-weight: 600;
+}
+
+.new {
+    color: #00917d !important;
+}
+
+.pass {
+    color: #26da16 !important;
+}
+
+.blocked {
+    color: #fbff00 !important;
+}
+
+.fail {
+    color: #ff0000 !important;
+}
+
 p {
     margin: 0;
 }
@@ -73,6 +98,8 @@ table.table .testcase-name{
     position: absolute;
     top: 0;
     left: 0;
+    width: 160px !important;
+    height: 160px !important;
 }
 
 .status-circle span {
@@ -88,16 +115,16 @@ table.table .testcase-name{
     stroke-width: 20px;
     fill: none;
     stroke-dasharray: 440;
-    stroke-dashoffset: 440;
+    stroke-dashoffset: 0;
 }
 
-.status-circle .project-status circle {
-    animation: anim1 2s linear forwards;
+.status-circle .testrun-status circle {
+    transition: stroke-dashoffset 2s ease;
 }
 
 
 .status-circle .issue-status circle {
-    animation: anim2 2s linear forwards;
+    transition: stroke-dashoffset 2s ease;
 }
 
 .info-detail p {
