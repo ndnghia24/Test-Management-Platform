@@ -12,13 +12,13 @@
         {{/each}}
     </div>
 
-    {{!-- Release Cards --}}
+    <!-- Release Cards -->
     <div class="container-fluid mt-3">
         <div class="card custom-card">
             <!-- Header of card -->
             <div class="card-header bg-white border-0 align-items-center">
                 <div class="row">
-                    <div class="col-sm-4">              
+                    <div class="col-sm-4">
                         <a onclick="addReleaseCards('all')" style="cursor: pointer;">
                             <h3 class="card-title" id="releaseStatus">All Releases</h3>
                         </a>
@@ -27,16 +27,13 @@
                         <div class="releases">
                             <ul class="list-unstyled d-flex flex-row">
                                 <li class="me-4 clickable" id="openReleases">
-                                    <a id="countOpenRelease" onclick="addReleaseCards('open');"
-                                       style="cursor: pointer; color: cornflowerblue;">● 2 Open Release(s)</a>
+                                    <a id="countOpenRelease" onclick="addReleaseCards('open');" style="cursor: pointer; color: cornflowerblue;">● 2 Open Release(s)</a>
                                 </li>
                                 <li class="me-4 clickable" id="upcomingReleases">
-                                    <a id="countUpcomingRelease" onclick="addReleaseCards('upcoming');"
-                                       style="cursor: pointer;color:tan;">● 0 Upcoming Release(s)</a>
+                                    <a id="countUpcomingRelease" onclick="addReleaseCards('upcoming');" style="cursor: pointer; color: tan;">● 0 Upcoming Release(s)</a>
                                 </li>
                                 <li class="clickable" id="completedReleases">
-                                    <a id="countCompletedRelease" onclick="addReleaseCards('completed');"
-                                       style="cursor: pointer;color:green;">● 0 Completed Release(s)</a>
+                                    <a id="countCompletedRelease" onclick="addReleaseCards('completed');" style="cursor: pointer; color: green;">● 0 Completed Release(s)</a>
                                 </li>
                             </ul>
                         </div>
@@ -47,67 +44,55 @@
             <!-- Body of card -->
             <div class="card-body" id="main-content">
                 <div class="container-fluid" id="releaseContainer">
-                    <div class="row" id="releaseRow">
-                    </div>
+                    <div class="row" id="releaseRow"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    {{!-- Create Module Modal --}}
-    {{#block "modal"}}
-    <div class="modal fade" id="modalAddRelease" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
-         aria-hidden="true">
+    <!-- Create Module Modal -->
+    <div class="modal fade" id="modalAddRelease" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content align-items-center"
-                 style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
+            <div class="modal-content align-items-center" style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
                 <div class="modal-header" style="border-bottom: none;">
                     <p class="modal-title fs-3" id="modalTitleId">Add Release</p>
                 </div>
                 <div class="modal-body" style="border-bottom: none; width: 100%;">
                     <div class="row mb-3">
                         <div>
-                            <label for="description">Name <span style="color: #F0270C;">*</span> :</label>
+                            <label for="release-name">Name <span style="color: #F0270C;">*</span> :</label>
                             <input type="text" name="release-name" class="form-control" placeholder="Release's Name">
                             <div id="alertMessageReleaseNameInput" style="display: none; color: red"></div>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div>
-                            <label for="description">Start Date <span style="color: #F0270C;">*</span> :</label>
+                            <label for="release-start-date">Start Date <span style="color: #F0270C;">*</span> :</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-calendar-check"
-                                                                      style="height: 1.5rem;"
-                                                                      aria-hidden="true"></i></span>
+                                    <span class="input-group-text"><i class="fa fa-calendar-check" style="height: 1.5rem;" aria-hidden="true"></i></span>
                                 </div>
-                                <input type="text" name="release-start-date" class="form-control datepicker"
-                                       placeholder="Select a date">
+                                <input type="text" name="release-start-date" class="form-control datepicker" placeholder="Select a date">
                                 <div id="alertMessageReleaseStartDateInput" style="display: none; color: red"></div>
                             </div>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div>
-                            <label for="description">Due Date <span style="color: #F0270C;">*</span> :</label>
+                            <label for="release-due-date">Due Date <span style="color: #F0270C;">*</span> :</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-calendar-check"
-                                                                      style="height: 1.5rem;"
-                                                                      aria-hidden="true"></i></span>
+                                    <span class="input-group-text"><i class="fa fa-calendar-check" style="height: 1.5rem;" aria-hidden="true"></i></span>
                                 </div>
-                                <input type="text" name="release-due-date" class="form-control datepicker"
-                                       placeholder="Select a date">
+                                <input type="text" name="release-due-date" class="form-control datepicker" placeholder="Select a date">
                                 <div id="alertMessageReleaseDueDateInput" style="display: none; color: red"></div>
                             </div>
                         </div>
                         <div class="row mt-2">
                             <div>
-                                <label for="description">Attachments:</label>
+                                <label for="release-attachments">Attachments:</label>
                                 <div id="myDropzone" class="dropzone">
-                                    <div class="dz-message">
-                                        Drop file here or click to upload...
-                                    </div>
+                                    <div class="dz-message">Drop file here or click to upload...</div>
                                 </div>
                             </div>
                         </div>
@@ -122,26 +107,24 @@
     </div>
 
     <!-- Edit Release Modal -->
-    <!-- Edit Release Modal -->
-    <div class="modal fade" id="modalEditRelease" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal fade" id="modalEditRelease" tabindex="-1" role="dialog" aria-labelledby="modalTitleEditId" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
             <div class="modal-content align-items-center" style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8;">
                 <div class="modal-header" style="border-bottom: none;">
-                    <p class="modal-title fs-3" id="modalTitleId">Edit Release</p>
+                    <p class="modal-title fs-3" id="modalTitleEditId">Edit Release</p>
                 </div>
                 <div class="modal-body" style="border-bottom: none; width: 100%;">
                     <div class="row mb-3">
                         <div>
-                            <label for="description">Name <span style="color: #F0270C;">*</span> :</label>
+                            <label for="release-name-edit">Name <span style="color: #F0270C;">*</span> :</label>
                             <input type="text" id="release-name-edit" name="release-name-edit" class="form-control" placeholder="Release's Name" disabled>
-                            <!-- Keep the input disabled to prevent editing -->
-                            <div id="alertMessageReleaseNameInput" style="display: none; color: red"></div>
+                            <div id="alertMessageReleaseNameEditInput" style="display: none; color: red"></div>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="release-status">Release Status <span style="color: #F0270C;">*</span> :</label>
-                            <select class="form-select" id="release-status">
+                            <label for="release-status-edit">Release Status <span style="color: #F0270C;">*</span> :</label>
+                            <select class="form-select" id="release-status-edit">
                                 <option value="open">Opening</option>
                                 <option value="upcoming">Upcoming</option>
                                 <option value="completed">Completed</option>
@@ -157,14 +140,36 @@
         </div>
     </div>
 
-
-
-    {{/block}}
+    <div class="modal fade" id="releaseDetailsModal" tabindex="-1" role="dialog" aria-labelledby="releaseDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="releaseDetailsModalLabel">Release Details</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Testrun Statics:</strong> <span id="testrunStatics"></span></p>
+                    <p><strong>Testplan Count:</strong> <span id="testplanCount"></span></p>
+                    <p>
+                        <button id="expandTestplans" class="btn btn-link">
+                            <i id="expandIcon" class="bi bi-caret-right-square-fill"></i> Show Testplans
+                        </button>
+                    </p>
+                    <ul id="testplansList" class="d-none"></ul> <!-- Sẽ được ẩn ban đầu -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     {{!-- Page's Functionality Button --}}
     {{#block "additional-button"}}
-        {{#if res.locals.permissions.canAdd}}
+        {{#if permissions.canAdd}}
         <div class="text-right">
             <button type="button" class="btn btn-light-green me-2" data-bs-toggle="modal" data-bs-target="#modalAddRelease">
                 <i class="fas fa-plus-circle"></i>  
@@ -174,20 +179,14 @@
         {{/if}}
     {{/block}}
 
-
     {{!-- Additional Scripts + CSS --}}
     {{#block "script"}}
     <!-- jQuery (required for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!-- Bootstrap JS (choose the appropriate version) -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Bootstrap Datepicker CSS and JS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
-          rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-    <!-- CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css"/>
-    <!-- JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
 
     <script>
@@ -200,6 +199,67 @@
             const year = d.getFullYear();
             return `${month} ${day}, ${year}`;
         }
+
+        function showReleaseDetailsModal(release) {
+            const modal = $('#releaseDetailsModal');
+            modal.find('.modal-title').text(release.name + ' Details');
+
+            // Hiển thị thông tin tóm tắt testrun
+            const testrunStats = release.testrunStats;
+            const testrunStaticsText = `Completed: ${testrunStats.completed}, In Progress: ${testrunStats.inProgress}, Not Started: ${testrunStats.notStarted}, New: ${testrunStats.new}`;
+            modal.find('#testrunStatics').text(testrunStaticsText);
+
+            // Hiển thị số lượng testplans
+            modal.find('#testplanCount').text(release.testplans.length);
+
+            // Tạo danh sách testplans
+            const testplansList = release.testplans.map(plan =>
+                `<li><strong>${plan.name}:</strong> ${plan.description}</li>`
+            ).join('');
+
+            // Đặt nội dung vào ul
+            modal.find('#testplansList').html(testplansList);
+
+            // Đặt lại nút mũi tên và danh sách khi mở modal
+            modal.find('#expandIcon').addClass('bi-caret-right-square-fill');
+            modal.find('#expandTestplans').off('click').on('click', function() {
+                const testplansListElement = modal.find('#testplansList');
+                const expandIcon = modal.find('#expandIcon');
+                
+                if (testplansListElement.hasClass('d-none')) {
+                    testplansListElement.removeClass('d-none');
+                    expandIcon.removeClass('bi-caret-right-square-fill').addClass('bi-caret-down-square-fill');
+                    $(this).html('<i class="bi bi-caret-down-square-fill"></i> Hide Testplans');
+                } else {
+                    testplansListElement.addClass('d-none');
+                    expandIcon.removeClass('bi-caret-down-square-fill').addClass('bi-caret-right-square-fill');
+                    $(this).html('<i class="bi bi-caret-right-square-fill"></i> Show Testplans');
+                }
+            });
+
+            modal.modal('show');
+        }
+
+        function fetchReleaseDetails(releaseId) {
+            $.ajax({
+                url: window.location.href + '/getRelease',
+                method: 'GET',
+                data: { releaseId: releaseId },
+                dataType: 'json',
+                success: function(response) {
+                    showReleaseDetailsModal(response.release);
+                },
+                error: function(error) {
+                    console.error('Error fetching release details:', error);
+                    alert('Error fetching release details.');
+                }
+            });
+        }
+
+        $(document).on('click', '.release-card', function() {
+            const releaseId = $(this).data('release-id');
+            fetchReleaseDetails(releaseId);
+        });
 
         function addReleaseCards(status) {
             let releasesClone = releases;
@@ -233,6 +293,10 @@
 
                 const cardElement = document.createElement('div');
                 cardElement.classList.add('card');
+
+                cardElement.addEventListener('click', () => {
+                    fetchReleaseDetails(release.release_id);
+                });
 
                 const cardBody = document.createElement('div');
                 cardBody.classList.add('card-body');
@@ -299,7 +363,7 @@
             if ({{permissions.canEdit}} && {{permissions.canDelete}}) {
                 cardText.innerHTML += `
                 <div class="col d-flex justify-content-end mt-2">
-                    <button class="btn edit-release-btn" data-release-id="${release.release_id}" data-toggle="modal" data-target="#modalEditRelease">
+                    <button class="btn edit-release-btn" data-release-id="${release.release_id}" data-bs-toggle="modal" data-bs-target="#modalEditRelease">
                         <i class="fas fa-edit"></i> Edit
                     </button>
                     <button class="btn delete-release-btn" data-release-id="${release.release_id}">
@@ -406,7 +470,6 @@
             });
         });
 
-        // JavaScript for Edit Release Modal
         // JavaScript for Edit Release Modal
         $(document).on('click', '.edit-release-btn', function() {
             const releaseId = $(this).data('release-id');

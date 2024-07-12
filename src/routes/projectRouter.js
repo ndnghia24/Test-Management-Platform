@@ -142,6 +142,7 @@ router.post("/:id/requirement/addRequirementType", controller.requirementControl
 
 //RELEASE
 router.get("/:id/release", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.releaseController.getRelease);
+router.get("/:id/release/getRelease", controller.releaseController.getSpecifyRelease);
 router.post("/:id/release/addRelease", controller.releaseController.addRelease);
 router.put("/:id/release/editRelease", controller.releaseController.editRelease);
 router.delete("/:id/release/deleteRelease", controller.releaseController.deleteRelease);
