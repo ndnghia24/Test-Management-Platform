@@ -148,21 +148,21 @@
     const modulesList = $(".modules-list");
     
     lv1_modules.forEach(module => {
-        const lv1_module_div = $(`<div class="module-choice hover-icon" data-module-id="${module.module_id}">
+        const lv1_module_div = $(`<div class="module-choice hover-icon ellispe" data-module-id="${module.module_id}">
             <i class="bi bi-folder"></i>
             ${module.name}
         </div>`);
         modulesList.append(lv1_module_div);
-        const lv2_module = lv2_modules.filter(lv2_module => lv2_module.parent_id === module.id);
+        const lv2_module = lv2_modules.filter(lv2_module => lv2_module.root_module_id === module.module_id);
         lv2_module.forEach(lv2_module => {
-            const lv2_module_div = $(`<div style="margin-left: 20px;" class="module-choice hover-icon" data-module-id="${lv2_module.module_id}">
+            const lv2_module_div = $(`<div style="margin-left: 20px;" class="module-choice hover-icon ellispe" data-module-id="${lv2_module.module_id}">
                 <i class="bi bi-folder"></i>
                 ${lv2_module.name}
             </div>`);
             modulesList.append(lv2_module_div);
-            const lv3_module = lv3_modules.filter(lv3_module => lv3_module.parent_id === lv2_module.id);
+            const lv3_module = lv3_modules.filter(lv3_module => lv3_module.root_module_id === lv2_module.module_id);
             lv3_module.forEach(lv3_module => {
-                const lv3_module_div = $(`<div style="margin-left: 40px;" class="module-choice hover-icon" data-module-id="${lv3_module.module_id}">
+                const lv3_module_div = $(`<div style="margin-left: 40px;" class="module-choice hover-icon ellispe" data-module-id="${lv3_module.module_id}">
                     <i class="bi bi-folder"></i>
                     ${lv3_module.name}
                 </div>`);
