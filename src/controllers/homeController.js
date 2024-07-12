@@ -87,15 +87,23 @@ controller.addProject = async (req, res) => {
 
     const description = req.body.description || "";
     //get the highest project_id
-    // let project_id = await db.projects.max('project_id');
+    let project_id = await db.projects.max('project_id');
 
     const project = await db.projects.create({
+        project_id: project_id + 1,
       name: projectName,
       description: description,
       created_by: userId,
       created_date: new Date(),
     });
 
+    await db.user_in_project.create({
+        user_id: userId,
+        project_id: project.project_id,
+        role_id: 1,
+        is_delete: false,
+    });
+    
     res.status(201).send(project);
   } catch (error) {
     console.log(error);
