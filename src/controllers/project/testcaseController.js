@@ -88,10 +88,14 @@ controller.getTestCase = async (req,res) => {
             db.sequelize.query(
                 'SELECT name FROM requirement_types WHERE project_id = ?',
                 { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
+            ),
+            db.sequelize.query(
+                'SELECT * FROM test_cases WHERE project_id = ?',
+                { replacements: [projectId], type: db.sequelize.QueryTypes.SELECT}
             )
         );
 
-        const [testCases, testcaseNum, modules, requirements, requirementTypes] = await Promise.all(promises);
+        const [testCases, testcaseNum, modules, requirements, requirementTypes, allTestCase] = await Promise.all(promises);
 
         console.log('testCases',testCases);
 
@@ -108,7 +112,8 @@ controller.getTestCase = async (req,res) => {
                 limit: limit,
                 totalRows: testcaseNum[0].count,
                 queryParams: queryParameters,
-            }
+            },
+            allTestcases: allTestCase,
         });
     } catch (error) {
         console.error('Error fetching data:', error);

@@ -313,6 +313,7 @@ $('document').ready(function () {
         const existedTestcaseCode = existedTestcase.map(function () {
             return $(this).find('td').eq(0).text();
         }).get();
+        existedTestcaseCode.push($('#edit-test-case')[0].dataset.testcaseId);
 
         const e = $('#edit-testcase-linking-modal').find('.test-case-list').find('tr').filter(function () {
             return existedTestcaseCode.includes($(this).find('td').eq(1).text());
