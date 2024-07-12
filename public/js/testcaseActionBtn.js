@@ -92,7 +92,7 @@ $('document').ready(function () {
 
         // Testcae name cannot be empty
 
-        if (testcaseName === '') {
+        if (testcaseName.trim() === '') {
             showRightBelowToast('Test Case name cannot be empty');
             return;
         }
