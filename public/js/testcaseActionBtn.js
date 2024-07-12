@@ -280,9 +280,13 @@ function renderTestCaseDetailsForEdit(data) {
     });
 
     $('#edit-testcase-linking-modal').find('.test-case-list').find('input').prop('checked', false);
-    $('#edit-testcase-linking-modal').find('.test-case-list').find('tr').show();
+    $('#edit-testcase-linking-modal').find('.test-case-list').find('tr').each(function () {
+        $(this).show();
+    });
     $('#edit-requirement-linking-modal').find('.requirement-list').find('input').prop('checked', false);
-    $('#edit-requirement-linking-modal').find('.requirement-list').find('trs').show();
+    $('#edit-requirement-linking-modal').find('.requirement-list').find('tr').each(function () {
+        $(this).show();
+    });
     modal.modal('show');
 }
 
@@ -309,7 +313,8 @@ $('document').ready(function () {
 // Add test case to linking list
 $('document').ready(function () {
     $('.test-case-linking-add-testcase').click(function () {
-        const existedTestcase = $('.test-case-linking-testcases-body-table').find('tr');
+        let existedTestcase = $('#edit-test-case .test-case-linking-testcases-body-table').find('tr');
+        console.log('existed: ',existedTestcase);
         const existedTestcaseCode = existedTestcase.map(function () {
             return $(this).find('td').eq(0).text();
         }).get();
@@ -385,7 +390,7 @@ $('document').ready(function () {
 // Add requirement to linking list
 $('document').ready(function () {
     $('.test-case-linking-add-requirement').click(function () {
-        const existedRequirement = $('.test-case-linking-requirements-body-table').find('tr');
+        const existedRequirement = $('#edit-test-case test-case-linking-requirements-body-table').find('tr');
         const existedRequirementCode = existedRequirement.map(function () {
             return $(this).find('td').eq(0).text();
         }).get();
