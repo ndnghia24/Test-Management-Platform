@@ -107,7 +107,8 @@ saveAddIssueButton.addEventListener('click', async function() {
         return;
     }
 
-    if ((status !== 'Opened' && asign === '') || (status !== 'New' && asign === '')) {
+    console.log('status:', status);
+    if (asign === '' && (status !== 'Open' && status !== 'New')) {
         // Show the error message
         assignErrorNotSpecify.style.display = 'block';
         // Optionally, you can also focus on the input field

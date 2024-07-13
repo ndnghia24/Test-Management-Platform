@@ -25,7 +25,8 @@
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.3",
     "sequelize-auto-migrations": "^1.0.3",
-    "sequelize-mig": "^3.1.3"
+    "sequelize-mig": "^3.1.3",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "sequelize-auto": "^0.8.8"

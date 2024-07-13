@@ -16,6 +16,30 @@ $('document').ready(function () {
 
         $('#modal2').find('.modal-scd-title').text(testcaseName + ' - ' + testcaseCode);
     });
+
+    $('.delete-icon').click(function () {
+        $('#delete-test-case-modal').modal('show');
+        var testcase_id = $(this).closest('tr').find('.testcase-code').text();
+        var testrun_id = $(this).closest('tr').find('.testrun-id').text();
+
+        $('#delete-test-case-modal .delete-test-case-btn').click(function () {            
+            $.ajax({
+                type: 'DELETE',
+                url: window.location.pathname + '/deleteTestcase',
+                data: JSON.stringify({
+                    testcase_id: testcase_id,
+                    testrun_id: testrun_id,
+                }),
+                contentType: 'application/json',
+                success: function (response) {
+                    setTimeout(() => {
+                        window.location.href = window.location.pathname;
+                    }, 1000);
+                    showRightBelowToast('Testcase deleted successfully');
+                }
+            });
+        });
+    });
 });
 
 function onSaveIssueClick() {
@@ -29,9 +53,10 @@ function onSaveIssueClick() {
             issue_name: $('#issue-name').val(),
             testcase_id: $('#modal1 .modal-scd-title').text().split(' - ')[1],
             description: $('#comment').val(),
-            status: $('#status').val(),
+            status: 1,
             priority: $('#priority').val(),
-            issue_type: $('#issue-type').val()
+            issue_type: $('#issue-type').val(),
+            assigned_to: $('#assigned-to').val(),
         };
 
         $.ajax({
@@ -43,7 +68,7 @@ function onSaveIssueClick() {
                 console.log(response);
                 setTimeout(() => {
                     window.location.href = window.location.pathname;
-                });
+                },1000);
                 showRightBelowToast('Issue added successfully');
             }
         });
@@ -58,29 +83,32 @@ function onSaveIssueClick() {
 }
 
 function onSaveResultClick() {
-    alert('Result is saved');
     const testcase_id = $('#modal2 .modal-scd-title').text().split(' - ')[1].trim();
+
+    console.log($('#result-status'));
 
     $.ajax({
         type: 'POST',
         url: window.location.pathname + '/addResult',
         data: JSON.stringify({
             testcase_id: testcase_id,
-            status: $('#status').val(),
+            status: $('#result-status').val(),
         }),
         contentType: 'application/json',
         success: function (response) {
-            if ($('#modal2 #status').val() === '2') {
-                alert('Please fill in the issue form to create a new issue');
+            if ($('#modal2 #result-status').val() === '4' || $('#modal2 #result-status').val() === '2'){
+                showRightBelowToast('Please fill in the issue form to create a new issue');
+                
+                $('#modal1').find('.modal-scd-title').text($('#modal2 .modal-scd-title').text());
+
                 $('#modal2').modal('hide');
                 $('#modal1').modal('show');
             } else {
-                $('#modal2').modal('hide');
+                setTimeout(() => {
+                    window.location.href = window.location.pathname;
+                });
+                showRightBelowToast('Result added successfully');
             }
-            setTimeout(() => {
-                window.location.href = window.location.pathname;
-            });
-            showRightBelowToast('Result added successfully');
         }
     });
 
@@ -118,5 +146,55 @@ $('document').ready(function () {
             curUrl.searchParams.set('search', $(this).val());
             window.location.href = curUrl.href;
         }
+    });
+});
+
+$('document').ready(function () {
+    $('.add-testcase-btn').on('click', function () {
+        $('#add-test-case').modal('show');
+    });
+
+    $('#add-test-case .close-button').on('click', function () {
+        $('#add-test-case').modal('hide');
+    });
+
+    $('.all-testcase-checkbox').change(function () {
+        if (this.checked) {
+            $('#add-test-case .testcase-checkbox').prop('checked', true);
+        } else {
+            $('#add-test-case .testcase-checkbox').prop('checked', false);
+        }
+    });
+
+    $('#add-test-case .save-button').on('click', function () {
+        let addTestCase = $('#add-test-case').find('.testcase-checkbox:checked');
+        
+        if (addTestCase.length === 0) {
+            showRightBelowToast('Please select at least 1 testcase');
+        }
+
+        console.log(addTestCase);
+
+        let data = [];
+
+        addTestCase.each(function (element) {
+            data.push($(this).closest('tr').find('.testcase-code').text());
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: window.location.pathname + '/addTestcase',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function (response) {
+                setTimeout(() => {
+                    window.location.href = window.location.pathname;
+                }, 1500);
+                showRightBelowToast('Testcases added successfully');
+            },
+            error: function (err) {
+                showRightBelowToast('Error adding testcases');
+            }
+        });
     });
 });
