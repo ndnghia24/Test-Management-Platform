@@ -31,7 +31,7 @@ module.exports = function(sequelize, DataTypes) {
     testrun_status: {
       type: DataTypes.STRING(255),
       allowNull: true,
-      defaultValue: "New"
+      defaultValue: "Not Started"
     },
     testcase_quantity: {
       type: DataTypes.INTEGER,

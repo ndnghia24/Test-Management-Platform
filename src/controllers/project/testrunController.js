@@ -120,7 +120,7 @@ controller.addTestRun = async (req, res) => {
     const t = await db.sequelize.transaction();
     try {
         const projectId = req.params.id;
-        const { test_run_name, release, assigned_to, description, testcases } = req.body;
+        const { test_run_name, release, assigned_to, description, testcases, user_id } = req.body;
 
         const testRun = await db.test_runs.create({
             project_id: projectId,
@@ -129,7 +129,7 @@ controller.addTestRun = async (req, res) => {
             assigned_to: assigned_to,
             description: description,
             testcase_quantity: testcases.length,
-            created_by: 3
+            created_by: user_id,
         }, { transaction: t });
 
         const testRunId = testRun.testrun_id;

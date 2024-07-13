@@ -145,25 +145,25 @@
 <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" role="document">
         <div class="modal-content align-items-center"
-            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8; height: 60vh;">
+            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8; height: 90vh;">
             <div class="modal-header" style="border-bottom: none; width: 100%;">
                 <p class="modal-title fs-3" id="modalTitleId" style="margin-left: auto; margin-right: auto;">
                     Add New TestCase
                 </p>
             </div>
-            <div class="modal-body d-flex flex-column" style="border-bottom: none; width: 100%; overflow-y: auto;">
+            <div class="modal-body d-flex flex-column" style="border-bottom: none; width: 100%;">
                 <div class="row mb-3">
                     <p style="color: #9C9C9C; font-weight: 600;">Add testcases</p>
                 </div>
                 <div class="row mb-3 flex-grow-1">
-                    <div class="col-12"
+                    <div class="col-11"
                         style="background-color: #FFFFFF; border-radius: 5%; position: relative;">
-                        <div class="table-responsive">
+                        <div class="table-responsive" style="overflow-y: auto;">
                             <table class="table">
                                 <thead>
                                     <th class="col-1" style="opacity: 0;"><input type="checkbox"></th>
                                     <th class="col-2">Testcase Code</th>
-                                    <th class="col-9">Testcase Title</th>
+                                    <th class="col-9" style="background-color: transparent;">Testcase Title</th>
                                 </thead>
                                 <tbody>
                                     {{#each testcases}}
@@ -218,6 +218,25 @@
 
 
 {{#block "script"}}
+<script>
+    let user_id = -1;
+
+    async function getUserId() {
+        $.ajax({
+            type: "GET",
+            url: window.location.pathname.split("/")[0] + '/auth/info',
+            success: function (response) {
+                console.log(response);
+                user_id = response.user_id;
+                return true;
+            },
+            error: function (err) {
+                showRightBelowToast("Error fetching user data");
+                return false;
+            }
+        });
+    }
+</script>
 <script src="/js/addTestrunModal.js"></script>
 <script src="/js/testrunActionBtn.js"></script>
 <script>
