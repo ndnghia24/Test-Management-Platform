@@ -106,6 +106,7 @@ controller.getTestRun = async (req, res) => {
                 page: page,
                 limit: limit,
                 totalRows: count[0].count,
+                queryParams: relesae ? { release: relesae } : {}
             }
         });
     } catch (error) {
