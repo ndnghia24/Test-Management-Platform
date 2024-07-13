@@ -56,12 +56,8 @@ body {
 /* custom CSS for card */
 .card {
     width: 100%;
-    height: 100%;
 }
 
-.card .card-body {
-    height: 100%;
-}
 
 .custom-card {
     padding: 20px;
@@ -82,7 +78,7 @@ body {
 /**/
 .table th {
     font-weight: 600;
-    color: #969696;
+    color: #232360;
 }
 
 .table .plan-code {
@@ -124,4 +120,21 @@ body {
     font-size: 1rem !important;
     font-weight: bold !important;
     background: var(--light-blue) !important;
+}
+
+table {
+    font-family: 'Arial', sans-serif; /* Thay đổi font chữ thành Arial */
+}
+th, td {
+    font-family: 'Arial', sans-serif; /* Thay đổi font chữ thành Arial */
+}
+
+td {
+    font-weight: 400;
+}
+
+.scrollable-card-body {
+    max-height: 35vh; /* Adjust this value as needed */
+    overflow-y: auto;
+    position: relative;
 }
