@@ -192,7 +192,7 @@ router.get("/:id/overview", controller.overviewController.getOverview);
 router.get("/:id/report", controller.reportController.getReport);
 
 //TESTRUN
-router.get("/:id/testrun", controller.testrunController.getTestRun);
+router.get("/:id/testrun", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.testrunController.getTestRun);
 router.post("/:id/testrun/addTestRun", controller.testrunController.addTestRun);
 router.put("/:id/testrun/:testrunId/editTestRun", controller.testrunController.editTestRun);
 router.delete("/:id/testrun/:testrunId/deleteTestRun", controller.testrunController.deleteTestRun);

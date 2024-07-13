@@ -106,7 +106,8 @@ controller.getTestRun = async (req, res) => {
                 page: page,
                 limit: limit,
                 totalRows: count[0].count,
-            }
+            },
+            permissions: res.locals.permissions
         });
     } catch (error) {
         console.error('Error getting test runs:', error);

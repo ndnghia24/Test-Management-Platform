@@ -264,4 +264,26 @@
         });
     });
 </script>
+
+<script>
+    const permission = {{{json permissions}}};
+
+    function canAdd() {
+        return permission.canAdd;
+    }
+
+    function canEdit() {
+        return permission.canEdit;
+    }
+
+    function canDelete() {
+        return permission.canDelete;
+    }
+
+    function canView() {
+        return permission.canView;
+    }
+
+    
+</script>
 {{/block}}
