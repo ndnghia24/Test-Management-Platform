@@ -162,7 +162,7 @@ controller.getIssues = async (req, res) => {
                 issue.priority = priorityResults.find(p => p.issue_priority_id === issue.priority_id).priority;
                 issue.status = statusResults.find(s => s.issue_status_id === issue.status_id).status;
                 issue.created_by = createdByResults.find(c => c.user_id === issue.created_by).name;
-                issue.assigned_to = assignToResults.find(a => a.user_id === issue.assigned_to).name;
+                issue.assigned_to = assignToResults.find(a => a.user_id === issue.assigned_to)?.name ?? null;
                 return issue;
             });
         }
@@ -227,6 +227,8 @@ controller.getSpecifyIssue = async (req, res) => {
     try {
         const projectId = req.params.id;
         const issueId = req.query.issueId;
+        console.log('issueId', issueId);
+        console.log('projectId', projectId);
         const issue = await db.sequelize.query(
             'SELECT i.title, i.issue_id, i.description, i.created_date, i.test_case_id, ip.priority, iss.status, it.type, i.created_by, i.assigned_to ' +
             'FROM issues AS i, issue_priority AS ip, issue_status AS iss, issue_type AS it ' +
@@ -235,15 +237,29 @@ controller.getSpecifyIssue = async (req, res) => {
             { replacements: [issueId], type: db.sequelize.QueryTypes.SELECT, raw: true },
         );
 
+        console.log("issue", issue[0]);
+
         const created_user = await db.sequelize.query(
             'SELECT name FROM users WHERE user_id = ?',
             { replacements: [issue[0].created_by], type: db.sequelize.QueryTypes.SELECT, raw: true },
         );
 
-        const assigned_user = await db.sequelize.query(
-            'SELECT name FROM users WHERE user_id = ?',
-            { replacements: [issue[0].assigned_to], type: db.sequelize.QueryTypes.SELECT, raw: true },
-        );
+        const assigned_to = issue[0].assigned_to;
+
+        // Kiểm tra nếu assigned_to là null
+        if (assigned_to === null) {
+            // Gán assigned_user là null nếu assigned_to là null
+            var assigned_user = null;
+        } else {
+            // Thực hiện truy vấn để lấy thông tin người dùng
+            const assigned_user_result = await db.sequelize.query(
+                'SELECT name FROM users WHERE user_id = ?',
+                { replacements: [assigned_to], type: db.sequelize.QueryTypes.SELECT, raw: true },
+            );
+
+            // Nếu không tìm thấy người dùng, gán assigned_user là null
+            assigned_user = assigned_user_result.length > 0 ? assigned_user_result[0].name : null;
+        }
 
         const testcase = await db.sequelize.query(
             'SELECT t.name as testcase, t.testcase_id as testcase_id, m.name as module ' +
@@ -268,7 +284,7 @@ controller.getSpecifyIssue = async (req, res) => {
         res.locals.issue = issue[0];
         res.locals.testcase = testcase[0];
         res.locals.created_user = created_user[0];
-        res.locals.assigned_user = assigned_user[0];
+        res.locals.assigned_user = assigned_user;
         res.locals.comments = comments;
 
         console.log('issue', res.locals.issue);
@@ -498,20 +514,36 @@ controller.addIssue = async (req, res) => {
             { replacements: [type], type: db.sequelize.QueryTypes.SELECT }
         );
 
-        const assigned_to = await db.sequelize.query(
-            'SELECT user_id FROM users WHERE name = ?',
-            { replacements: [asign], type: db.sequelize.QueryTypes.SELECT }
-        );
+        let id_of_issue_type = 1;
+        if (issue_type_id.length > 0) {
+            id_of_issue_type = issue_type_id[0].issue_type_id;
+        }
 
+        let user_assigned_to = null;
+
+        if (asign !== '') {
+            const assigned_to = await db.sequelize.query(
+                'SELECT user_id FROM users WHERE name = ?',
+                { replacements: [asign], type: db.sequelize.QueryTypes.SELECT }
+            );
+            user_assigned_to = assigned_to[0].user_id;
+        }
+
+        
         const test_case_id = await db.sequelize.query(
             'SELECT testcase_id FROM test_cases WHERE name = ?',
             { replacements: [testcase], type: db.sequelize.QueryTypes.SELECT }
         );
 
+        let id_of_testcase = null;
+        if (test_case_id.length > 0) {
+            id_of_testcase = test_case_id[0].testcase_id;
+        }
+
         console.log('priority_id', priority_id);
         console.log('status_id', status_id);
         console.log('issue_type_id', issue_type_id);
-        console.log('assigned_to', assigned_to[0].user_id);
+        console.log('assigned_to', user_assigned_to);
         console.log('test_case_id', test_case_id);
         console.log('projectId', projectId);
         console.log('new_issue_id', new_issue_id);
@@ -524,10 +556,10 @@ controller.addIssue = async (req, res) => {
             priority_id: priority_id[0].issue_priority_id,
             status_id: status_id[0].issue_status_id,
             created_by: 1,
-            assigned_to: assigned_to[0].user_id,
+            assigned_to: user_assigned_to,
             description: description,
-            test_case_id: test_case_id[0].testcase_id,
-            issue_type_id: issue_type_id[0].issue_type_id,
+            test_case_id: id_of_testcase,
+            issue_type_id: id_of_issue_type,
             test_run_id: null,
             project_id: projectId,
             created_date: new Date(),
