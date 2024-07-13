@@ -346,7 +346,8 @@ controller.addIssue = async (req, res) => {
             project_id: projectId,
             created_by: 1,
             assigned_to: assigned_to,
-            created_at: new Date()
+            created_at: new Date(),
+            created_date: new Date()
         }, {
             transaction: t
         });
