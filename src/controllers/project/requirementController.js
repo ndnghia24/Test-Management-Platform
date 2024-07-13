@@ -241,4 +241,24 @@ controller.addRequirementType = async (req,res) => {
     }
 }
 
+controller.exportExcel = async (req,res) => {
+    try {
+        const projectId = req.params.id;
+
+        const requirements = await db.sequelize.query(
+            'SELECT r.requirement_id AS requirement_code, r.name AS requirement_name, rt.name AS requirement_type, r.description ' +
+            'FROM requirements AS r, requirement_types AS rt ' +
+            'WHERE r.project_id = :projectId ' +
+            'AND r.requirement_type_id = rt.requirement_type_id ' +
+            'ORDER BY r.requirement_id',
+            { replacements: { projectId: projectId }, type: db.sequelize.QueryTypes.SELECT }
+        );
+
+        res.status(200).send({ requirements });
+    } catch (error) {
+        console.error('Error exporting requirements:', error);
+        res.status(500).send({ success: false, error });
+    }
+}
+
 module.exports = controller;
