@@ -24,7 +24,7 @@ controller.getModule = async (req,res) => {
         });  
         const tree = [];  
         modules.forEach(module => {
-            if (module.root_module_id === 0) {
+            if (module.root_module_id === 0 || module.root_module_id === null) {
                 tree.push(moduleMap.get(module.module_id));
                 } else {
                 const parent = moduleMap.get(module.root_module_id);
