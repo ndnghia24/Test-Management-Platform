@@ -230,7 +230,7 @@
                 <div class="row mb-3">
                     <div>
                         <label for="description">Requirement Title <span style="color: red">*</span>:</label>
-                        <input type="text" class="form-control" name="requirement-title" id="requirement-title"
+                        <input type="text" class="form-control" name="requirement-title" id="requirement-title" readonly
                             placeholder="Enter Requirement Title" required>
                         <div id="alertMessageRequirementTitle" style="display: none; color: red"></div>
                     </div>
@@ -238,7 +238,7 @@
                 <div class="row mb-3">
                     <div>
                         <label for="description">Requirement Type <span style="color: red">*</span>:</label>
-                        <input type="text" class="form-control" name="requirement-type" id="requirement-type"
+                        <input type="text" class="form-control" name="requirement-type" id="requirement-type" readonly
                             placeholder="Enter Requirement Type" required>
                         <div id="alertMessageRequirementType" style="display: none; color: red"></div>
                     </div>
@@ -246,7 +246,7 @@
                 <div class="row mb-3">
                     <div>
                         <label for="description">Requirement Description:</label>
-                        <textarea name="description" id="description" class="form-control" rows="3"
+                        <textarea name="description" id="description" class="form-control" rows="3" readonly
                             placeholder="Enter Requirement Description"></textarea>
                     </div>
                 </div>
@@ -286,14 +286,14 @@
                 <form id="edit-requirement-form">
                     <div class="row mb-3">
                         <div>
-                            <label for="edit-requirement-title">Requirement Title <span style="color: red">*</span>:</label>
+                            <label for="edit-requirement-title">Requirement Title (cannot change):</label>
                             <input type="text" class="form-control" name="edit-requirement-title" id="edit-requirement-title" required>
                             <div id="alertMessageRequirementTitle" style="display: none; color: red"></div>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div>
-                            <label for="edit-requirement-type">Requirement Type <span style="color: red">*</span>:</label>
+                            <label for="edit-requirement-type">Requirement Type (cannot change):</label>
                             <input type="text" class="form-control" name="edit-requirement-type" id="edit-requirement-type" required>
                             <div id="alertMessageRequirementType" style="display: none; color: red"></div>
                         </div>

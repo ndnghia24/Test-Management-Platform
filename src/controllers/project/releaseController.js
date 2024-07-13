@@ -78,8 +78,6 @@ controller.getSpecifyRelease = async (req,res) => {
 
         release.testplans = testplans;
         release.testrunStats = testrunStats;
-
-        console.log(release);
         
         res.status(200).send({ success: true, release });
     } catch (error) {
