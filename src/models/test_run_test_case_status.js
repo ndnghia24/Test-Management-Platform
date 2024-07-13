@@ -9,22 +9,12 @@ module.exports = function(sequelize, DataTypes) {
     status_name: {
       type: DataTypes.STRING(255),
       allowNull: true
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.Sequelize.fn('now')
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.Sequelize.fn('now')
     }
   }, {
     sequelize,
     tableName: 'test_run_test_case_status',
     schema: 'public',
-    timestamps: false,
+    timestamps: true,
     indexes: [
       {
         name: "test_run_test_case_status_pkey",

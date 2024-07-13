@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
     name: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      unique: true
+      unique: "test_cases_unique"
     },
     description: {
       type: DataTypes.TEXT,
@@ -26,41 +26,30 @@ module.exports = function(sequelize, DataTypes) {
     },
     created_by: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'user_in_project',
-        key: 'user_id'
-      }
+      allowNull: true
     },
     project_id: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'user_in_project',
-        key: 'user_id'
-      }
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.Sequelize.fn('now')
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.Sequelize.fn('now')
+      allowNull: true
     }
   }, {
     sequelize,
     tableName: 'test_cases',
     schema: 'public',
-    timestamps: false,
+    timestamps: true,
     indexes: [
       {
         name: "test_cases_pkey",
         unique: true,
         fields: [
           { name: "testcase_id" },
+        ]
+      },
+      {
+        name: "test_cases_unique",
+        unique: true,
+        fields: [
+          { name: "name" },
         ]
       },
     ]

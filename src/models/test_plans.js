@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
     name: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      unique: true
+      unique: "test_plans_unique"
     },
     description: {
       type: DataTypes.TEXT,
@@ -31,28 +31,25 @@ module.exports = function(sequelize, DataTypes) {
         model: 'projects',
         key: 'project_id'
       }
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.Sequelize.fn('now')
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.Sequelize.fn('now')
     }
   }, {
     sequelize,
     tableName: 'test_plans',
     schema: 'public',
-    timestamps: false,
+    timestamps: true,
     indexes: [
       {
         name: "test_plans_pkey",
         unique: true,
         fields: [
           { name: "testplan_id" },
+        ]
+      },
+      {
+        name: "test_plans_unique",
+        unique: true,
+        fields: [
+          { name: "name" },
         ]
       },
     ]

@@ -37,19 +37,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     test_case_id: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'testcase_testrun',
-        key: 'testrun_id'
-      }
+      allowNull: true
     },
     test_run_id: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'testcase_testrun',
-        key: 'testrun_id'
-      }
+      allowNull: true
     },
     description: {
       type: DataTypes.TEXT,
@@ -78,22 +70,12 @@ module.exports = function(sequelize, DataTypes) {
     assigned_to: {
       type: DataTypes.INTEGER,
       allowNull: true
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.Sequelize.fn('now')
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.Sequelize.fn('now')
     }
   }, {
     sequelize,
     tableName: 'issues',
     schema: 'public',
-    timestamps: false,
+    timestamps: true,
     indexes: [
       {
         name: "issues_pkey",
