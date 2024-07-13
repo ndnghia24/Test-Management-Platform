@@ -105,23 +105,27 @@
                 password: document.getElementById('input-password').value
             };
 
+            // Hide error messages
+            document.getElementById('issue-assign-error-1').style.display = 'none';
+            document.getElementById('issue-assign-error-2').style.display = 'none';
+
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             // Check email format
             if (!emailRegex.test(formData.email)) {
-                // set error message to login form
-                document.getElementById('issue-assign-error-2').style.display = 'block';
-                document.getElementById('issue-assign-error-2').innerHTML = 'Invalid email format';
-                submitButton.innerHTML = 'Login now';
+                // Set error message to email input
+                document.getElementById('issue-assign-error-1').style.display = 'block';
+                document.getElementById('issue-assign-error-1').innerHTML = 'Invalid email format';
+                submitButton.innerHTML = 'Register now';
                 submitButton.disabled = false;
                 return;
             }
 
             // Check password length (e.g., minimum 6 characters)
             if (formData.password.length < 6) {
-                // set error message to login form
-                document.getElementById('issue-assign-error-1').style.display = 'block';
-                document.getElementById('issue-assign-error-1').innerHTML = 'Password must have at least 6 characters';
-                submitButton.innerHTML = 'Login now';
+                // Set error message to password input
+                document.getElementById('issue-assign-error-2').style.display = 'block';
+                document.getElementById('issue-assign-error-2').innerHTML = 'Password must have at least 6 characters';
+                submitButton.innerHTML = 'Register now';
                 submitButton.disabled = false;
                 return;
             }
@@ -129,7 +133,7 @@
             try {
                 // Send POST request to server
                 const getCurrentUrl = window.location.href;
-                const serverUrl = getCurrentUrl.substring(0, getCurrentUrl.indexOf('/login'));
+                const serverUrl = getCurrentUrl.substring(0, getCurrentUrl.indexOf('/register'));
                 const response = await fetch(serverUrl + '/auth/register', {
                     method: 'POST',
                     headers: {
@@ -154,6 +158,7 @@
             } catch (error) {
                 console.error('Error:', error);
                 const errorMessageElement = document.getElementById('issue-assign-error-2');
+                errorMessageElement.textContent = 'Network error. Please try again later.';
                 errorMessageElement.style.display = 'block';
             } finally {
                 // Reset submit button
