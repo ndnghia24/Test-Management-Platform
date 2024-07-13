@@ -114,6 +114,7 @@ controller.getTestCase = async (req,res) => {
                 queryParams: queryParameters,
             },
             allTestcases: allTestCase,
+            permissions: res.locals.permissions
         });
     } catch (error) {
         console.error('Error fetching data:', error);

@@ -72,7 +72,7 @@
 {{#block "additional-button"}}
 <button
     style="background-color: #50DF89; padding: 10px; font-weight: 600; font-size: 1.2rem; border: none; border-radius: 10px;  color: #23235F;"
-    data-bs-toggle="modal" data-bs-target="#modalId">
+    data-bs-toggle="modal" data-bs-target="#modalId" class="Add-test-plan-btn">
     <i class="bi bi-plus-circle"></i>
     <span class="btn-text"> Add Plan </span>
 </button>
@@ -81,6 +81,37 @@
 {{!-- Additional Scripts --}}
 
 {{#block "script"}}
+
+<script>
+    const permissions = {{{json permissions}}};
+
+    console.log(permissions);
+
+    function canEditTestplan() {
+        return permissions.canEdit;
+    }
+
+    function canDeleteTestplan() {
+        return permissions.canDelete;
+    }
+
+    function canViewTestplan() {
+        return permissions.canView;
+    }
+
+    function canAddTestplan() {
+        return permissions.canAdd;
+    }
+
+    if (!canAddTestplan()) {
+        document.querySelector('.Add-test-plan-btn').style.display = 'none';
+    }
+
+
+</script>
+
 <script src="/js/addTestplanModal.js"></script>
 <script src="/js/testplanActionBtn.js"></script>
+
 {{/block}}
+

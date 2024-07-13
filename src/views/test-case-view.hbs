@@ -17,26 +17,7 @@
 
         <div class="d-flex flex-column gap-3 modules-list px-1 py-3"
             style="color: #232360; font-weight: 700; font-size: 1.1rem;">
-            {{!-- {{#each modules}}
-            {{#if (eq this.level 1)}}
-            <div>
-                <i class="bi bi-folder"></i>
-                {{this.name}}
-            </div>
-            {{/if}}
-            {{#if (eq this.level 2)}}
-            <div style="margin-left: 10px;">
-                <i class="bi bi-folder"></i>
-                {{this.name}}
-            </div>
-            {{/if}}
-            {{#if (eq this.level 3)}}
-            <div style="margin-left: 20px;">
-                <i class="bi bi-folder"></i>
-                {{this.name}}
-            </div>
-            {{/if}}
-            {{/each}} --}}
+
         </div>
     </div>
     <div class="col-1 offset-col"></div>
@@ -119,17 +100,17 @@
 
 {{#block "additional-button"}}
 <div class="group-btn" style="height: 60%;">
-    <button class="btn btn-primary"
+    <button class="btn btn-primary import-btn"
         style="background-color: #53C4F4; padding: 10px; font-weight: 600; font-size: 1.2rem; border: none; border-radius: 10px; color: #23235F;">
         <i class="bi bi-box-arrow-down"></i>
         <span class="btn-text">Import</span>
     </button>
-    <button class="btn btn-danger"
+    <button class="btn btn-danger export-btn"
         style="background-color: #53C4F4; padding: 10px; font-weight: 600; font-size: 1.2rem; border: none; border-radius: 10px; color: #23235F;">
         <i class="bi bi-box-arrow-up"></i>
         <span class="btn-text">Export</span>
     </button>
-    <button class="btn"
+    <button class="btn add-testcase-btn"
         style="background-color: #50DF89; padding: 10px; font-weight: 600; font-size: 1.2rem; border: none; border-radius: 10px; color: #23235F;"
         data-bs-toggle="modal" data-bs-target="#modal1">
         <i class="bi bi-plus-circle"></i>
@@ -146,7 +127,7 @@
 <script src="/js/testcaseActionBtn.js"></script>
 <script>
     const modulesList = $(".modules-list");
-    
+
     lv1_modules.forEach(module => {
         const lv1_module_div = $(`<div class="module-choice hover-icon ellispe" data-module-id="${module.module_id}">
             <i class="bi bi-folder"></i>
@@ -171,7 +152,7 @@
         });
     });
 
-    $(".module-choice").click(function() {
+    $(".module-choice").click(function () {
         const module_id = $(this).data("module-id");
         console.log(module_id);
         currentUrl = new URL(window.location);
@@ -179,6 +160,43 @@
         window.location.href = currentUrl.href;
     });
 
+</script>
+
+<script>
+    const permission = {{{ json permissions }}};
+    console.log(permission);
+
+    function canView() {
+        return permission.canView;
+    }
+
+    function canAdd() {
+        return permission.canAdd;
+    }
+
+    function canEdit() {
+        return permission.canEdit;
+    }
+
+    function canDelete() {
+        return permission.canDelete;
+    }
+
+    function canImport() {
+        return permission.canImport;
+    }
+
+    function canExport() {
+        return permission.canExport;
+    }
+
+
+</script>
+
+<script>
+    if (!canAdd()) {
+        $('.add-testcase-btn').hide();
+    }
 </script>
 
 {{/block}}

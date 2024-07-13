@@ -147,13 +147,13 @@ router.get("/:id/getAllRequirement", controller.getRequirement);
 router.get("/:id/getAllTestCase", controller.getAllTestCase);
 
 //TESTPLAN
-router.get("/:id/testplan", controller.test_planController.getTestPlan);
+router.get("/:id/testplan", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.test_planController.getTestPlan);
 router.post("/:id/testplan/addTestPlan", controller.test_planController.addTestPlan);
 router.put("/:id/testplan/editTestPlan", controller.test_planController.editTestPlan);
 router.delete("/:id/testplan/deleteTestPlan", controller.test_planController.deleteTestPlan);
 
 //TESTCASE
-router.get("/:id/testcase", controller.test_caseController.getTestCase);
+router.get("/:id/testcase", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.test_caseController.getTestCase);
 router.get("/:id/testcase/getTestCase", controller.test_caseController.getSpecifyTestCase);
 router.post("/:id/testcase/addTestCase", controller.test_caseController.addTestCase);
 router.delete("/:id/testcase/deleteTestCase", controller.test_caseController.deleteTestCase);

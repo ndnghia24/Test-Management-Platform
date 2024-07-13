@@ -16,6 +16,12 @@ $('document').ready(function () {
 
 $('document').ready(function () {
     $('i.bi-trash').click(function () {
+
+        if (!canDelete()) {
+            showRightBelowToast('You do not have permission to delete this Test Case');
+            return;
+        }
+
         var curRow = $(this).closest('tr');
         var testcaseId = curRow.find('.testcase-code').text();
         $('#delete-test-case-modal')[0].dataset.testcaseCode = testcaseId;
@@ -43,6 +49,12 @@ $('document').ready(function () {
     });
 
     $('i.bi-eye').click(function () {
+
+        if (!canView()) {
+            showRightBelowToast('You do not have permission to view this Test Case');
+            return;
+        }
+
         var curRow = $(this).closest('tr');
         var testcaseId = curRow.find('.testcase-code').text();
 
@@ -61,6 +73,12 @@ $('document').ready(function () {
     });
 
     $('i.bi-pencil').click(function () {
+
+        if (!canEdit()) {
+            showRightBelowToast('You do not have permission to edit this Test Case');
+            return;
+        }
+
         var testcaseId = $(this).closest('tr').find('.testcase-code').text();
 
         fetch(window.location.pathname + '/getTestCase?testcaseId=' + testcaseId)

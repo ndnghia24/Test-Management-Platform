@@ -3,6 +3,12 @@
 
 $('document').ready(function () {
     $('i.bi-pencil').click(function () {
+
+        if (!canEditTestplan()) {
+            showRightBelowToast('You do not have permission to edit this Test Plan');
+            return;
+        }
+
         let row = $(this).closest('tr');
         let planCode = row.find('.test-plan-code').text();
         let planName = row.find('.test-plan-name').text();
@@ -58,6 +64,12 @@ $('document').ready(function () {
 
 $('document').ready(function () {
     $('i.bi-trash').click(function () {
+
+        if (!canDeleteTestplan()) {
+            showRightBelowToast('You do not have permission to delete this Test Plan');
+            return;
+        }
+
         let row = $(this).closest('tr');
         let planCode = row.find('.test-plan-code').text();
 
@@ -92,6 +104,12 @@ $('document').ready(function () {
 // -------------------------------------------VIEW TESTCASES---------------------------------------------------
 $('document').ready(function () {
     $('i.bi-eye').click(function () {
+
+        if (!canViewTestplan()) {
+            showRightBelowToast('You do not have permission to view Test Cases');
+            return;
+        }
+
         let row = $(this).closest('tr');
         let planName = row.find('.test-plan-name').text();
         let planDescription = row.find('.test-plan-description').text();

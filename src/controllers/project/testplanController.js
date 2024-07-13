@@ -8,8 +8,6 @@ controller.getTestPlan = async (req, res) => {
     const offset = (page - 1) * limit;
     let release = req.query.release || null;
 
-    console.log('Release:', release);
-
     try {
         // Fetch data
         const project_id = req.params.id;
@@ -78,10 +76,6 @@ controller.getTestPlan = async (req, res) => {
         // });
         res.locals.releases = releases;
 
-        console.log('Test Plans:', testPlans);
-        console.log('Releases:', releases);
-        console.log('Count:', count);
-
         res.render('test-plan-view', {
             title: 'Test Plans',
             testPlans: testPlans,
@@ -93,6 +87,7 @@ controller.getTestPlan = async (req, res) => {
                 totalRows: count[0].count,
                 queryParams: release ? { release: release } : {},
             },
+            permissions: res.locals.permissions
         });
     } catch (error) {
         console.error('Error fetching data:', error);
