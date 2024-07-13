@@ -83,4 +83,42 @@ controller.addModule = async (req,res) => {
     }
 }
 
+controller.editModule = async (req,res) => {
+    try {
+        const moduleId = req.query.moduleId;
+        const module = req.body;
+
+        // check datatype of module
+        if (module.name.length > 100) {
+            return res.status(400).send({ success: false, error: 'Module name too long' });
+        }
+
+        await db.modules.update(module, {
+            where: {
+                module_id: moduleId
+            }
+        });
+        res.status(200).send({ success: true });
+    } catch (error) {
+        console.error('Error editing module:', error);
+        res.status(500).send({ success: false, error });
+    }
+}
+
+controller.deleteModule = async (req,res) => {
+    try {
+        const moduleId = req.query.moduleId;
+        
+        await db.modules.destroy({
+            where: {
+                module_id: moduleId
+            }
+        });
+        res.status(200).send({ success: true });
+    } catch (error) {
+        console.error('Error deleting module:', error);
+        res.status(500).send({ success: false, error });
+    }
+}
+
 module.exports = controller;

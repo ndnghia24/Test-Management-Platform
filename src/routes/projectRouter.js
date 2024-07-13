@@ -166,6 +166,8 @@ router.put("/:id/testcase/editTestCaseRequirementLinking", controller.test_caseC
 router.get("/:id/module", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.moduleController.getModule);
 router.get("/:id/module/getModule", controller.moduleController.getAllModule);
 router.post("/:id/module/addModule", controller.moduleController.addModule);
+router.put("/:id/module/editModule", controller.moduleController.editModule);
+router.delete("/:id/module/deleteModule", controller.moduleController.deleteModule);
 
 //REQUIREMENT & REQUIREMENT TYPE
 router.get("/:id/requirement", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.requirementController.getRequirement);
@@ -177,6 +179,8 @@ router.delete("/:id/requirement/deleteRequirement", controller.requirementContro
 
 router.get("/:id/requirement/getRequirementType", controller.requirementController.getRequirementType);
 router.post("/:id/requirement/addRequirementType", controller.requirementController.addRequirementType);
+
+router.get("/:id/requirement/exportExcel", controller.requirementController.exportExcel);
 
 //RELEASE
 router.get("/:id/release", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.releaseController.getRelease);
@@ -198,6 +202,9 @@ router.put("/:id/testrun/:testrunId/editTestRun", controller.testrunController.e
 router.delete("/:id/testrun/:testrunId/deleteTestRun", controller.testrunController.deleteTestRun);
 router.get("/:id/testrun/:testrunId",controller.testrunController.getDetailTestRun); 
 router.post("/:id/testrun/:testrunId/addIssue",controller.testrunController.addIssue);
+router.post("/:id/testrun/:testrunId/addResult",controller.testrunController.addResult);
+router.post("/:id/testrun/:testrunId/addTestcase",controller.testrunController.addTestcaseToTestRun);
+router.delete("/:id/testrun/:testrunId/deleteTestcase",controller.testrunController.deleteTestcaseFromTestRun);
 
 //ISSUES
 router.get("/:id/issues", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.issuesController.getIssues);

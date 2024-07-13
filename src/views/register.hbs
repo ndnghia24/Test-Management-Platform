@@ -105,6 +105,27 @@
                 password: document.getElementById('input-password').value
             };
 
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            // Check email format
+            if (!emailRegex.test(formData.email)) {
+                // set error message to login form
+                document.getElementById('issue-assign-error-2').style.display = 'block';
+                document.getElementById('issue-assign-error-2').innerHTML = 'Invalid email format';
+                submitButton.innerHTML = 'Login now';
+                submitButton.disabled = false;
+                return;
+            }
+
+            // Check password length (e.g., minimum 6 characters)
+            if (formData.password.length < 6) {
+                // set error message to login form
+                document.getElementById('issue-assign-error-1').style.display = 'block';
+                document.getElementById('issue-assign-error-1').innerHTML = 'Password must have at least 6 characters';
+                submitButton.innerHTML = 'Login now';
+                submitButton.disabled = false;
+                return;
+            }
+
             try {
                 // Send POST request to server
                 const getCurrentUrl = window.location.href;

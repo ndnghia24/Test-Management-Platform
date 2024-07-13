@@ -279,3 +279,10 @@ div.content {
 .navigation-container{
     position: relative;
 }
+
+table {
+    font-family: 'Arial', sans-serif; /* Thay đổi font chữ thành Arial */
+}
+th, td {
+    font-family: 'Arial', sans-serif; /* Thay đổi font chữ thành Arial */
+}

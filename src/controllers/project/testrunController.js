@@ -106,6 +106,7 @@ controller.getTestRun = async (req, res) => {
                 page: page,
                 limit: limit,
                 totalRows: count[0].count,
+                queryParams: relesae ? { release: relesae } : {}
             }
         });
     } catch (error) {
@@ -200,7 +201,7 @@ controller.getDetailTestRun = async (req, res) => {
     const order = req.query.order || 'ASC';
     const by = req.query.by || 'tc.testcase_id';
     const search = req.query.search;
-    const offset = limit * (isNaN(req.query.page) ? 0 : Math.max(1, parseInt(req.query.page) - 1));
+    const offset = limit * ((isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page))) - 1);
 
     let queryParams = {};
     let promises = [];
@@ -220,6 +221,9 @@ controller.getDetailTestRun = async (req, res) => {
         queryParams.search = search;
         countQuery += 'AND tc.name LIKE ? ';
     }
+
+    console.log(by, order);
+    console.log(limit, offset);
 
     testCaseQuery += `ORDER BY ${by} ${order} `;
 
@@ -259,9 +263,29 @@ controller.getDetailTestRun = async (req, res) => {
             },
         }),
         db.issue_type.findAll({}),
+        db.sequelize.query(
+            'SELECT u.* ' +
+            'FROM users AS u, user_in_project AS up ' +
+            'WHERE u.user_id = up.user_id AND up.project_id = ?', {
+            replacements: [req.params.id],
+            type: db.sequelize.QueryTypes.SELECT
+        })
     );
 
-    let [testRun, allTestcase ,testcases, count, module, issue_type] = await Promise.all(promises);
+    let [testRun, allTestcase ,testcases, count, module, issue_type, users] = await Promise.all(promises);
+
+    const allProjectTestcase = await db.test_cases.findAll({
+        where: {
+            project_id: req.params.id
+        },
+        raw: true
+    });
+
+    const unAddedTestcase = allProjectTestcase.filter(testcase => {
+        return !allTestcase.find(t => t.testcase_id == testcase.testcase_id);
+    });
+
+    console.log(unAddedTestcase);
 
     const newTestCase = allTestcase.filter(testcase => testcase.status_id == 1);
     const Blocked = allTestcase.filter(testcase => testcase.status_id == 2);
@@ -272,8 +296,8 @@ controller.getDetailTestRun = async (req, res) => {
         testcase.status = status_id[testcase.status_id];
     });
 
-    const testRunStatus = 1 - newTestCase.length / allTestcase.length;
-    const issues = (Blocked.length +  Fail.length) / allTestcase.length;
+    const testRunStatus = Math.round((1 - newTestCase.length / allTestcase.length) * 100);
+    const issues = Math.round((Blocked.length +  Fail.length) / allTestcase.length * 100);
 
     res.render('detail-test-run-view', {
         title: 'Test Run Detail',
@@ -285,6 +309,8 @@ controller.getDetailTestRun = async (req, res) => {
         modules: module,
         testRunStatus: testRunStatus,
         issueStatus: issues,
+        unAddedTestcases: unAddedTestcase,
+        users: users,
         pagination: {
             page: isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page)),
             limit: limit,
@@ -297,7 +323,7 @@ controller.getDetailTestRun = async (req, res) => {
 controller.addIssue = async (req, res) => {
     const t = await db.sequelize.transaction();
     try {
-        const { issue_name, testcase_id, description, status, priority, issue_type } = req.body;
+        const { issue_name, testcase_id, description, status, priority, issue_type, assigned_to } = req.body;
         const testRunId = req.params.testrunId;
         const projectId = req.params.id;
 
@@ -306,6 +332,8 @@ controller.addIssue = async (req, res) => {
             { type: db.sequelize.QueryTypes.SELECT }
         );
         let new_issue_id = issue_id[0].issue_id + 1;
+
+        console.log(testRunId);
 
         await db.issues.create({
             issue_id: new_issue_id,
@@ -318,10 +346,24 @@ controller.addIssue = async (req, res) => {
             test_run_id: testRunId,
             project_id: projectId,
             created_by: 1,
-            created_at: new Date()
+            assigned_to: assigned_to,
+            created_at: new Date(),
+            created_date: new Date()
         }, {
             transaction: t
         });
+
+        await db.testcase_testrun.update({
+            status_id: 4
+        }, {
+            where: {
+                testrun_id: testRunId,
+                testcase_id: testcase_id
+            },
+            transaction: t
+        });
+
+
         await t.commit();
         res.send({ success: true });
     } catch (error) {
@@ -330,5 +372,73 @@ controller.addIssue = async (req, res) => {
         res.status(500).send({ success: false, error });
     }
 }
+
+controller.addResult = async (req, res) => {
+    const t = await db.sequelize.transaction();
+    try {
+        const { testcase_id, status } = req.body;
+        const testRunId = req.params.testrunId;
+
+        console.log(testcase_id, status);
+
+        await db.testcase_testrun.update({
+            status_id: status
+        }, {
+            where: {
+                testrun_id: testRunId,
+                testcase_id: testcase_id
+            },
+            transaction: t
+        });
+        await t.commit();
+        res.send({ success: true });
+    } catch (error) {
+        await t.rollback();
+        console.error('Error adding result:', error);
+        res.status(500).send({ success: false, error });
+    }
+};
+
+controller.addTestcaseToTestRun = async (req, res) => {
+    const t = await db.sequelize.transaction();
+    try {
+        console.log(req.body);
+        const testcase_id  = req.body;
+        const testRunId = req.params.testrunId;
+
+        for (testcase of testcase_id) {
+            await db.testcase_testrun.create({
+                testrun_id: testRunId,
+                testcase_id: testcase
+            }, { transaction: t });
+        }
+
+        await t.commit();
+        res.send({ success: true });
+    } catch (error) {
+        await t.rollback();
+        console.error('Error adding testcase to test run:', error);
+        res.status(500).send({ success: false, error });
+    }
+};
+
+controller.deleteTestcaseFromTestRun = async (req, res) => {
+    try {
+        const testRunId = req.params.testrunId;
+        const testcaseId = req.body.testcase_id;
+
+        await db.testcase_testrun.destroy({
+            where: {
+                testrun_id: testRunId,
+                testcase_id: testcaseId
+            }
+        });
+
+        res.send({ success: true });
+    } catch (error) {
+        console.error('Error deleting testcase from test run:', error);
+        res.status(500).send({ success: false, error });
+    }
+};
 
 module.exports = controller;
