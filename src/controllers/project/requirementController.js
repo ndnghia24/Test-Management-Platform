@@ -130,6 +130,29 @@ controller.addRequirement = async (req,res) => {
             project_id : projectId
         }, { transaction: t });
 
+
+        // checking name cannot contain special characters and less than 100 characters
+        if (name.match(/[^a-zA-Z0-9 ]/)) {
+            await t.rollback();
+            return res.status(400).send('Requirement name cannot contain special characters');
+        }
+
+        if (name.length > 100) {
+            await t.rollback();
+            return res.status(400).send('Requirement name too long');
+        }
+
+        // checking requirement name ảready exists
+        const requirementExists = await db.sequelize.query(
+            'SELECT * FROM requirements WHERE project_id = ? AND name = ?',
+            { replacements: [projectId, name], type: db.sequelize.QueryTypes.SELECT }
+        );
+
+        if (requirementExists.length > 0) {
+            await t.rollback();
+            return res.status(400).send('Requirement name already exists');
+        }
+
         await t.commit();
         res.status(200).send({ success: true});
     } catch (error) {
