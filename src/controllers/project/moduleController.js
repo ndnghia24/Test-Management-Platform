@@ -114,6 +114,17 @@ controller.deleteModule = async (req,res) => {
                 module_id: moduleId
             }
         });
+
+
+        // remove all test cases related to this module
+
+        await db.test_cases.destroy({
+            where: {
+                module_id: moduleId
+            }
+        });
+
+
         res.status(200).send({ success: true });
     } catch (error) {
         console.error('Error deleting module:', error);
