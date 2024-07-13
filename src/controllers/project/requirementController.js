@@ -22,7 +22,9 @@ controller.getRequirement = async (req,res) => {
             projectId,
             requirement_types: requirementTypes,
             requirements,
-            permissions: res.locals.permissions
+            permissions: res.locals.permissions,
+            projectName: res.locals.projectName,
+            part: 'Requirement'
         });
     } catch (error) {
         console.error('Error fetching data:', error);

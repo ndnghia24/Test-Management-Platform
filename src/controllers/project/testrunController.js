@@ -108,7 +108,9 @@ controller.getTestRun = async (req, res) => {
                 totalRows: count[0].count,
                 queryParams: relesae ? { release: relesae } : {}
             },
-            permissions: res.locals.permissions
+            permissions: res.locals.permissions,
+            projectName: res.locals.projectName,
+            part: 'Test Run & Result'
         });
     } catch (error) {
         console.error('Error getting test runs:', error);
@@ -318,6 +320,8 @@ controller.getDetailTestRun = async (req, res) => {
             totalRows: count[0].count,
             queryParams: queryParams
         },
+        projectName: res.locals.projectName,
+        part: testRun.testrun_title
     });
 };
 

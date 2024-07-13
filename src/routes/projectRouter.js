@@ -127,7 +127,7 @@ const checkPermissions = async (req, res, next) => {
                 res.locals.permissions = {
                     canView: true,
                     canAdd: role === 1,
-                    canEdit: role === 1 || role === 2,
+                    canEdit: role === 1,
                     canDelete: role === 1,
                     canViewDetail: role === 1 || role === 2,
                 };
@@ -169,6 +169,21 @@ const checkPermissions = async (req, res, next) => {
     }
 };
 
+const getProjectName = async (req, res, next) => {
+    const projectName = await db.sequelize.query(
+        'SELECT name FROM projects WHERE project_id = :projectId',
+        {
+            replacements: { projectId: req.params.id },
+            type: QueryTypes.SELECT
+        }
+    );
+
+    console.log(projectName);
+
+    res.locals.projectName = projectName[0].name;
+    next();
+};
+
 
 
 //PROJECT SUPPORT ROUTES
@@ -176,13 +191,13 @@ router.get("/:id/getAllRequirement", controller.getRequirement);
 router.get("/:id/getAllTestCase", controller.getAllTestCase);
 
 //TESTPLAN
-router.get("/:id/testplan", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.test_planController.getTestPlan);
+router.get("/:id/testplan", authController.refreshingTokens, checkAuthentication, checkPermissions, getProjectName, controller.test_planController.getTestPlan);
 router.post("/:id/testplan/addTestPlan", controller.test_planController.addTestPlan);
 router.put("/:id/testplan/editTestPlan", controller.test_planController.editTestPlan);
 router.delete("/:id/testplan/deleteTestPlan", controller.test_planController.deleteTestPlan);
 
 //TESTCASE
-router.get("/:id/testcase", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.test_caseController.getTestCase);
+router.get("/:id/testcase", authController.refreshingTokens, checkAuthentication, checkPermissions, getProjectName, controller.test_caseController.getTestCase);
 router.get("/:id/testcase/getTestCase", controller.test_caseController.getSpecifyTestCase);
 router.post("/:id/testcase/addTestCase", controller.test_caseController.addTestCase);
 router.delete("/:id/testcase/deleteTestCase", controller.test_caseController.deleteTestCase);
@@ -192,14 +207,14 @@ router.put("/:id/testcase/editTestCaseLinking", controller.test_caseController.e
 router.put("/:id/testcase/editTestCaseRequirementLinking", controller.test_caseController.editTestCaseLinkingRequirement);
 
 //MODULE
-router.get("/:id/module", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.moduleController.getModule);
+router.get("/:id/module", authController.refreshingTokens, checkAuthentication, checkPermissions, getProjectName, controller.moduleController.getModule);
 router.get("/:id/module/getModule", controller.moduleController.getAllModule);
 router.post("/:id/module/addModule", controller.moduleController.addModule);
 router.put("/:id/module/editModule", controller.moduleController.editModule);
 router.delete("/:id/module/deleteModule", controller.moduleController.deleteModule);
 
 //REQUIREMENT & REQUIREMENT TYPE
-router.get("/:id/requirement", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.requirementController.getRequirement);
+router.get("/:id/requirement", authController.refreshingTokens, checkAuthentication, checkPermissions, getProjectName, controller.requirementController.getRequirement);
 router.get("/:id/requirement/getRequirement", controller.requirementController.getSpecifyRequirement);
 router.get("/:id/requirement/getRequirementByTypeFilter", controller.requirementController.getRequirementByTypeFilter);
 router.post("/:id/requirement/addRequirement", controller.requirementController.addRequirement);
@@ -212,31 +227,31 @@ router.post("/:id/requirement/addRequirementType", controller.requirementControl
 router.get("/:id/requirement/exportExcel", controller.requirementController.exportExcel);
 
 //RELEASE
-router.get("/:id/release", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.releaseController.getRelease);
+router.get("/:id/release", authController.refreshingTokens, checkAuthentication, checkPermissions, getProjectName, controller.releaseController.getRelease);
 router.get("/:id/release/getRelease", controller.releaseController.getSpecifyRelease);
 router.post("/:id/release/addRelease", controller.releaseController.addRelease);
 router.put("/:id/release/editRelease", controller.releaseController.editRelease);
 router.delete("/:id/release/deleteRelease", controller.releaseController.deleteRelease);
 
 //OVERVIEW
-router.get("/:id/overview", controller.overviewController.getOverview);
+router.get("/:id/overview",getProjectName, controller.overviewController.getOverview);
 
 //REPORT (only for manager)
-router.get("/:id/report", controller.reportController.getReport);
+router.get("/:id/report",getProjectName, controller.reportController.getReport);
 
 //TESTRUN
-router.get("/:id/testrun", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.testrunController.getTestRun);
+router.get("/:id/testrun", authController.refreshingTokens, checkAuthentication, checkPermissions, getProjectName, controller.testrunController.getTestRun);
 router.post("/:id/testrun/addTestRun", controller.testrunController.addTestRun);
 router.put("/:id/testrun/:testrunId/editTestRun", controller.testrunController.editTestRun);
 router.delete("/:id/testrun/:testrunId/deleteTestRun", controller.testrunController.deleteTestRun);
-router.get("/:id/testrun/:testrunId", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.testrunController.getDetailTestRun); 
+router.get("/:id/testrun/:testrunId", authController.refreshingTokens, checkAuthentication, checkPermissions, getProjectName, controller.testrunController.getDetailTestRun); 
 router.post("/:id/testrun/:testrunId/addIssue",controller.testrunController.addIssue);
 router.post("/:id/testrun/:testrunId/addResult",controller.testrunController.addResult);
 router.post("/:id/testrun/:testrunId/addTestcase",controller.testrunController.addTestcaseToTestRun);
 router.delete("/:id/testrun/:testrunId/deleteTestcase",controller.testrunController.deleteTestcaseFromTestRun);
 
 //ISSUES
-router.get("/:id/issues", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.issuesController.getIssues);
+router.get("/:id/issues", authController.refreshingTokens, checkAuthentication, checkPermissions,getProjectName, controller.issuesController.getIssues);
 router.get("/:id/issues/getIssue", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.issuesController.getSpecifyIssue);
 router.get("/:id/issues/editIssue", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.issuesController.getEditIssue);
 router.put("/:id/issues/editIssue", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.issuesController.editIssue);

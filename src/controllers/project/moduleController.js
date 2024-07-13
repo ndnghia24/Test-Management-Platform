@@ -41,6 +41,8 @@ controller.getModule = async (req,res) => {
             cssFile: 'module-view.css',
             projectId: req.params.id,
             permissions: res.locals.permissions,
+            projectName: res.locals.projectName,
+            part: 'Module'
         });
     } catch (error) {
         console.error('Error fetching data:', error);

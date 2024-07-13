@@ -87,7 +87,9 @@ controller.getTestPlan = async (req, res) => {
                 totalRows: count[0].count,
                 queryParams: release ? { release: release } : {},
             },
-            permissions: res.locals.permissions
+            permissions: res.locals.permissions,
+            projectName: res.locals.projectName,
+            part: 'Test Plan'
         });
     } catch (error) {
         console.error('Error fetching data:', error);

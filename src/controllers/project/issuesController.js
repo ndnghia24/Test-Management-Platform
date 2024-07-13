@@ -389,7 +389,9 @@ controller.getEditIssue = async (req, res) => {
         res.render('update-issue-view', {
             title: 'Update Issues',
             permissions: res.locals.permissions,
-            projectId: projectId
+            projectId: projectId,
+            projectName: res.locals.projectName,
+            part: 'Issues'
         });
     }
     catch (error) {

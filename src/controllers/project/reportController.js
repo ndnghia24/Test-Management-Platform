@@ -56,6 +56,8 @@ controller.getReport = async (req, res) => {
             title: 'Report',
             cssFile: 'report-view.css',
             projectId: req.params.id,
+            projectName: res.locals.projectName,
+            part: 'Report'
         });
 
     } catch (error) {

@@ -17,6 +17,8 @@ controller.getRelease = async (req,res) => {
             cssFile: 'release-view.css',
             projectId: req.params.id,
             permissions: res.locals.permissions,
+            projectName: res.locals.projectName,
+            part: 'Release'
         });
     } catch (error) {
         console.error('Error fetching data:', error);

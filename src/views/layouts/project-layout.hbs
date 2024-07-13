@@ -156,7 +156,10 @@
                         style="height: 8vh; text-align: center; margin: 0 80px; min-height: 70px;">
                         <nav class="project-detail-nav" style="display: inline-block;">
                             <a href="#">Project</a>
-                            <a href="#">Instagram App</a>
+                            <a href="#">{{projectName}}</a>
+                            {{#if part}}
+                                <a href="#">{{part}}</a>
+                            {{/if}}
                         </nav>
                         {{{content "additional-button"}}}
                     </div>

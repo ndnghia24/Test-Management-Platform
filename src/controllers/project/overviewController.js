@@ -68,6 +68,8 @@ controller.getOverview = async (req,res) => {
             title: 'Overview',
             cssFile: 'overview-view.css',
             projectId: req.params.id,
+            projectName: res.locals.projectName,
+            part: 'Overview'
         });
     } catch (error) {
         console.error('Error fetching data:', error);
