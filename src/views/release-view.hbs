@@ -296,10 +296,6 @@
                 const cardElement = document.createElement('div');
                 cardElement.classList.add('card');
 
-                cardElement.addEventListener('click', () => {
-                    fetchReleaseDetails(release.release_id);
-                });
-
                 const cardBody = document.createElement('div');
                 cardBody.classList.add('card-body');
 
@@ -325,6 +321,12 @@
 
                 const cardTitle = document.createElement('div');
                 cardTitle.classList.add('card-title');
+
+                cardTitle.style.cursor = 'pointer';
+                cardTitle.addEventListener('click', () => {
+                    fetchReleaseDetails(release.release_id);
+                });
+
                 cardTitle.innerHTML =
                     `<div class="row">
                 <div class="col-10">
