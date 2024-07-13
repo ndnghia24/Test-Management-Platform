@@ -111,8 +111,7 @@
         <span class="btn-text">Export</span>
     </button>
     <button class="btn add-testcase-btn"
-        style="background-color: #50DF89; padding: 10px; font-weight: 600; font-size: 1.2rem; border: none; border-radius: 10px; color: #23235F;"
-        data-bs-toggle="modal" data-bs-target="#modal1">
+        style="background-color: #50DF89; padding: 10px; font-weight: 600; font-size: 1.2rem; border: none; border-radius: 10px; color: #23235F;">
         <i class="bi bi-plus-circle"></i>
         <span class="btn-text">Add Testcase</span>
     </button>
@@ -123,6 +122,25 @@
 {{!-- Additional Scripts --}}
 
 {{#block "script"}}
+<script>
+    let user_id = -1;
+
+    function getUserId() {
+        $.ajax({
+            type: "GET",
+            url: window.location.pathname.split("/")[0] + '/auth/info',
+            success: function (response) {
+                console.log(response);
+                user_id = response.user_id;
+                return true;
+            },
+            error: function (err) {
+                showRightBelowToast("Error fetching user data");
+                return false;
+            }
+        });
+    }
+</script>
 <script src="/js/addTestcaseModal.js"></script>
 <script src="/js/testcaseActionBtn.js"></script>
 <script>

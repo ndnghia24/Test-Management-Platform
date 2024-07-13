@@ -133,6 +133,9 @@ $('document').ready(function () {
                 } else {
                     showRightBelowToast('Error updating Test Case');
                 }
+            },
+            error: function (err) {
+                showRightBelowToast('Error updating Test Case');
             }
         });
     });
@@ -188,6 +191,9 @@ $('document').ready(function () {
                 } else {
                     showRightBelowToast('Error updating Test Case');
                 }
+            },
+            error: function (err) {
+                showRightBelowToast('Error updating Test Case');
             }
         });
     });
@@ -196,9 +202,24 @@ $('document').ready(function () {
 function renderTestCaseDetails(data) {
     let modal = $('#view-test-case');
 
+    const options = { 
+        year: 'numeric', 
+        month: '2-digit', 
+        day: '2-digit', 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit' 
+    };
+
+    const createdDate = new Date(data.testcase.created_at).toLocaleDateString('en-GB', options);
+    const updatedDate = new Date(data.testcase.updated_at).toLocaleDateString('en-GB', options);
+
     modal.find('#test-case-name').val(data.testcase.testcase_name);
     modal.find('#test-case-module').val(data.testcase.module_name);
     modal.find('#test-case-description').val(data.testcase.testcase_description);
+    modal.find('#test-case-creator').val(data.testcase.created_by);
+    modal.find('#test-case-created-date').val(createdDate);
+    modal.find('#test-case-updated-date').val(updatedDate);
 
     let steps = data.steps;
 
@@ -399,6 +420,9 @@ $('document').ready(function () {
                 } else {
                     showRightBelowToast('Error updating Test Case');
                 }
+            }, 
+            error: function (err) {
+                showRightBelowToast('Error updating Test Case');
             }
         });
     });
@@ -408,7 +432,8 @@ $('document').ready(function () {
 // Add requirement to linking list
 $('document').ready(function () {
     $('.test-case-linking-add-requirement').click(function () {
-        const existedRequirement = $('#edit-test-case test-case-linking-requirements-body-table').find('tr');
+        const existedRequirement = $('#edit-test-case .test-case-linking-requirements-body-table').find('tr');
+        console.log('existed: ', existedRequirement);
         const existedRequirementCode = existedRequirement.map(function () {
             return $(this).find('td').eq(0).text();
         }).get();
@@ -465,17 +490,37 @@ $('document').ready(function () {
             url: window.location.pathname + '/editTestCaseRequirementLinking?testcaseId=' + testcaseId,
             type: 'PUT',
             contentType: 'application/json',
-            data: JSON.stringify({ linkingRequirements }),
+            data: JSON.stringify({ linkingRequirements}),
             success: function (data) {
                 if (data.success) {
                     showRightBelowToast('Test Case updated successfully');
                 } else {
                     showRightBelowToast('Error updating Test Case');
                 }
+            },
+            error: function (err) {
+                showRightBelowToast('Error updating Test Case');
             }
         });
     });
 });
 
+$('document').ready(function () {
+    $('.add-testcase-btn').on('click', function () {
+        $.ajax({
+            type:"GET",
+            url: window.location.pathname.split("/")[0] + '/auth/info',
+            success: function (response) {
+                console.log(response);
+                user_id = response.user_id;
+                $('#modal1').modal('show');
+            },
+            error: function (err) {
+                showRightBelowToast("Error fetching user data");
+                return;
+            }
+        }); 
+    });
+});
 
 

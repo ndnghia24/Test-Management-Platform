@@ -108,6 +108,12 @@ function onModal4SaveClick() {
 
     data.linkingRequirement = linkingRequirement;
 
+    if (user_id == -1) {
+        showRightBelowToast("Error adding Testcase: Cannot identify user");
+        return;
+    }
+
+    data.user_id = user_id;
     console.log(data);
 
     currentUrl = window.location.pathname;

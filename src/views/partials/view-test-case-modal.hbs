@@ -52,6 +52,39 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
+                                <div class="col-4">
+                                    <label for="test-case-creator">
+                                        Created By:
+                                    </label>
+                                </div>
+                                <div class="col-6 offset-2">
+                                    <input id="test-case-creator" type="text" name="test-case-name" class="form-control"
+                                        placeholder="created-by" disabled>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-4">
+                                    <label for="test-case-created-date">
+                                        Created Date:
+                                    </label>
+                                </div>
+                                <div class="col-6 offset-2">
+                                    <input id="test-case-created-date" type="text" name="test-case-name" class="form-control"
+                                        placeholder="created-date" disabled>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-4">
+                                    <label for="test-case-updated-date">
+                                        Updated Date:
+                                    </label>
+                                </div>
+                                <div class="col-6 offset-2">
+                                    <input id="test-case-updated-date" type="text" name="test-case-name" class="form-control"
+                                        placeholder="updated-date" disabled>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
                                 <div>
                                     <label for="test-case-description">
                                         Testcase Description:
@@ -73,12 +106,7 @@
                                             <th class="col-4 offset-1">Expected Result</th>
                                         </thead>
                                         <tbody class="test-case-step-body-table">
-                                            {{!-- {{#each showTestcases}}
-                                            <tr>
-                                                <td>{{this.testcase_id}}</td>
-                                                <td>{{this.name}}</td>
-                                            </tr>
-                                            {{/each}} --}}
+
                                         </tbody>
                                     </table>
                                 </div>
