@@ -235,8 +235,9 @@ const authController = {
               return res.status(401).json({ message: "Invalid refresh token" });
           }
           const name = decoded.name;
+          const user_id = decoded.user_id;
           const email = decoded.email;
-          return res.status(200).json({ name: name, email: email });
+          return res.status(200).json({ name: name, user_id: user_id , email: email });
       } catch (error) {
           console.error("Error decoding refresh token:", error);
           return res.status(500).json({ message: "Internal server error" });
