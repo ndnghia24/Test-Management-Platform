@@ -318,7 +318,6 @@ controller.getDetailTestRun = async (req, res) => {
             totalRows: count[0].count,
             queryParams: queryParams
         },
-        permissions: res.locals.permissions
     });
 };
 

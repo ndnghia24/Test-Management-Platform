@@ -234,7 +234,7 @@
 <div class="modal fade" id="add-test-case" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" role="document">
         <div class="modal-content align-items-center"
-            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8; height: 60vh;">
+            style="color: #232360; font-weight: 900; padding: 0 6%; background-color: #F3F4F8; height: 90vh;">
             <div class="modal-header" style="border-bottom: none; width: 100%;">
                 <p class="modal-title fs-3" id="modalTitleId" style="margin-left: auto; margin-right: auto;">
                     Add New TestCase
@@ -252,7 +252,7 @@
                                 <thead>
                                     <th class="col-1" style="opacity: 0;"><input type="checkbox"></th>
                                     <th class="col-2">Testcase Code</th>
-                                    <th class="col-9">Testcase Title</th>
+                                    <th class="col-9" style="background-color: transparent;">Testcase Title</th>
                                 </thead>
                                 <tbody>
                                     {{#each unAddedTestcases}}
@@ -296,45 +296,12 @@
     const testrun_status = {{ testRunStatus }};
     const issue_status = {{ issueStatus }};
 
-    {{!-- if (isNan(testrun_status)) {
-        testrun_status = 0;
-    } --}}
-
-    {{!-- if (isNan(issue_status)) {
-        issue_status = 0;
-    } --}}
-
-    console.log(testrun_status);
-    console.log(issue_status);
-
     const testrunOffset = 440 - (440 * testrun_status) / 100;
     const issueOffset = 440 - (440 * issue_status) / 100;
 
     $('.testrun-status-circle').css('stroke-dashoffset', testrunOffset);
     $('.issues-status-circle').css('stroke-dashoffset', issueOffset);
     });
-</script>
-
-<script>
-    const permission = {{{json permissions}}};
-    console.log(permission);
-
-    function canAddTestcase() {
-        return permission.canAddTestcase;
-    }
-
-    function canCreateIssue() {
-        return permission.canCreateIssue;
-    }
-
-    function canDeleteTestcase() {
-        return permission.canDeleteTestcase;
-    }
-
-    function canCreateResult() {
-        return permission.canCreateResult;
-    }
-
 </script>
 
 {{/block}}

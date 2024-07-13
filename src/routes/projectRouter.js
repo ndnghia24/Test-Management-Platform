@@ -54,6 +54,9 @@ const checkPermissions = async (req, res, next) => {
         const idIndex = pathParts.indexOf('project') + 3; // Tìm vị trí của phần 'project/:id' và bỏ qua
         const remainingPath = pathParts.slice(idIndex).join('/'); // Ghép lại phần còn lại của đường dẫn
         const currentPage = `/${remainingPath}`;
+
+        console.log(currentPage);
+
         // console.log(currentPage);
         // const currentPage = "/" + req.path.split("/").pop();
 
@@ -127,10 +130,6 @@ const checkPermissions = async (req, res, next) => {
                     canEdit: role === 1 || role === 2,
                     canDelete: role === 1,
                     canViewDetail: role === 1 || role === 2,
-                    canAddTestcase: role === 1,
-                    canCreateIssue: role === 1 || role === 2,
-                    canCreateResult: role === 1 || role === 2,
-                    canDeleteTestcase: role === 1,
                 };
                 break;
             case '/testcase':
@@ -230,7 +229,7 @@ router.get("/:id/testrun", authController.refreshingTokens, checkAuthentication,
 router.post("/:id/testrun/addTestRun", controller.testrunController.addTestRun);
 router.put("/:id/testrun/:testrunId/editTestRun", controller.testrunController.editTestRun);
 router.delete("/:id/testrun/:testrunId/deleteTestRun", controller.testrunController.deleteTestRun);
-router.get("/:id/testrun/:testrunId",controller.testrunController.getDetailTestRun); 
+router.get("/:id/testrun/:testrunId", authController.refreshingTokens, checkAuthentication, checkPermissions, controller.testrunController.getDetailTestRun); 
 router.post("/:id/testrun/:testrunId/addIssue",controller.testrunController.addIssue);
 router.post("/:id/testrun/:testrunId/addResult",controller.testrunController.addResult);
 router.post("/:id/testrun/:testrunId/addTestcase",controller.testrunController.addTestcaseToTestRun);
