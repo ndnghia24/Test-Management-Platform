@@ -75,6 +75,18 @@ controller.addModule = async (req,res) => {
             return res.status(400).send({ success: false, error: 'Module name too long' });
         }
 
+        // checking module name are already exist or not
+        const moduleExist = await db.sequelize.query(
+            'SELECT * FROM modules WHERE project_id = ? AND name = ?',
+            { replacements: [projectId, module.name], type: db.sequelize.QueryTypes.SELECT }
+        );
+
+        console.log(moduleExist);
+
+        if (moduleExist.length > 0) {
+            return res.status(400).send({ success: false, error: 'Module name already exists' });
+        }
+
         await db.modules.create(module);
         res.status(200).send({ success: true });
     } catch (error) {
