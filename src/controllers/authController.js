@@ -155,19 +155,11 @@ const authController = {
       const hashedPassword = await bcrypt.hash(password, salt);
 
       // Save user to DB
-      // Define SQL INSERT query
-      const sqlQuery = `
-      INSERT INTO users (name, email, password)
-      VALUES (?, ?, ?)
-      RETURNING *;
-      `;
-
-      // Execute the query with replacements and type
-      const [user] = await db.sequelize.query(sqlQuery, {
-      replacements: [name, email, hashedPassword],
-      type: db.sequelize.QueryTypes.INSERT,
-      transaction: t,
-      });
+      const user = await db.users.create({
+        name: name,
+        email: email,
+        password: hashedPassword
+      }, { transaction: t });
 
       await t.commit();
       res.status(200).json(user);

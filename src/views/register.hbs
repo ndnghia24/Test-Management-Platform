@@ -63,7 +63,7 @@
                     <input type="password" class="form-control" id="input-password" name="password" placeholder="Enter your password" required>
                     <div id="issue-assign-error-2" class="error-message">
                         <i class="bi bi-exclamation-circle"></i>
-                        <span>Password must have at least 8 characters</span>
+                        <span>Password must have at least 6 characters</span>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100 mt-3">Register now</button>
@@ -140,21 +140,19 @@
 
                 if (!response.ok) {
                     if (response.status === 404) {
-                        // Show error message to user (email already registered)
                         const errorMessageElement = document.getElementById('issue-assign-error-1');
+                        errorMessageElement.textContent = 'Email already registered';
                         errorMessageElement.style.display = 'block';
                     } else {
-                        // Handle other types of errors
                         const errorMessageElement = document.getElementById('issue-assign-error-2');
+                        errorMessageElement.textContent = 'Something went wrong. Please try again later.';
                         errorMessageElement.style.display = 'block';
                     }
                 } else {
-                    // Redirect user after successful registration
-                    window.location.href = '/login'; // Assuming this is your login page
+                    window.location.href = '/login';
                 }
             } catch (error) {
                 console.error('Error:', error);
-                // Handle errors (show error message to user, etc.)
                 const errorMessageElement = document.getElementById('issue-assign-error-2');
                 errorMessageElement.style.display = 'block';
             } finally {
