@@ -143,7 +143,7 @@ const checkPermissions = async (req, res, next) => {
                     canExport: role === 1 || role === 2 || role === 3,
                 };
                 break;
-            case 'testplan':
+            case '/testplan':
                 res.locals.permissions = {
                     canView: true,
                     canAdd: role === 1,

@@ -7,7 +7,7 @@ module.exports = {
       {
         module_id: 1,
         name: 'Homepage',
-        root_module_id: null,
+        root_module_id: 0,
         level: 1,
         project_id: 1,
         createdAt: new Date(),
@@ -16,7 +16,7 @@ module.exports = {
       {
         module_id: 2,
         name: 'TestCasePage',
-        root_module_id: 1,
+        root_module_id: 0,
         level: 1,
         project_id: 1,
         createdAt: new Date(),

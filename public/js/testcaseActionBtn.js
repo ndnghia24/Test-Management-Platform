@@ -523,4 +523,22 @@ $('document').ready(function () {
     });
 });
 
+$('document').ready(function () {
+    $('.export-btn').on('click', function () {
+        alert('Exporting Test Case');
+        var curUrl = window.location.href;
+        $.ajax({
+            url: curUrl.split('/testcase')[0] + '/getAllTestCase',
+            type: 'GET',
+            contentType: 'application/json',
+            success: function (data) {
+                console.log(data);
+            }, 
+            error: function (err) {
+                showRightBelowToast('Error exporting Test Case');
+            }
+        });
+    });
+});
+
 

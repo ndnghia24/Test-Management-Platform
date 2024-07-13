@@ -35,7 +35,7 @@ module.exports = function(sequelize, DataTypes) {
     sequelize,
     tableName: 'comment',
     schema: 'public',
-    timestamps: false,
+    timestamps: true,
     indexes: [
       {
         name: "comment_pkey",

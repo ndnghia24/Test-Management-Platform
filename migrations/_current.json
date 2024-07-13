@@ -1,0 +1,1553 @@
+{
+    "tables": {
+        "SequelizeMeta": {
+            "tableName": "SequelizeMeta",
+            "schema": {
+                "name": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING(255)"
+                }
+            },
+            "indexes": {
+                "7faf381c23b7f7febc3dd2d4a191ff6b22dc7ba6": {
+                    "name": "SequelizeMeta_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "name"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "SequelizeMeta_pkey",
+                        "name": "SequelizeMeta_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "comment": {
+            "tableName": "comment",
+            "schema": {
+                "comment_id": {
+                    "autoIncrement": true,
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "comment_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "issue_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "issues",
+                        "key": "issue_id"
+                    },
+                    "field": "issue_id",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "user_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "users",
+                        "key": "user_id"
+                    },
+                    "field": "user_id",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "content": {
+                    "allowNull": false,
+                    "field": "content",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "created_date": {
+                    "allowNull": false,
+                    "field": "created_date",
+                    "seqType": "Sequelize.DATE"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "54c80fb98f8488f7979068ef75e1c56c1dc0f95b": {
+                    "name": "comment_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "comment_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "comment_pkey",
+                        "name": "comment_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "issue_priority": {
+            "tableName": "issue_priority",
+            "schema": {
+                "issue_priority_id": {
+                    "autoIncrement": true,
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "issue_priority_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "priority": {
+                    "allowNull": false,
+                    "field": "priority",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "01bc4c9341f77ed98cd97942154930a39717cd99": {
+                    "name": "issue_priority_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "issue_priority_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "issue_priority_pkey",
+                        "name": "issue_priority_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "issue_status": {
+            "tableName": "issue_status",
+            "schema": {
+                "issue_status_id": {
+                    "autoIncrement": true,
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "issue_status_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "status": {
+                    "allowNull": false,
+                    "field": "status",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "e5cb6db9d1bb0f19c00805cc855a7ef41ca646c9": {
+                    "name": "issue_status_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "issue_status_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "issue_status_pkey",
+                        "name": "issue_status_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "issue_type": {
+            "tableName": "issue_type",
+            "schema": {
+                "issue_type_id": {
+                    "autoIncrement": true,
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "issue_type_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "type": {
+                    "allowNull": false,
+                    "field": "type",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "3b44f0223a35c839b350691fe40c89c7cfadc5e2": {
+                    "name": "issue_type_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "issue_type_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "issue_type_pkey",
+                        "name": "issue_type_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "issues": {
+            "tableName": "issues",
+            "schema": {
+                "issue_id": {
+                    "autoIncrement": true,
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "issue_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "title": {
+                    "allowNull": false,
+                    "field": "title",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "priority_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "issue_priority",
+                        "key": "issue_priority_id"
+                    },
+                    "field": "priority_id",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "status_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "issue_status",
+                        "key": "issue_status_id"
+                    },
+                    "field": "status_id",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "issue_type_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "issue_type",
+                        "key": "issue_type_id"
+                    },
+                    "field": "issue_type_id",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "test_case_id": {
+                    "allowNull": true,
+                    "field": "test_case_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "test_run_id": {
+                    "allowNull": true,
+                    "field": "test_run_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "description": {
+                    "allowNull": true,
+                    "field": "description",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "created_date": {
+                    "allowNull": true,
+                    "field": "created_date",
+                    "seqType": "Sequelize.DATE"
+                },
+                "created_by": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "users",
+                        "key": "user_id"
+                    },
+                    "field": "created_by",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "project_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "projects",
+                        "key": "project_id"
+                    },
+                    "field": "project_id",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "assigned_to": {
+                    "allowNull": true,
+                    "field": "assigned_to",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "c44bb9a261d8818b451e4517afb671683d11d04e": {
+                    "name": "issues_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "issue_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "issues_pkey",
+                        "name": "issues_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "modules": {
+            "tableName": "modules",
+            "schema": {
+                "module_id": {
+                    "autoIncrement": true,
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "module_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "root_module_id": {
+                    "allowNull": true,
+                    "field": "root_module_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "level": {
+                    "allowNull": true,
+                    "field": "level",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "project_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "projects",
+                        "key": "project_id"
+                    },
+                    "field": "project_id",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "ac29261a809c38b5647f90f2e90f1fb2c3763c79": {
+                    "name": "modules_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "module_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "modules_pkey",
+                        "name": "modules_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "projects": {
+            "tableName": "projects",
+            "schema": {
+                "project_id": {
+                    "autoIncrement": true,
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "project_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "description": {
+                    "allowNull": true,
+                    "field": "description",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "created_by": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "users",
+                        "key": "user_id"
+                    },
+                    "field": "created_by",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_date": {
+                    "allowNull": false,
+                    "field": "created_date",
+                    "seqType": "Sequelize.DATE"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "34586cf22c57f9210db5768cc2993c0ea0fb0051": {
+                    "name": "projects_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "project_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "projects_pkey",
+                        "name": "projects_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "releases": {
+            "tableName": "releases",
+            "schema": {
+                "release_id": {
+                    "autoIncrement": true,
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "release_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "project_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "projects",
+                        "key": "project_id"
+                    },
+                    "field": "project_id",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "release_key": {
+                    "allowNull": false,
+                    "field": "release_key",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "release_progress": {
+                    "allowNull": true,
+                    "field": "release_progress",
+                    "seqType": "Sequelize.DOUBLE"
+                },
+                "release_status": {
+                    "allowNull": true,
+                    "field": "release_status",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "start_date": {
+                    "allowNull": false,
+                    "field": "start_date",
+                    "seqType": "Sequelize.DATE"
+                },
+                "due_date": {
+                    "allowNull": false,
+                    "field": "due_date",
+                    "seqType": "Sequelize.DATE"
+                },
+                "created_by": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "users",
+                        "key": "user_id"
+                    },
+                    "field": "created_by",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "39541cb595c42cfb5ef875469903e4043f22a5f3": {
+                    "name": "releases_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "release_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "releases_pkey",
+                        "name": "releases_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "requirement_types": {
+            "tableName": "requirement_types",
+            "schema": {
+                "requirement_type_id": {
+                    "autoIncrement": true,
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "requirement_type_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "description": {
+                    "allowNull": true,
+                    "field": "description",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "release_id": {
+                    "allowNull": true,
+                    "field": "release_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "project_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "projects",
+                        "key": "project_id"
+                    },
+                    "field": "project_id",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "898f6cb7404c1cbc7378d301e6a9ec36c866edb5": {
+                    "name": "requirement_types_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "requirement_type_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "requirement_types_pkey",
+                        "name": "requirement_types_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "requirements": {
+            "tableName": "requirements",
+            "schema": {
+                "requirement_id": {
+                    "autoIncrement": true,
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "requirement_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "description": {
+                    "allowNull": true,
+                    "field": "description",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "attachments": {
+                    "allowNull": true,
+                    "field": "attachments",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "requirement_type_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "requirement_types",
+                        "key": "requirement_type_id"
+                    },
+                    "field": "requirement_type_id",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "project_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "projects",
+                        "key": "project_id"
+                    },
+                    "field": "project_id",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "466b0122c6c7d1d64957fb8bf35f4b1c0be91943": {
+                    "name": "requirements_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "requirement_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "requirements_pkey",
+                        "name": "requirements_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "role": {
+            "tableName": "role",
+            "schema": {
+                "role_id": {
+                    "autoIncrement": true,
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "role_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "role": {
+                    "allowNull": false,
+                    "field": "role",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "description": {
+                    "allowNull": false,
+                    "field": "description",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "78a41910540c79d6f87d7c04daf21ec0e7101fd5": {
+                    "name": "role_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "role_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "role_pkey",
+                        "name": "role_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "test_case_linking": {
+            "tableName": "test_case_linking",
+            "schema": {
+                "testcase_id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "references": {
+                        "model": {
+                            "tableName": "test_cases",
+                            "table": "test_cases",
+                            "name": "test_cases",
+                            "schema": "public",
+                            "delimiter": "."
+                        },
+                        "key": "testcase_id"
+                    },
+                    "field": "testcase_id",
+                    "unique": "test_case_linking_testcase_id_linking_testcase_id_unique",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "linking_testcase_id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "references": {
+                        "model": {
+                            "tableName": "test_cases",
+                            "table": "test_cases",
+                            "name": "test_cases",
+                            "schema": "public",
+                            "delimiter": "."
+                        },
+                        "key": "testcase_id"
+                    },
+                    "field": "linking_testcase_id",
+                    "unique": "test_case_linking_testcase_id_linking_testcase_id_unique",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "1395baa30594ff2f6ffdb28493755658a814b958": {
+                    "name": "test_case_linking_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "testcase_id"
+                        },
+                        {
+                            "name": "linking_testcase_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "test_case_linking_pkey",
+                        "name": "test_case_linking_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "test_case_requirement": {
+            "tableName": "test_case_requirement",
+            "schema": {
+                "testcase_id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "references": {
+                        "model": {
+                            "tableName": "test_cases",
+                            "table": "test_cases",
+                            "name": "test_cases",
+                            "schema": "public",
+                            "delimiter": "."
+                        },
+                        "key": "testcase_id"
+                    },
+                    "field": "testcase_id",
+                    "unique": "test_case_requirement_testcase_id_requirement_id_unique",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "requirement_id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "references": {
+                        "model": {
+                            "tableName": "requirements",
+                            "table": "requirements",
+                            "name": "requirements",
+                            "schema": "public",
+                            "delimiter": "."
+                        },
+                        "key": "requirement_id"
+                    },
+                    "field": "requirement_id",
+                    "unique": "test_case_requirement_testcase_id_requirement_id_unique",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "85c4666624c9a77cc82c8353168ebaa13cb40e3c": {
+                    "name": "test_case_requirement_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "testcase_id"
+                        },
+                        {
+                            "name": "requirement_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "test_case_requirement_pkey",
+                        "name": "test_case_requirement_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "test_case_step": {
+            "tableName": "test_case_step",
+            "schema": {
+                "testcase_step_id": {
+                    "autoIncrement": true,
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "testcase_step_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "testcase_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "test_cases",
+                        "key": "testcase_id"
+                    },
+                    "field": "testcase_id",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "description": {
+                    "allowNull": false,
+                    "field": "description",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "expected_result": {
+                    "allowNull": false,
+                    "field": "expected_result",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "ca678a0911cee699133df11252fc3d6ab4a0772f": {
+                    "name": "test_case_step_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "testcase_step_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "test_case_step_pkey",
+                        "name": "test_case_step_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "test_cases": {
+            "tableName": "test_cases",
+            "schema": {
+                "testcase_id": {
+                    "autoIncrement": true,
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "testcase_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "allowNull": false,
+                    "unique": "test_cases_unique",
+                    "field": "name",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "description": {
+                    "allowNull": false,
+                    "field": "description",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "module_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "modules",
+                        "key": "module_id"
+                    },
+                    "field": "module_id",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_by": {
+                    "allowNull": true,
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "project_id": {
+                    "allowNull": true,
+                    "field": "project_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "8da171fc8438a9b7cf7c9998cf93623cc5ff38e7": {
+                    "name": "test_cases_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "testcase_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "test_cases_pkey",
+                        "name": "test_cases_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                },
+                "b4198fd4f6e1ed8044559a8fc0e67074af478ab7": {
+                    "name": "test_cases_unique",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "name"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "test_cases_unique",
+                        "name": "test_cases_unique",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "test_plans": {
+            "tableName": "test_plans",
+            "schema": {
+                "testplan_id": {
+                    "autoIncrement": true,
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "testplan_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "allowNull": false,
+                    "unique": "test_plans_unique",
+                    "field": "name",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "description": {
+                    "allowNull": false,
+                    "field": "description",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "release": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "releases",
+                        "key": "release_id"
+                    },
+                    "field": "release",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "project_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "projects",
+                        "key": "project_id"
+                    },
+                    "field": "project_id",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "a002351fe13fd6a86205e581d1266f09dfbdffa2": {
+                    "name": "test_plans_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "testplan_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "test_plans_pkey",
+                        "name": "test_plans_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                },
+                "dced1cab7cba7e7affdf1d455d0be5e417130b76": {
+                    "name": "test_plans_unique",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "name"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "test_plans_unique",
+                        "name": "test_plans_unique",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "test_run_test_case_status": {
+            "tableName": "test_run_test_case_status",
+            "schema": {
+                "status_id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "status_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "status_name": {
+                    "allowNull": true,
+                    "field": "status_name",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "1504329d28b0bfb1ac01a50cf869139647f83ce7": {
+                    "name": "test_run_test_case_status_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "status_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "test_run_test_case_status_pkey",
+                        "name": "test_run_test_case_status_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "test_runs": {
+            "tableName": "test_runs",
+            "schema": {
+                "testrun_id": {
+                    "autoIncrement": true,
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "testrun_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_by": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "users",
+                        "key": "user_id"
+                    },
+                    "field": "created_by",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "assigned_to": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "users",
+                        "key": "user_id"
+                    },
+                    "field": "assigned_to",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "testrun_title": {
+                    "allowNull": false,
+                    "unique": "test_runs_unique",
+                    "field": "testrun_title",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "testrun_status": {
+                    "allowNull": true,
+                    "defaultValue": {
+                        "value": "Not Started"
+                    },
+                    "field": "testrun_status",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "testcase_quantity": {
+                    "allowNull": false,
+                    "field": "testcase_quantity",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "release": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "releases",
+                        "key": "release_id"
+                    },
+                    "field": "release",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "project_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "projects",
+                        "key": "project_id"
+                    },
+                    "field": "project_id",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "description": {
+                    "allowNull": true,
+                    "field": "description",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "5fff28ef7894b862974493974c9924534e34c875": {
+                    "name": "test_runs_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "testrun_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "test_runs_pkey",
+                        "name": "test_runs_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                },
+                "b0b56c5cb16e3af87fd2634c424804ac4e098a09": {
+                    "name": "test_runs_unique",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "testrun_title"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "test_runs_unique",
+                        "name": "test_runs_unique",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "testcase_testrun": {
+            "tableName": "testcase_testrun",
+            "schema": {
+                "testcase_id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "references": {
+                        "model": {
+                            "tableName": "test_cases",
+                            "table": "test_cases",
+                            "name": "test_cases",
+                            "schema": "public",
+                            "delimiter": "."
+                        },
+                        "key": "testcase_id"
+                    },
+                    "field": "testcase_id",
+                    "unique": "testcase_testrun_testrun_id_testcase_id_unique",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "testrun_id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "references": {
+                        "model": {
+                            "tableName": "test_runs",
+                            "table": "test_runs",
+                            "name": "test_runs",
+                            "schema": "public",
+                            "delimiter": "."
+                        },
+                        "key": "testrun_id"
+                    },
+                    "field": "testrun_id",
+                    "unique": "testcase_testrun_testrun_id_testcase_id_unique",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "status_id": {
+                    "allowNull": true,
+                    "defaultValue": {
+                        "value": 1
+                    },
+                    "references": {
+                        "model": "test_run_test_case_status",
+                        "key": "status_id"
+                    },
+                    "field": "status_id",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "715c831443aeca46a79ecbe822a441caff93b99c": {
+                    "name": "testcase_testrun_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "testcase_id"
+                        },
+                        {
+                            "name": "testrun_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "testcase_testrun_pkey",
+                        "name": "testcase_testrun_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "user_in_project": {
+            "tableName": "user_in_project",
+            "schema": {
+                "user_id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "references": {
+                        "model": {
+                            "tableName": "users",
+                            "table": "users",
+                            "name": "users",
+                            "schema": "public",
+                            "delimiter": "."
+                        },
+                        "key": "user_id"
+                    },
+                    "field": "user_id",
+                    "unique": "user_in_project_user_id_project_id_unique",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "project_id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "references": {
+                        "model": {
+                            "tableName": "projects",
+                            "table": "projects",
+                            "name": "projects",
+                            "schema": "public",
+                            "delimiter": "."
+                        },
+                        "key": "project_id"
+                    },
+                    "field": "project_id",
+                    "unique": "user_in_project_user_id_project_id_unique",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "role_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "role",
+                        "key": "role_id"
+                    },
+                    "field": "role_id",
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "is_delete": {
+                    "allowNull": false,
+                    "field": "is_delete",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "b87fab5a63343ba273a7f15148477ba850c90895": {
+                    "name": "user_in_project_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "user_id"
+                        },
+                        {
+                            "name": "project_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "user_in_project_pkey",
+                        "name": "user_in_project_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "users": {
+            "tableName": "users",
+            "schema": {
+                "user_id": {
+                    "autoIncrement": true,
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "user_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "email": {
+                    "allowNull": false,
+                    "field": "email",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "password": {
+                    "allowNull": false,
+                    "field": "password",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "avt_link": {
+                    "allowNull": true,
+                    "field": "avt_link",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "502d51d4bea08ef09a46541b481e6c58572f3fa1": {
+                    "name": "users_pkey",
+                    "unique": true,
+                    "fields": [
+                        {
+                            "name": "user_id"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "users_pkey",
+                        "name": "users_pkey",
+                        "indicesType": "UNIQUE",
+                        "type": "UNIQUE"
+                    }
+                }
+            }
+        }
+    },
+    "path": "D:\\Ky2_Nam3\\WEB\\PTUDW-CK\\migrations\\_current.json",
+    "backupPath": "D:\\Ky2_Nam3\\WEB\\PTUDW-CK\\migrations\\_current_bak.json",
+    "exists": false,
+    "revision": 1
+}

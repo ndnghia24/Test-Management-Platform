@@ -104,14 +104,6 @@ function initModels(sequelize) {
   test_run_test_case_status.hasMany(testcase_testrun, { as: "testcase_testruns", foreignKey: "status_id"});
   testcase_testrun.belongsTo(test_runs, { as: "testrun", foreignKey: "testrun_id"});
   test_runs.hasMany(testcase_testrun, { as: "testcase_testruns", foreignKey: "testrun_id"});
-  issues.belongsTo(testcase_testrun, { as: "test_case", foreignKey: "test_case_id"});
-  testcase_testrun.hasMany(issues, { as: "issues", foreignKey: "test_case_id"});
-  issues.belongsTo(testcase_testrun, { as: "test_run", foreignKey: "test_run_id"});
-  testcase_testrun.hasMany(issues, { as: "test_run_issues", foreignKey: "test_run_id"});
-  test_cases.belongsTo(user_in_project, { as: "created_by_user_in_project", foreignKey: "created_by"});
-  user_in_project.hasMany(test_cases, { as: "test_cases", foreignKey: "created_by"});
-  test_cases.belongsTo(user_in_project, { as: "project", foreignKey: "project_id"});
-  user_in_project.hasMany(test_cases, { as: "project_test_cases", foreignKey: "project_id"});
   comment.belongsTo(users, { as: "user", foreignKey: "user_id"});
   users.hasMany(comment, { as: "comments", foreignKey: "user_id"});
   issues.belongsTo(users, { as: "created_by_user", foreignKey: "created_by"});

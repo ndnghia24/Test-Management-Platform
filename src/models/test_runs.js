@@ -26,7 +26,7 @@ module.exports = function(sequelize, DataTypes) {
     testrun_title: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      unique: true
+      unique: "test_runs_unique"
     },
     testrun_status: {
       type: DataTypes.STRING(255),
@@ -56,28 +56,25 @@ module.exports = function(sequelize, DataTypes) {
     description: {
       type: DataTypes.TEXT,
       allowNull: true
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.Sequelize.fn('now')
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.Sequelize.fn('now')
     }
   }, {
     sequelize,
     tableName: 'test_runs',
     schema: 'public',
-    timestamps: false,
+    timestamps: true,
     indexes: [
       {
         name: "test_runs_pkey",
         unique: true,
         fields: [
           { name: "testrun_id" },
+        ]
+      },
+      {
+        name: "test_runs_unique",
+        unique: true,
+        fields: [
+          { name: "testrun_title" },
         ]
       },
     ]

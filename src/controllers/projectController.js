@@ -59,6 +59,17 @@ controller.getAllTestCase = async (req, res) => {
             },
             raw: true
         });
+
+        for (testcase of testcases) {
+            const step = await db.test_case_step.findAll({
+                where: {
+                    testcase_id: testcase.testcase_id
+                },
+                raw: true
+            });
+            testcase.steps = step;
+        }
+
         res.status(200).send({ testcases });
     } catch (error) {
         console.error('Error getting test cases:', error);
