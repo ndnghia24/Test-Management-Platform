@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <title>{{title}}</title>
     <!-- Required meta tags -->
@@ -17,6 +18,7 @@
     <link href="/css/{{cssFile}}" rel="stylesheet">
     {{/if}}
 </head>
+
 <body>
     <div class="container-fluid" style="height: 100vh; padding: 0;">
         <div class="" style="height: 100%; display: flex; flex-direction: column; padding: 0; margin: 0;">
@@ -44,7 +46,8 @@
                             <i class="bi bi-chevron-down" style="color: #5051F9;"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropDownMenu">
-                            <span id="profile-dropdown" class="dropdown-item" style="pointer-events: none; cursor: default;"></span>
+                            <span id="profile-dropdown" class="dropdown-item"
+                                style="pointer-events: none; cursor: default;"></span>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Profile</a>
                             <a class="dropdown-item" href="#">Settings</a>
@@ -120,20 +123,31 @@
                     style="background-color: #f3f4f8; display: flex; flex-direction: column; width: calc(100% - 120px);">
                     <nav id="func-navbar" class="navbar navbar-expand-lg navbar-light bg-light">
                         <div class="container-fluid">
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
                             </button>
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                    <li class="nav-item"><a href="/project/{{projectId}}/overview" class="nav-link">Overview</a></li>
-                                    <li class="nav-item"><a href="/project/{{projectId}}/requirement" class="nav-link">Requirement</a></li>
-                                    <li class="nav-item"><a href="/project/{{projectId}}/module" class="nav-link">Modules</a></li>
-                                    <li class="nav-item"><a href="/project/{{projectId}}/release" class="nav-link">Release</a></li> 
-                                    <li class="nav-item"><a href="/project/{{projectId}}/testcase" class="nav-link">Testcase</a></li>
-                                    <li class="nav-item"><a href="/project/{{projectId}}/testplan" class="nav-link">Test Plan</a></li>
-                                    <li class="nav-item"><a href="/project/{{projectId}}/testrun" class="nav-link">Test Run & Result</a></li>
-                                    <li class="nav-item"><a href="/project/{{projectId}}/issues" class="nav-link">Issues</a></li>
-                                    <li class="nav-item"><a href="/project/{{projectId}}/report" class="nav-link">Reports</a></li>
+                                    <li class="nav-item"><a href="/project/{{projectId}}/overview"
+                                            class="nav-link">Overview</a></li>
+                                    <li class="nav-item"><a href="/project/{{projectId}}/requirement"
+                                            class="nav-link">Requirement</a></li>
+                                    <li class="nav-item"><a href="/project/{{projectId}}/module"
+                                            class="nav-link">Modules</a></li>
+                                    <li class="nav-item"><a href="/project/{{projectId}}/release"
+                                            class="nav-link">Release</a></li>
+                                    <li class="nav-item"><a href="/project/{{projectId}}/testcase"
+                                            class="nav-link">Testcase</a></li>
+                                    <li class="nav-item"><a href="/project/{{projectId}}/testplan" class="nav-link">Test
+                                            Plan</a></li>
+                                    <li class="nav-item"><a href="/project/{{projectId}}/testrun" class="nav-link">Test
+                                            Run & Result</a></li>
+                                    <li class="nav-item"><a href="/project/{{projectId}}/issues"
+                                            class="nav-link">Issues</a></li>
+                                    <li class="nav-item"><a href="/project/{{projectId}}/report"
+                                            class="nav-link">Reports</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -183,17 +197,17 @@
                 },
                 withCredentials: true
             })
-            .then((response) => {
-                if (response.status === 200) {
-                    document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                    window.location.href = "/";
-                } else {
-                    console.error("Error:", response.statusText);
-                }
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
+                .then((response) => {
+                    if (response.status === 200) {
+                        document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                        window.location.href = "/";
+                    } else {
+                        console.error("Error:", response.statusText);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
         }
 
         // Function to update profile dropdown with Name and Role
@@ -204,19 +218,19 @@
                 },
                 withCredentials: true
             })
-            .then((response) => {
-                if (response.status === 200) {
-                    const profileDropdown = document.getElementById('profile-dropdown');
-                    if (profileDropdown) {
-                        profileDropdown.innerHTML = `${response.data.name}`;
+                .then((response) => {
+                    if (response.status === 200) {
+                        const profileDropdown = document.getElementById('profile-dropdown');
+                        if (profileDropdown) {
+                            profileDropdown.innerHTML = `${response.data.name}`;
+                        }
+                    } else {
+                        console.error("Error:", response.statusText);
                     }
-                } else {
-                    console.error("Error:", response.statusText);
-                }
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
         }
 
         // Call updateProfileDropdown when dropdown is clicked
@@ -224,9 +238,16 @@
         if (dropdownMenu) {
             dropdownMenu.addEventListener('click', updateProfileDropdown);
         }
+
+        //Tooltip
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
     </script>
 
 
     {{{content "script"}}}
 </body>
+
 </html>

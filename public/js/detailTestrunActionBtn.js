@@ -1,5 +1,11 @@
 $('document').ready(function () {
     $('.bug-icon').click(function () {
+
+        if (!canCreateIssue()) {
+            showRightBelowToast('You do not have permission to create an issue');
+            return;
+        }
+
         $('#modal1').modal('show');
 
         var testcaseName = $(this).closest('tr').find('.testcase-name').text();
@@ -9,6 +15,12 @@ $('document').ready(function () {
     });
 
     $('.result-icon').click(function () {
+
+        if (!canCreateResult()) {
+            showRightBelowToast('You do not have permission to create a result');
+            return;
+        }
+
         $('#modal2').modal('show');
 
         var testcaseName = $(this).closest('tr').find('.testcase-name').text();
@@ -18,6 +30,12 @@ $('document').ready(function () {
     });
 
     $('.delete-icon').click(function () {
+
+        if (!canDeleteTestcase()) {
+            showRightBelowToast('You do not have permission to delete this Test Case');
+            return;
+        }
+
         $('#delete-test-case-modal').modal('show');
         var testcase_id = $(this).closest('tr').find('.testcase-code').text();
         var testrun_id = $(this).closest('tr').find('.testrun-id').text();
@@ -151,6 +169,12 @@ $('document').ready(function () {
 
 $('document').ready(function () {
     $('.add-testcase-btn').on('click', function () {
+
+        if (!canAddTestcase()) {
+            showRightBelowToast('You do not have permission to add testcases');
+            return;
+        }
+
         $('#add-test-case').modal('show');
     });
 

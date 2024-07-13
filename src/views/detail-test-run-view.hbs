@@ -293,8 +293,17 @@
 <script src="/js/detailTestrunActionBtn.js"></script>
 <script>
     $('document').ready(function () {
-        const testrun_status = {{ testRunStatus }};
+    const testrun_status = {{ testRunStatus }};
     const issue_status = {{ issueStatus }};
+
+    if (isNan(testrun_status)) {
+        testrun_status = 0;
+    }
+
+    if (isNan(issue_status)) {
+        issue_status = 0;
+    }
+
     const testrunOffset = 440 - (440 * testrun_status) / 100;
     const issueOffset = 440 - (440 * issue_status) / 100;
 
@@ -302,4 +311,27 @@
     $('.issues-status-circle').css('stroke-dashoffset', issueOffset);
     });
 </script>
+
+<script>
+    const permission = {{{json permissions}}};
+    console.log(permission);
+
+    function canAddTestcase() {
+        return permission.canAddTestcase;
+    }
+
+    function canCreateIssue() {
+        return permission.canCreateIssue;
+    }
+
+    function canDeleteTestcase() {
+        return permission.canDeleteTestcase;
+    }
+
+    function canCreateResult() {
+        return permission.canCreateResult;
+    }
+
+</script>
+
 {{/block}}

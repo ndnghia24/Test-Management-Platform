@@ -120,7 +120,37 @@ const checkPermissions = async (req, res, next) => {
                     canExport: role === 1 || role === 2 || role === 3,
                 };
                 break;
-                
+            case '/testrun':
+                res.locals.permissions = {
+                    canView: true,
+                    canAdd: role === 1,
+                    canEdit: role === 1 || role === 2,
+                    canDelete: role === 1,
+                    canViewDetail: role === 1 || role === 2,
+                    canAddTestcase: role === 1,
+                    canCreateIssue: role === 1 || role === 2,
+                    canCreateResult: role === 1 || role === 2,
+                    canDeleteTestcase: role === 1,
+                };
+                break;
+            case '/testcase':
+                res.locals.permissions = {
+                    canView: true,
+                    canAdd: role === 1 || role === 2,
+                    canEdit: role === 1 || role === 2,
+                    canDelete: role === 1 || role === 2,
+                    canImport: role === 1 || role === 2,
+                    canExport: role === 1 || role === 2 || role === 3,
+                };
+                break;
+            case 'testplan':
+                res.locals.permissions = {
+                    canView: true,
+                    canAdd: role === 1,
+                    canEdit: role === 1,
+                    canDelete: role === 1,
+                };
+                break;
             // Các trường hợp khác có thể được thêm vào cho các đường dẫn khác
             default:
                 res.locals.permissions = {

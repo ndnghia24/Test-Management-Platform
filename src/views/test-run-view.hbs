@@ -39,7 +39,7 @@
                                 <span>{{this.created_by_name}}</span>
                             </div>
                         </td>
-                        <td class="testrun-title">{{this.testrun_title}}</td>
+                        <td class="testrun-title" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Click to View Test Run Detail">{{this.testrun_title}}</td>
                         <td class="assigned-to">
                             <div style="text-align: center;">
                                 <i class="bi bi-person-circle fs-4" style="display: block;"></i>
@@ -210,7 +210,7 @@
 {{#block "additional-button"}}
 <button
     style="background-color: #50DF89; padding: 10px; font-weight: 600; font-size: 1.2rem; border: none; border-radius: 10px;  color: #23235F;"
-    data-bs-toggle="modal" data-bs-target="#modal1">
+    data-bs-toggle="modal" data-bs-target="#modal1" class="add-test-run-btn">
     <i class="bi bi-plus-circle"></i>
     <span class="btn-text"> Add <span class="btn-text-secondary"> Test run </span> </span>
 </button>
@@ -223,6 +223,12 @@
 <script>
     $(document).ready(function () {
         $('td.testrun-title').click(function () {
+
+            if (!canViewDetail()) {
+                showRightBelowToast('You do not have permission to view this Test Run');
+                return;
+            }
+
             const testRun = JSON.parse($(this).closest('tr')[0].dataset.this);
             console.log(testRun);
             let curUrl = window.location.pathname;
@@ -233,6 +239,8 @@
 
 <script>
     const permission = {{{json permissions}}};
+
+    console.log(permission);
 
     function canAdd() {
         return permission.canAdd;
@@ -250,6 +258,14 @@
         return permission.canView;
     }
 
-    
+    function canViewDetail() {
+        return permission.canViewDetail;
+    }
+
+    if (!canAdd()) {
+        $('.add-test-run-button').hide();
+    }
+
+
 </script>
 {{/block}}

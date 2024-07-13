@@ -1,6 +1,12 @@
 // =================== Action Button ===================
 $(document).ready(function() {
     $('.bi-eye').click(function() {
+
+        if (!canView()) {
+            showRightBelowToast('You do not have permission to view this Test Run');
+            return
+        }
+
         const row = $(this).closest('tr')[0];
         const testRun = JSON.parse(row.dataset.this);
 
@@ -15,6 +21,12 @@ $(document).ready(function() {
     });
 
     $('.bi-pencil').click(function() {
+
+        if (!canEdit()) {
+            showRightBelowToast('You do not have permission to edit this Test Run');
+            return;
+        }
+
         const row = $(this).closest('tr')[0];
         const testRun = JSON.parse(row.dataset.this);
 
@@ -30,6 +42,12 @@ $(document).ready(function() {
     });
 
     $('.bi-trash').click(function() {
+
+        if (!canDelete()) {
+            showRightBelowToast('You do not have permission to delete this Test Run');
+            return;
+        }
+
         const row = $(this).closest('tr')[0];
         const testRun = JSON.parse(row.dataset.this);
 
