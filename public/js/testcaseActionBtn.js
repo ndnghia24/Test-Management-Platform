@@ -181,7 +181,7 @@ $('document').ready(function () {
             url: window.location.pathname + '/editTestCaseStep?testcaseId=' + testcaseId,
             type: 'PUT',
             contentType: 'application/json',
-            data: JSON.stringify({steps: step}),
+            data: JSON.stringify({ steps: step }),
             success: function (data) {
                 if (data.success) {
                     setTimeout(() => {
@@ -202,13 +202,13 @@ $('document').ready(function () {
 function renderTestCaseDetails(data) {
     let modal = $('#view-test-case');
 
-    const options = { 
-        year: 'numeric', 
-        month: '2-digit', 
-        day: '2-digit', 
-        hour: '2-digit', 
-        minute: '2-digit', 
-        second: '2-digit' 
+    const options = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
     };
 
     const createdDate = new Date(data.testcase.created_at).toLocaleDateString('en-GB', options);
@@ -333,7 +333,7 @@ $('document').ready(function () {
     $('.filter-icon').click(function () {
         var showOption = $('select[name="show"]').val();
         var sortOption = $('select[name="sort"]').val();
-        
+
         window.location.href = window.location.pathname + '?showOption=' + showOption + '&sortOption=' + sortOption;
     });
 
@@ -353,7 +353,7 @@ $('document').ready(function () {
 $('document').ready(function () {
     $('.test-case-linking-add-testcase').click(function () {
         let existedTestcase = $('#edit-test-case .test-case-linking-testcases-body-table').find('tr');
-        console.log('existed: ',existedTestcase);
+        console.log('existed: ', existedTestcase);
         const existedTestcaseCode = existedTestcase.map(function () {
             return $(this).find('td').eq(0).text();
         }).get();
@@ -420,7 +420,7 @@ $('document').ready(function () {
                 } else {
                     showRightBelowToast('Error updating Test Case');
                 }
-            }, 
+            },
             error: function (err) {
                 showRightBelowToast('Error updating Test Case');
             }
@@ -490,7 +490,7 @@ $('document').ready(function () {
             url: window.location.pathname + '/editTestCaseRequirementLinking?testcaseId=' + testcaseId,
             type: 'PUT',
             contentType: 'application/json',
-            data: JSON.stringify({ linkingRequirements}),
+            data: JSON.stringify({ linkingRequirements }),
             success: function (data) {
                 if (data.success) {
                     showRightBelowToast('Test Case updated successfully');
@@ -508,7 +508,7 @@ $('document').ready(function () {
 $('document').ready(function () {
     $('.add-testcase-btn').on('click', function () {
         $.ajax({
-            type:"GET",
+            type: "GET",
             url: window.location.pathname.split("/")[0] + '/auth/info',
             success: function (response) {
                 console.log(response);
@@ -519,26 +519,82 @@ $('document').ready(function () {
                 showRightBelowToast("Error fetching user data");
                 return;
             }
-        }); 
+        });
     });
 });
 
 $('document').ready(function () {
     $('.export-btn').on('click', function () {
-        alert('Exporting Test Case');
         var curUrl = window.location.href;
-        $.ajax({
-            url: curUrl.split('/testcase')[0] + '/getAllTestCase',
-            type: 'GET',
-            contentType: 'application/json',
-            success: function (data) {
-                console.log(data);
-            }, 
-            error: function (err) {
-                showRightBelowToast('Error exporting Test Case');
-            }
-        });
+        let url = curUrl.split('/testcase')[0] + '/getAllTestCase';
+        showRightBelowToast('Exporting testcases to Excel...');
+        exportToExcel(url);
     });
 });
+
+function exportToExcel(getUrl) {
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                let jsonData = JSON.parse(xhr.responseText);
+                let testcases = jsonData.testcases;
+
+                const sheetData = [];
+
+                testcases.forEach(testcase => {
+                    const {
+                        testcase_id,
+                        name,
+                        description,
+                        steps
+                    } = testcase;
+
+                    const step_description = steps.map(step => step.description).join('|');
+                    const step_result = steps.map(step => step.expected_result).join('|');
+
+                    sheetData.push({
+                        'Testcase ID': testcase_id,
+                        'Name': name,
+                        'Description': description,
+                        'Step Description': step_description,
+                        'Step Result': step_result
+                    });
+                });
+
+                // Tạo một Workbook mới
+                const workbook = XLSX.utils.book_new();
+                // Tạo một Worksheet mới từ dữ liệu JSON
+                const worksheet = XLSX.utils.json_to_sheet(sheetData);
+                // Thêm Worksheet vào Workbook
+                XLSX.utils.book_append_sheet(workbook, worksheet, 'Exported Data');
+
+                // Tạo file Excel (XLSX) từ Workbook
+                const excelBuffer = XLSX.write(workbook, { type: 'array', bookType: 'xlsx' });
+                const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                const url = URL.createObjectURL(blob);
+
+                // Tạo một thẻ <a> để tải xuống file
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'testcase-export.xlsx';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                // Giải phóng bộ nhớ
+                URL.revokeObjectURL(url);
+                showRightBelowToast('Testcases exported successfully');
+            } else {
+                showRightBelowToast('Error exporting testcases');
+                console.error('Error fetching data:', xhr.statusText);
+            }
+        }
+    };
+
+    xhr.open('GET', getUrl, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send();
+}
 
 
