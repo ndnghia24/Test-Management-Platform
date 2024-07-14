@@ -215,7 +215,9 @@ controller.getIssues = async (req, res) => {
                 page: page,
                 limit: limit,
                 totalRows: count.length
-            }
+            },
+            projectName: res.locals.projectName,
+            part: 'Issues'
         });
     } catch (error) {
         console.error('Error fetching data:', error);
