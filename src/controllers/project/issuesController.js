@@ -239,7 +239,7 @@ controller.getSpecifyIssue = async (req, res) => {
             { replacements: [issueId], type: db.sequelize.QueryTypes.SELECT, raw: true },
         );
 
-        console.log("issue", issue[0]);
+        console.log("issue", issue);
 
         const created_user = await db.sequelize.query(
             'SELECT name FROM users WHERE user_id = ?',
@@ -249,9 +249,10 @@ controller.getSpecifyIssue = async (req, res) => {
         const assigned_to = issue[0].assigned_to;
 
         // Kiểm tra nếu assigned_to là null
+        let assigned_user = null;
         if (assigned_to === null) {
             // Gán assigned_user là null nếu assigned_to là null
-            var assigned_user = null;
+            assigned_user = null;
         } else {
             // Thực hiện truy vấn để lấy thông tin người dùng
             const assigned_user_result = await db.sequelize.query(
@@ -260,7 +261,7 @@ controller.getSpecifyIssue = async (req, res) => {
             );
 
             // Nếu không tìm thấy người dùng, gán assigned_user là null
-            assigned_user = assigned_user_result.length > 0 ? assigned_user_result[0].name : null;
+            assigned_user = assigned_user_result.length > 0 ? assigned_user_result[0] : null;
         }
 
         const testcase = await db.sequelize.query(
@@ -290,7 +291,7 @@ controller.getSpecifyIssue = async (req, res) => {
         res.locals.comments = comments;
 
         console.log('issue', res.locals.issue);
-
+        console.log('assigned_user', res.locals.assigned_user);
         res.render('detail-issue-view', {
             projectId: projectId,
             title: 'Issues Detail'
@@ -319,10 +320,23 @@ controller.getEditIssue = async (req, res) => {
             { replacements: [issue[0].created_by], type: db.sequelize.QueryTypes.SELECT, raw: true },
         );
 
-        const assigned_user = await db.sequelize.query(
-            'SELECT name FROM users WHERE user_id = ?',
-            { replacements: [issue[0].assigned_to], type: db.sequelize.QueryTypes.SELECT, raw: true },
-        );
+        const assigned_to = issue[0].assigned_to;
+
+        // Kiểm tra nếu assigned_to là null
+        let assigned_user = null;
+        if (assigned_to === null) {
+            // Gán assigned_user là null nếu assigned_to là null
+            assigned_user = null;
+        } else {
+            // Thực hiện truy vấn để lấy thông tin người dùng
+            const assigned_user_result = await db.sequelize.query(
+                'SELECT name FROM users WHERE user_id = ?',
+                { replacements: [assigned_to], type: db.sequelize.QueryTypes.SELECT, raw: true },
+            );
+
+            // Nếu không tìm thấy người dùng, gán assigned_user là null
+            assigned_user = assigned_user_result.length > 0 ? assigned_user_result[0] : null;
+        }
 
         const testcase = await db.sequelize.query(
             'SELECT t.name as testcase, t.testcase_id as testcase_id, m.name as module ' +
@@ -379,7 +393,7 @@ controller.getEditIssue = async (req, res) => {
         res.locals.issue = issue[0];
         res.locals.testcase = testcase[0];
         res.locals.created_user = created_user[0];
-        res.locals.assigned_user = assigned_user[0];
+        res.locals.assigned_user = assigned_user;
         res.locals.status = status;
         res.locals.statusColorMap = statusColorMap;
         res.locals.priority = priority;
